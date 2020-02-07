@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Bed;
+use App\Hotel;
 use App\Room;
 use App\RoomType;
 use Illuminate\Http\Request;
@@ -25,7 +27,7 @@ class RoomController extends Controller
      */
     public function create()
     {
-        return view('rooms.create', ['types' => RoomType::all()]);
+        return view('rooms.create', ['types' => RoomType::all(), 'hotel' => Hotel::all(), 'beds' => Bed::all()]);
     }
 
     /**
@@ -37,14 +39,15 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $this->validateAttribute();
+
         $room = new Room();
-        $room->amount = request('amount');
-        $room->roomType->name = request('roomType');
-        $room->roomType->max_guest = request('maxGuest');
-        $room->roomType->description = request('description');
+        $room->hotel_id = 1;
+        $room->room_type_id = request('room_type_id');
+        $room->bed_id = 1;
+        $room->view = request('view');
+        $room->size = request('size');
 
         $room->save();
-        $room->roomType->save();
 
         return redirect(route('rooms.index'));
     }
@@ -68,7 +71,9 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
-        return view('rooms.edit', compact('room'));
+        $types = RoomType::all();
+        $beds = Bed::all();
+        return view('rooms.edit', compact(['room', 'types', 'beds']));
     }
 
     /**
@@ -80,14 +85,7 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        $this->validateAttribute();
-        $room->amount = request('amount');
-        $room->roomType->name = request('roomType');
-        $room->roomType->max_guest = request('maxGuest');
-        $room->roomType->description = request('description');
-
-        $room->save();
-        $room->roomType->save();
+        $room->update($this->validateAttribute());
 
         return redirect(route('rooms.index'));
     }
@@ -105,10 +103,10 @@ class RoomController extends Controller
 
     public function validateAttribute(){
         return request()->validate([
-            'roomType' => 'required',
-            'amount' => 'required',
-            'maxGuest' => 'required',
-            'description' => 'required'
+            'view' => 'required',
+            'size' => 'required',
+            'room_type_id' => 'required',
+            'bed_id' => 'required'
         ]);
     }
 }

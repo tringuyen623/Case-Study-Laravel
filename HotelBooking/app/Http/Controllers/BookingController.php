@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use App\Customer;
+use App\Room;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -14,7 +17,6 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -35,7 +37,33 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = new Customer();
+        $customer->first_name = 'Mr.Test';
+        $customer->last_name = 'Book Hotel';
+        $customer->address = 'Hue';
+        $customer->email = 'tri@gmail.com';
+        $customer->phone = '123456';
+        $customer->gender = 1;
+        $customer->save();
+
+        $booking = new Booking();
+        $booking->customer_id = $customer->id;
+        $booking->no_of_guests = request('no_of_guest');
+        $booking->save();
+
+        $date_in =  date('Y-m-d', strtotime(request('date_in')));
+        $date_out =  date('Y-m-d', strtotime(request('date_out')));
+
+        $booking->rooms()->attach(
+            $booking->id,
+            [
+                'room_id' => 1,
+                'from_date' => $date_in,
+                'to_date' => $date_out
+            ]
+        );
+
+        return $booking;
     }
 
     /**
@@ -81,5 +109,29 @@ class BookingController extends Controller
     public function destroy(Booking $booking)
     {
         //
+    }
+
+    public function check()
+    {
+        // $booking  = Booking::all();
+
+        // return $booking;
+        // $booking->rooms;
+        // foreach($booking as $book){
+
+
+        $ava = Room::whereDoesntHave('bookings', function (Builder $query) {
+            $date_in =  date('Y-m-d', strtotime(request('date_in')));
+            $date_out =  date('Y-m-d', strtotime(request('date_out')));
+            $query->whereBetween('booking_room.from_date', [$date_in, $date_out])
+                ->orWhereBetween('booking_room.to_date', [$date_in, $date_out]);
+        })->get();
+        return $ava;
+        // print_r($ava);
+        // }
+    }
+    public function search($id)
+    {
+        return Booking::findOrFail($id)->rooms;
     }
 }

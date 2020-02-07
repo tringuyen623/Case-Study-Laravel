@@ -12,15 +12,28 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('front_end.home');
+})->name('home');
+
+Route::get('about', function(){
+    return view('front_end.about');
+})->name('about');
+
+Route::get('rooms', function(){
+    return view('front_end.rooms');
+})->name('rooms');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('admin');
 
 Route::get('/hotels', 'HotelController@index')->name('hotels.index');
 Route::get('/hotels/{id}', 'HotelController@edit')->name('hotels.edit');
 Route::patch('/hotels/{id}', 'HotelController@update')->name('hotels.update');
 
-Route::resource('rooms', 'RoomController');
+// Route::resource('rooms', 'RoomController');
+// Route::resource('rooms/types', 'RoomTypeController');
+
+Route::get('bookings/check', 'BookingController@check')->name('check');
+Route::get('bookings/search/{id}', 'BookingController@search');
+Route::resource('bookings', 'BookingController');

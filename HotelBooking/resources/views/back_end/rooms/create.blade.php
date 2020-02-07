@@ -12,26 +12,29 @@
                         @csrf
                         <div class="form-group">
                             <label for="exampleFormControlInput1">Room Type</label>
-                            <select name="roomType" id="roomtype">
+                            <select name="room_type_id" id="roomtype">
                                 @foreach ($types as $type)
                                 <option value="{{$type->id}}">{{$type->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Amount</label>
-                            <input name="amount" type="text" class="form-control" id="exampleFormControlInput1"
-                                placeholder="amout">
+                            <label for="exampleFormControlInput1">Bed</label>
+                            <select name="bed_id" id="roomtype">
+                                @foreach ($beds as $bed)
+                                <option value="{{$bed->id}}">{{$bed->type}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">MaxGuest</label>
-                            <input name="maxGuest" type="text" class="form-control" id="exampleFormControlInput1"
-                                placeholder="Maximum guest">
+                            <label for="exampleFormControlInput1">View</label>
+                            <input name="view" type="text" class="form-control" id="exampleFormControlInput1"
+                                placeholder="view">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Desc</label>
-                            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                placeholder="Description"></textarea>
+                            <label for="exampleFormControlInput1">Size</label>
+                            <input name="size" type="text" class="form-control" id="exampleFormControlInput1"
+                                placeholder="size">
                         </div>
 
                         <button type="submit" class="btn btn-primary">Create</button>
