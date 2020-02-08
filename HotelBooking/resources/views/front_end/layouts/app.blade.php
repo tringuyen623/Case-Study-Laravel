@@ -62,11 +62,11 @@
 
 	<div id="page">
 
-        @include('partials.navbar')
+        @include('front_end.partials.navbar')
 		
 		@yield('content')
 		
-		@include('partials.footer')
+		@include('front_end.partials.footer')
 	</div>
 
 	<div class="gototop js-top">

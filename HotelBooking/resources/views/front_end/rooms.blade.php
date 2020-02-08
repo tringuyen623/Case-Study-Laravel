@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('front_end.layouts.app')
 
 @section('content')
 <aside id="colorlib-hero">
@@ -20,6 +20,8 @@
           </ul>
       </div>
 </aside>
+
+@include('front_end.partials.search')
 
 <div id="colorlib-rooms" class="colorlib-light-grey">
     <div class="container">

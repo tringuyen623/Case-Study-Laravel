@@ -10,23 +10,34 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('front_end.home');
 })->name('home');
 
-Route::get('about', function(){
+Route::get('about', function () {
     return view('front_end.about');
 })->name('about');
 
-Route::get('rooms', function(){
+Route::get('rooms', function () {
     return view('front_end.rooms');
 })->name('rooms');
 
+Route::get('bookings/check', 'BookingController@check')->name('check');
+Route::get('bookings/search/{id}', 'BookingController@search');
+
 Auth::routes();
 
-Route::name('admmin.')->prefix('admin')->group(function() {
-    Route::get('/home', 'Backend\HomeController@index')->name('admin');
+Route::name('admmin.')->prefix('admin')->group(function () {
+    Route::get('/', function () {
+        if (Auth::user()){
+            return redirect('admin/dashboard');
+        }
+        return view('auth.login');
+    })->name('admin.login');
+    Route::get('dashboard', 'Backend\HomeController@index')->name('admin.dashboard');
 });
 
 // Route::get('/home', 'Backend\HomeController@index')->name('admin');
@@ -38,6 +49,5 @@ Route::name('admmin.')->prefix('admin')->group(function() {
 // Route::resource('rooms', 'RoomController');
 // Route::resource('rooms/types', 'RoomTypeController');
 
-Route::get('bookings/check', 'BookingController@check')->name('check');
-Route::get('bookings/search/{id}', 'BookingController@search');
+
 Route::resource('bookings', 'BookingController');
