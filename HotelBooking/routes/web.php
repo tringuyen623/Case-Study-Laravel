@@ -25,11 +25,15 @@ Route::get('rooms', function(){
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('admin');
+Route::name('admmin.')->prefix('admin')->group(function() {
+    Route::get('/home', 'Backend\HomeController@index')->name('admin');
+});
 
-Route::get('/hotels', 'HotelController@index')->name('hotels.index');
-Route::get('/hotels/{id}', 'HotelController@edit')->name('hotels.edit');
-Route::patch('/hotels/{id}', 'HotelController@update')->name('hotels.update');
+// Route::get('/home', 'Backend\HomeController@index')->name('admin');
+
+// Route::get('/hotels', 'Backend\HotelController@index')->name('hotels.index');
+// Route::get('/hotels/{id}', 'HotelController@edit')->name('hotels.edit');
+// Route::patch('/hotels/{id}', 'HotelController@update')->name('hotels.update');
 
 // Route::resource('rooms', 'RoomController');
 // Route::resource('rooms/types', 'RoomTypeController');
