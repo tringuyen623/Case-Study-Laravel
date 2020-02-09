@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 search-wrap">
-                <form method="post" action="{{ route('bookings.store') }}" class="colorlib-form">
+                <form method="GET" action="{{ route('check') }}" class="colorlib-form">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
@@ -31,10 +31,10 @@
                                 <div class="form-field">
                                     <i class="icon icon-arrow-down3"></i>
                                     <select name="no_of_guest" id="people" class="form-control">
-                                        <option value="1">1</option>
-                                        <option value="2" selected>2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        @for ($i = 1; $i <= 5 ; $i++) <option {{ $i === 2 ? 'selected' : '' }}
+                                            value="{{ $i }}">{{ $i }}
+                                            </option>
+                                            @endfor
                                     </select>
                                 </div>
                             </div>
@@ -45,9 +45,9 @@
                                 <div class="form-field">
                                     <i class="icon icon-arrow-down3"></i>
                                     <select name="people" id="people" class="form-control">
-                                        <option value="#">0</option>
-                                        <option value="#">1</option>
-                                        <option value="#">2</option>
+                                        @for ($i = 0; $i <= 3 ; $i++) <option value="{{ $i }}">{{ $i }}
+                                            </option>
+                                            @endfor
                                     </select>
                                 </div>
                             </div>

@@ -1,10 +1,10 @@
-
 <footer id="colorlib-footer" role="contentinfo">
     <div class="container">
         <div class="row row-pb-md">
             <div class="col-md-3 colorlib-widget">
-                <h4>Luxehotel</h4>
-                <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
+                <h4>{{ $hotel->name }}</h4>
+                <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci
+                    architecto culpa amet.</p>
                 <p>
                     <ul class="colorlib-social-icons">
                         <li><a href="#"><i class="icon-twitter"></i></a></li>
@@ -18,7 +18,7 @@
                 <h4>Quick Links</h4>
                 <p>
                     <ul class="colorlib-footer-links">
-                        <li><a href="#">Accomodation</a></li>
+                        <li><a href="{{ route('rooms') }}">Accomodation</a></li>
                         <li><a href="#">Dining &amp; Bar</a></li>
                         <li><a href="#">Restaurants</a></li>
                         <li><a href="#">Beach &amp; Resorts</a></li>
@@ -47,10 +47,15 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <p>
-                    <small class="block"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart3" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></small> 
-                    <small class="block">Demo Images: <a href="http://unsplash.com/" target="_blank">Unsplash</a></small>
+                    <small class="block">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved | This template is made with <i class="icon-heart3"
+                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></small>
+                    <small class="block">Demo Images: <a href="http://unsplash.com/"
+                            target="_blank">Unsplash</a></small>
                 </p>
             </div>
         </div>

@@ -20,6 +20,7 @@ class CreateRoomsTable extends Migration
             $table->string('view');
             $table->string('size');
             $table->text('image')->nullable();
+            $table->boolean('is_active');
             $table->unsignedBigInteger('bed_id');
             $table->timestamps();
 

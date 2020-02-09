@@ -11,8 +11,8 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
                             <div class="slider-text-inner text-center">
-                                <h2>Welcome to the luxehotel</h2>
-                                <h1>A Luxury Hotel</h1>
+                                <h2>Welcome to</h2>
+                                <h1>{{ $hotel->name }}</h1>
                             </div>
                         </div>
                     </div>
@@ -36,46 +36,21 @@
 <div id="colorlib-services">
     <div class="container">
         <div class="row">
+            @forelse ($hotel->services as $service)
             <div class="col-md-3 animate-box text-center">
                 <div class="services">
                     <span class="icon">
-                        <i class="flaticon-reception"></i>
+                        <i class="{{ $service->icon }}"></i>
                     </span>
-                    <h3>24/7 Front Desk</h3>
-                    <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
-                        ocean. A small river named Duden flows by their place and supplies</p>
+                    <h3>{{ $service->title }}</h3>
+                    <p>{{ $service->description }}</p>
                 </div>
             </div>
-            <div class="col-md-3 animate-box text-center">
-                <div class="services">
-                    <span class="icon">
-                        <i class="flaticon-herbs"></i>
-                    </span>
-                    <h3>Spa Suites</h3>
-                    <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
-                        ocean. A small river named Duden flows by their place and supplies</p>
-                </div>
+            @empty
+            <div class="col-md-12 animate-box text-center">
+                <h1 class="text-warning text-center">No Services!</h1>
             </div>
-            <div class="col-md-3 animate-box text-center">
-                <div class="services">
-                    <span class="icon">
-                        <i class="flaticon-car"></i>
-                    </span>
-                    <h3>Transfer Services</h3>
-                    <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
-                        ocean. A small river named Duden flows by their place and supplies</p>
-                </div>
-            </div>
-            <div class="col-md-3 animate-box text-center">
-                <div class="services">
-                    <span class="icon">
-                        <i class="flaticon-cheers"></i>
-                    </span>
-                    <h3>Restaurant &amp; Bar</h3>
-                    <p>Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
-                        ocean. A small river named Duden flows by their place and supplies</p>
-                </div>
-            </div>
+            @endforelse
         </div>
     </div>
 </div>
@@ -94,6 +69,7 @@
         <div class="row">
             <div class="col-md-12 animate-box">
                 <div class="owl-carousel owl-carousel2">
+                    @forelse ($rooms as $room)
                     <div class="item">
                         <a href="images/room-1.jpg" class="room image-popup-link"
                             style="background-image: url(images/room-1.jpg);"></a>
@@ -101,21 +77,20 @@
                             <span class="rate-star"><i class="icon-star-full full"></i><i
                                     class="icon-star-full full"></i><i class="icon-star-full full"></i><i
                                     class="icon-star-full"></i><i class="icon-star-full"></i></span>
-                            <h3><a href="rooms-suites.html">Suite</a></h3>
+                            <h3><a href="#">{{ $room->roomType->name }}</a></h3>
                             <p class="price">
                                 <span class="currency">$</span>
                                 <span class="price-room">99</span>
                                 <span class="per">/ per night</span>
                             </p>
-                            <ul>
-                                <li><i class="icon-check"></i> Only 10 rooms are available</li>
-                                <li><i class="icon-check"></i> Breakfast included</li>
-                                <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
-                            </ul>
                             <p><a class="btn btn-primary btn-book">Book now!</a></p>
                         </div>
                     </div>
-                    <div class="item">
+                    @empty
+                        No room yet
+                    @endforelse
+
+                    {{-- <div class="item">
                         <a href="images/room-2.jpg" class="room image-popup-link"
                             style="background-image: url(images/room-2.jpg);"></a>
                         <div class="desc text-center">
@@ -219,220 +194,15 @@
                             </ul>
                             <p><a class="btn btn-primary btn-book">Book now!</a></p>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="col-md-12 text-center animate-box">
-                <a href="#">View all rooms <i class="icon-arrow-right3"></i></a>
+            <a href="{{ route('rooms')}}">View all rooms <i class="icon-arrow-right3"></i></a>
             </div>
         </div>
     </div>
 </div>
-
-
-{{-- <div id="colorlib-dining-bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
-                <span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
-                <h2>Dining &amp; Bar</h2>
-                <p>We love to tell our successful far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="diningbar-flex">
-                <div class="half animate-box">
-                    <ul class="nav nav-tabs text-center" role="tablist">
-                        <li role="presentation" class="active"><a href="#mains" aria-controls="mains" role="tab" data-toggle="tab">Mains</a></li>
-                        <li role="presentation"><a href="#desserts" aria-controls="desserts" role="tab" data-toggle="tab">Desserts</a></li>
-                        <li role="presentation"><a href="#drinks" aria-controls="drinks" role="tab" data-toggle="tab">Drinks</a></li>
-                    </ul>
-                <!-- Tab panes -->
-                <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="mains">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <ul class="menu-dish">
-                                  <li>
-                                    <figure class="image"><img src="images/menu-1.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$25.99</span>
-                                      <h3>Grilled Pork</h3>
-                                      <p class="cat">Meat / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-2.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$30.99</span>
-                                      <h3>Tuna Roast Source</h3>
-                                      <p class="cat">Tuna / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-3.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$40.00</span>
-                                      <h3>Roast Beef (4 sticks)</h3>
-                                      <p class="cat">Crab / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-4.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$20.50</span>
-                                      <h3>Salted Fried Chicken</h3>
-                                      <p class="cat">Crab / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div role="tabpanel" class="tab-pane" id="desserts">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <ul class="menu-dish">
-                                  <li>
-                                    <figure class="image"><img src="images/menu-1.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$39.90</span>
-                                      <h3>Fried Potatoes with Garlic</h3>
-                                      <p class="cat">Viggies / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-3.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$20.99</span>
-                                      <h3>Tuna Roast Source</h3>
-                                      <p class="cat">Tuna / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-3.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$50.00</span>
-                                      <h3>Roast Beef (4 sticks)</h3>
-                                      <p class="cat">Crab / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-4.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$29.00</span>
-                                      <h3>Salted Fried Chicken</h3>
-                                      <p class="cat">Crab / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div role="tabpanel" class="tab-pane" id="drinks">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <ul class="menu-dish">
-                                  <li>
-                                    <figure class="image"><img src="images/menu-8.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$25.00</span>
-                                      <h3>Fried Potatoes with Garlic</h3>
-                                      <p class="cat">Viggies / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-9.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$20.50</span>
-                                      <h3>Tuna Roast Source</h3>
-                                      <p class="cat">Tuna / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-3.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$30.00</span>
-                                      <h3>Roast Beef (4 sticks)</h3>
-                                      <p class="cat">Crab / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <figure class="image"><img src="images/menu-4.jpg" alt="Free Bootstrap Template by colorlib.com"></figure>
-                                    <div class="text">
-                                      <span class="price">$29.99</span>
-                                      <h3>Salted Fried Chicken</h3>
-                                      <p class="cat">Crab / Potatoes / Rice</p>
-                                    </div>
-                                  </li>
-                                </ul>
-                                </div>
-                            </div>
-                        </div>
-                </div>
-             </div><!-- end half -->
-             <div class="half diningbar-img" style="background-image: url(images/cover_img_1.jpg);"></div><!-- end half -->
-          </div>
-       </div>
-  </div>
-</div> --}}
-
-{{-- <div id="colorlib-blog">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
-                <span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
-                <h2>Recent Blog</h2>
-                <p>We love to tell our successful far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-            </div>
-        </div>
-        <div class="blog-flex">
-            <div class="video colorlib-video" style="background-image: url(images/blog-3.jpg);">
-                <a href="https://vimeo.com/channels/staffpicks/93951774" class="popup-vimeo"><i class="icon-video"></i></a>
-                <div class="overlay"></div>
-            </div>
-            <div class="blog-entry">
-                <div class="row">
-                    <div class="col-md-12 animate-box">
-                        <a href="blog.html" class="blog-post">
-                            <span class="img" style="background-image: url(images/blog-1.jpg);"></span>
-                            <div class="desc">
-                                <span class="date">January 14, 2018</span>
-                                <h3>A Definitive Guide to the Best Dining</h3>
-                                <span class="cat">Activities</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-12 animate-box">
-                        <a href="blog.html" class="blog-post">
-                            <span class="img" style="background-image: url(images/blog-2.jpg);"></span>
-                            <div class="desc">
-                                <span class="date">January 14, 2018</span>
-                                <h3>How These 5 People Found The Path to Their Dream Trip</h3>
-                                <span class="cat">Activities</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-12 animate-box">
-                        <a href="blog.html" class="blog-post">
-                            <span class="img" style="background-image: url(images/blog-3.jpg);"></span>
-                            <div class="desc">
-                                <span class="date">January 14, 2018</span>
-                                <h3>Our Secret Island Boat Tour Is just for You</h3>
-                                <span class="cat">Activities</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-12 animate-box text-right">
-                        <a href="#">View all blog post <i class="icon-arrow-right3"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
 
 <div id="colorlib-testimony" class="colorlib-light-grey">
     <div class="container">
@@ -482,27 +252,4 @@
     </div>
 </div>
 
-
-{{-- <div id="colorlib-subscribe" style="background-image: url(images/img_bg_2.jpg);">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
-                <span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
-                <h2>Sign Up for a Newsletter</h2>
-                <p>Get A 50% Discounts in every Rooms, Book now!</p>
-                <form class="form-inline qbstp-header-subscribe">
-                    <div class="row">
-                        <div class="col-md-12 col-md-offset-0">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="email" placeholder="Enter your email">
-                                <button type="submit" class="btn btn-primary">Subscribe</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> --}}
 @endsection

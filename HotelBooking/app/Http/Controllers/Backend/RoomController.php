@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
 use App\Bed;
 use App\Hotel;
 use App\Room;
 use App\RoomType;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RoomController extends Controller
 {
@@ -17,7 +18,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return view('rooms.index', ['rooms' => Room::all()]);
+        return view('back_end.rooms.index', ['rooms' => Room::all()]);
     }
 
     /**
@@ -73,7 +74,7 @@ class RoomController extends Controller
     {
         $types = RoomType::all();
         $beds = Bed::all();
-        return view('rooms.edit', compact(['room', 'types', 'beds']));
+        return view('back_end.rooms.edit', compact(['room', 'types', 'beds']));
     }
 
     /**
@@ -85,9 +86,10 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
+        // return request('my-checkbox');
         $room->update($this->validateAttribute());
 
-        return redirect(route('rooms.index'));
+        return redirect(route('admin.rooms.index'));
     }
 
     /**

@@ -1,4 +1,25 @@
 @extends('back_end.layouts.app')
+
+@section('content_header')
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Dashboard</h1>
+      </div><!-- /.col -->
+      {{-- <div class="col-sm-6">
+        <a class="btn btn-primary float-sm-right" href="">Add Room</a>
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Dashb</li>
+        </ol>
+      </div> --}}
+      <!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+@endsection
+
 @section('content')
 <section class="content">
   <div class="container-fluid">
@@ -60,7 +81,8 @@
           <div class="icon">
             <i class="ion ion-home"></i>
           </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="{{ route('admin.rooms.index') }}" class="small-box-footer">More info <i
+              class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
@@ -225,7 +247,7 @@
         </div>
       </div>
 
-     
+
     </div>
     <!-- /.row (main row) -->
   </div><!-- /.container-fluid -->
