@@ -40,6 +40,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('dashboard', 'Backend\HomeController@index')->name('dashboard');
 
     Route::resource('rooms', 'Backend\RoomController');
+    Route::resource('room-types', 'Backend\RoomTypeController');
 
 });
 

@@ -15,9 +15,14 @@ class CreateRoomTypesTable extends Migration
     {
         Schema::create('room_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->smallInteger('max_guest');
-            $table->text('description');
+            $table->string('name')->unique();
+            $table->string('short_code')->unique();
+            $table->text('description')->nullable();
+            $table->integer('higher_capacity')->default(0);
+            $table->integer('kids_capacity')->default(0);
+            $table->float('base_price',8,2)->default(0);
+            $table->boolean('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

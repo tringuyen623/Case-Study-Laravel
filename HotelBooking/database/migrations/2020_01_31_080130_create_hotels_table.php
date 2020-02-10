@@ -32,8 +32,8 @@ class CreateHotelsTable extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
+        // Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('hotels');
-        Schema::enableForeignKeyConstraints();
+        // Schema::enableForeignKeyConstraints();
     }
 }

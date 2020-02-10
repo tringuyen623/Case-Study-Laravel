@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
 use App\RoomType;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\RoomTypeImage;
 
 class RoomTypeController extends Controller
 {
@@ -14,7 +16,13 @@ class RoomTypeController extends Controller
      */
     public function index()
     {
-        //
+
+        // $types = RoomType::all();
+
+        // foreach ($types as $type) {
+        //     return $type->rates[0]->rate;
+        // }
+        return view('back_end.room_types.index', ['roomTypes' => RoomType::all()]);
     }
 
     /**
@@ -59,7 +67,7 @@ class RoomTypeController extends Controller
     {
         $roomType = RoomType::findOrFail($id);
 
-        return view('rooms.types.edit', compact('roomType'));
+        return view('back_end.room_types.edit', compact('roomType'));
     }
 
     /**
@@ -73,8 +81,12 @@ class RoomTypeController extends Controller
     {
         $roomType = RoomType::findOrFail($id);
         $roomType->update($this->validateAttribute());
+        $image = request('image');
+        $image = base64_encode(file_get_contents($image));
+        $image = 'data:image/png;base64,' . $image;
+        $roomType->images()->save(new RoomTypeImage(['image' => $image]));
 
-        return redirect(route('rooms.index'));
+        return redirect(route('admin.room-types.index'));
     }
 
     /**
@@ -91,7 +103,7 @@ class RoomTypeController extends Controller
     public function validateAttribute(){
         return request()->validate([
             'name' => 'required',
-            'max_guest' => 'required',
+            // 'max_guest' => 'required',
             'description' => 'required'
         ]);
     }

@@ -55,15 +55,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+          <a href="{{ route('admin.room-types.index') }}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
-              <p>Room</p>
+              <p>Room Type</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/charts/inline.html" class="nav-link">
+            <a href="#" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
-              <p>Inline</p>
+              <p>Room</p>
             </a>
           </li>
         </ul>

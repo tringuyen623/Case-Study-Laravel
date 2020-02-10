@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-4">
-                    <p class="site">www.yoursitehere.com</p>
+                    <p class="site"></p>
                 </div>
                 <div class="col-xs-8 text-right">
                     <p class="num">Call: {{ $hotel->phone }}</p>

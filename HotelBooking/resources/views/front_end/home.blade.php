@@ -68,8 +68,8 @@
         </div>
         <div class="row">
             <div class="col-md-12 animate-box">
+                @forelse ($rooms as $room)
                 <div class="owl-carousel owl-carousel2">
-                    @forelse ($rooms as $room)
                     <div class="item">
                         <a href="images/room-1.jpg" class="room image-popup-link"
                             style="background-image: url(images/room-1.jpg);"></a>
@@ -86,9 +86,7 @@
                             <p><a class="btn btn-primary btn-book">Book now!</a></p>
                         </div>
                     </div>
-                    @empty
-                        No room yet
-                    @endforelse
+                   
 
                     {{-- <div class="item">
                         <a href="images/room-2.jpg" class="room image-popup-link"
@@ -196,6 +194,10 @@
                         </div>
                     </div> --}}
                 </div>
+                @empty
+                <div class="col-md-12 animate-box text-center">
+                    <h1 class="text-warning text-center">No Services!</h1>
+                </div>                    @endforelse
             </div>
             <div class="col-md-12 text-center animate-box">
             <a href="{{ route('rooms')}}">View all rooms <i class="icon-arrow-right3"></i></a>
