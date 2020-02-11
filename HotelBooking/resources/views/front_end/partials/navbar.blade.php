@@ -6,7 +6,7 @@
                     <p class="site"></p>
                 </div>
                 <div class="col-xs-8 text-right">
-                    <p class="num">Call: {{ $hotel->phone }}</p>
+                    <p class="num">Call: {{ general_setting()->phone }}</p>
                     <ul class="colorlib-social">
                         <li><a href="#"><i class="icon-twitter"></i></a></li>
                         <li><a href="#"><i class="icon-facebook"></i></a></li>
