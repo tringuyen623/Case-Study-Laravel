@@ -12,7 +12,7 @@
                         <div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
                             <div class="slider-text-inner text-center">
                                 <h2>Welcome to</h2>
-                                <h1>{{ $hotel->name }}</h1>
+                                <h1>{{ general_setting()->name }}</h1>
                             </div>
                         </div>
                     </div>

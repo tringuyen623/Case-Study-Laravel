@@ -40,18 +40,20 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('dashboard', 'Backend\HomeController@index')->name('dashboard');
 
     Route::resource('rooms', 'Backend\RoomController');
+
+    Route::get('room-types/list', 'Backend\RoomTypeController@getData')->name('room-types.list');
     Route::resource('room-types', 'Backend\RoomTypeController');
 
 });
 
-// Route::get('/home', 'Backend\HomeController@index')->name('admin');
+// // Route::get('/home', 'Backend\HomeController@index')->name('admin');
 
-// Route::get('/hotels', 'Backend\HotelController@index')->name('hotels.index');
-// Route::get('/hotels/{id}', 'HotelController@edit')->name('hotels.edit');
-// Route::patch('/hotels/{id}', 'HotelController@update')->name('hotels.update');
+// // Route::get('/hotels', 'Backend\HotelController@index')->name('hotels.index');
+// // Route::get('/hotels/{id}', 'HotelController@edit')->name('hotels.edit');
+// // Route::patch('/hotels/{id}', 'HotelController@update')->name('hotels.update');
 
-// Route::resource('rooms', 'RoomController');
-// Route::resource('rooms/types', 'RoomTypeController');
+// // Route::resource('rooms', 'RoomController');
+// // Route::resource('rooms/types', 'RoomTypeController');
 
 
 Route::resource('bookings', 'BookingController');

@@ -6,9 +6,15 @@ use App\RoomType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\RoomTypeImage;
+use Yajra\DataTables\DataTables;
 
 class RoomTypeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +28,16 @@ class RoomTypeController extends Controller
         // foreach ($types as $type) {
         //     return $type->rates[0]->rate;
         // }
-        return view('back_end.room_types.index', ['roomTypes' => RoomType::all()]);
+        // return response()->json(['data' => RoomType::all()]);
+        // if(request(aj)
+        return view('back_end.room_types.index');
+        
+    }
+
+    public function getData(){
+        if(request()->ajax()){
+            return DataTables::of(RoomType::all())->make(true);
+        }
     }
 
     /**
@@ -32,7 +47,7 @@ class RoomTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('back_end.room_types.create');
     }
 
     /**
@@ -41,9 +56,11 @@ class RoomTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        RoomType::create($this->validateAttribute());
+
+        return redirect(route('admin.room-types.index'));
     }
 
     /**
@@ -103,8 +120,12 @@ class RoomTypeController extends Controller
     public function validateAttribute(){
         return request()->validate([
             'name' => 'required',
-            // 'max_guest' => 'required',
-            'description' => 'required'
+            'short_code' => 'required',
+            'higher_capacity' => 'nullable|required',
+            'kids_capacity' => 'nullable|required',
+            'base_price' => 'nullable|required',
+            'description' => 'required',
+            'status' => 'required'
         ]);
     }
 }

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row row-pb-md">
             <div class="col-md-3 colorlib-widget">
-                <h4>{{ $hotel->name }}</h4>
+                <h4>{{ general_setting()->name }}</h4>
                 <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci
                     architecto culpa amet.</p>
                 <p>
