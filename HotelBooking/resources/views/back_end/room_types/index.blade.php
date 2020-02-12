@@ -166,7 +166,7 @@
           </div> --}}
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="roomType" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 {{-- <th>NO</th> --}}
@@ -222,8 +222,8 @@
   
     })
 
-    $(function () {
-      $("#example1").DataTable({
+    // $(function () {
+    let roomType =  $("#roomType").DataTable({
           processing: true,
           serverSide: true,
           ajax: '{{ route("admin.room-types.list") }}',
@@ -239,7 +239,7 @@
               },
           ]
       });
-    });
+    // });
 
     $.ajaxSetup({
         headers: {
@@ -257,7 +257,6 @@
         let base_price = jQuery('#base_price').val()
         let description = jQuery('#description').val()
         let status = jQuery('#status').prop('checked')
-        
         status ? status = 1 : status = 0;
         
         $.ajax({
@@ -273,7 +272,8 @@
                 status: status
             },
             success: function(){
-                alert('Success');
+                $('#add_room_type').modal('hide');
+                ajax.reload();
             },
             error: function(err){
                 console.log(err);
