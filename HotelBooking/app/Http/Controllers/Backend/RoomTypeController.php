@@ -6,6 +6,7 @@ use App\RoomType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\RoomTypeImage;
+use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
 
 class RoomTypeController extends Controller
@@ -31,12 +32,26 @@ class RoomTypeController extends Controller
         // return response()->json(['data' => RoomType::all()]);
         // if(request(aj)
         return view('back_end.room_types.index');
-        
     }
 
-    public function getData(){
-        if(request()->ajax()){
-            return DataTables::of(RoomType::all())->make(true);
+    public function getData()
+    {
+        $roomType = RoomType::all();
+
+        if (request()->ajax()) {
+            return DataTables::of($roomType)
+                ->addColumn('action', function ($roomType) {
+
+                    return '
+                    <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-outline-primary edit-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
+                    class="fa fa-eye"></i></button>' .
+                    '<button type="button" class="btn btn-outline-primary edit-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
+                    class="fa fa-edit"></i></button>
+                    </div>'
+                ;
+                })
+                ->make(true);
         }
     }
 
@@ -84,7 +99,7 @@ class RoomTypeController extends Controller
     {
         $roomType = RoomType::findOrFail($id);
 
-        return view('back_end.room_types.edit', compact('roomType'));
+        return response()->json($roomType);
     }
 
     /**
@@ -98,10 +113,10 @@ class RoomTypeController extends Controller
     {
         $roomType = RoomType::findOrFail($id);
         $roomType->update($this->validateAttribute());
-        $image = request('image');
-        $image = base64_encode(file_get_contents($image));
-        $image = 'data:image/png;base64,' . $image;
-        $roomType->images()->save(new RoomTypeImage(['image' => $image]));
+        // $image = request('image');
+        // $image = base64_encode(file_get_contents($image));
+        // $image = 'data:image/png;base64,' . $image;
+        // $roomType->images()->save(new RoomTypeImage(['image' => $image]));
 
         return redirect(route('admin.room-types.index'));
     }
@@ -117,7 +132,8 @@ class RoomTypeController extends Controller
         //
     }
 
-    public function validateAttribute(){
+    public function validateAttribute()
+    {
         return request()->validate([
             'name' => 'required',
             'short_code' => 'required',
