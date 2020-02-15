@@ -15,7 +15,7 @@ class CreateRoomTypeImagesTable extends Migration
     {
         Schema::create('room_type_images', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('image');
+            $table->longText('image');
             $table->unsignedBigInteger('room_type_id');
             $table->boolean('featured')->default(0);
             $table->timestamps();

@@ -14,16 +14,18 @@ use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'Frontend\HomeController@index')->name('home');
+Route::get('check', 'Frontend\HomeController@checkAvailable')->name('check');
 
 Route::get('about', function () {
     return view('front_end.about');
 })->name('about');
 
 Route::get('rooms', 'Frontend\RoomController@index')->name('rooms');
+// Route::get('rooms/check-available', 'Frontend\RoomController@checkAvailable')->name('check');
 
 
 
-Route::get('bookings/check', 'BookingController@check')->name('check');
+// Route::get('bookings/check', 'BookingController@check')->name('check');
 Route::get('bookings/search/{id}', 'BookingController@search');
 
 Auth::routes();
@@ -39,10 +41,12 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
     Route::get('dashboard', 'Backend\HomeController@index')->name('dashboard');
 
+    Route::get('rooms/list', 'Backend\RoomController@getData')->name('rooms.list');
     Route::resource('rooms', 'Backend\RoomController');
 
     Route::get('room-types/list', 'Backend\RoomTypeController@getData')->name('room-types.list');
     Route::resource('room-types', 'Backend\RoomTypeController');
+    Route::post('room-types/upload-image', 'Backend\RoomTypeController@uploadImage')->name('room-types.storeImage');
 
 });
 

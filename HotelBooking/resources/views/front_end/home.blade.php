@@ -68,16 +68,16 @@
         </div>
         <div class="row">
             <div class="col-md-12 animate-box">
-                @forelse ($rooms as $room)
                 <div class="owl-carousel owl-carousel2">
+                    @forelse ($roomTypes as $room)
                     <div class="item">
                         <a href="images/room-1.jpg" class="room image-popup-link"
-                            style="background-image: url(images/room-1.jpg);"></a>
+                            style="background-image: url({{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }});"></a>
                         <div class="desc text-center">
                             <span class="rate-star"><i class="icon-star-full full"></i><i
                                     class="icon-star-full full"></i><i class="icon-star-full full"></i><i
                                     class="icon-star-full"></i><i class="icon-star-full"></i></span>
-                            <h3><a href="#">{{ $room->roomType->name }}</a></h3>
+                            <h3><a href="#">{{ $room->name }}</a></h3>
                             <p class="price">
                                 <span class="currency">$</span>
                                 <span class="price-room">99</span>
@@ -86,12 +86,12 @@
                             <p><a class="btn btn-primary btn-book">Book now!</a></p>
                         </div>
                     </div>
+                    @empty
+                    <div class="col-md-12 animate-box text-center">
+                        <h1 class="text-warning text-center">No Room!</h1>
+                    </div>
+                    @endforelse
                 </div>
-                @empty
-                <div class="col-md-12 animate-box text-center">
-                    <h1 class="text-warning text-center">No Services!</h1>
-                </div>
-                @endforelse
             </div>
             <div class="col-md-12 text-center animate-box">
                 <a href="{{ route('rooms')}}">View all rooms <i class="icon-arrow-right3"></i></a>

@@ -8,6 +8,7 @@ use App\Room;
 use App\RoomType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\DataTables;
 
 class RoomController extends Controller
 {
@@ -18,7 +19,25 @@ class RoomController extends Controller
      */
     public function index()
     {
-        return view('back_end.rooms.index', ['rooms' => Room::all()]);
+        return view('back_end.rooms.index', ['types' => RoomType::all()]);
+    }
+
+    public function getData()
+    {
+        $rooms = Room::all();
+
+        if (request()->ajax()) {
+            return DataTables::of($rooms)
+                ->addColumn('action', function ($rooms) {
+
+                    return '
+                    <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-outline-primary edit-room" data-toggle="modal" data-target="#add_room_type" data-id ="' . $rooms->id . '"><i
+                    class="fa fa-eye"></i></button>'
+                ;
+                })
+                ->make(true);
+        }
     }
 
     /**
@@ -47,8 +66,11 @@ class RoomController extends Controller
         $room->bed_id = 1;
         $room->view = request('view');
         $room->size = request('size');
+        $room->is_active = request('is_active');
 
-        $room->save();
+        if($room->save()){
+            return $room;
+        }
 
         return redirect(route('rooms.index'));
     }
@@ -108,7 +130,7 @@ class RoomController extends Controller
             'view' => 'required',
             'size' => 'required',
             'room_type_id' => 'required',
-            'bed_id' => 'required'
+            // 'bed_id' => 'required'
         ]);
     }
 }

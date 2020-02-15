@@ -57,10 +57,10 @@
                     <span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i
                             class="icon-star-full full"></i><i class="icon-star-full full"></i><i
                             class="icon-star-full"></i></span>
-                    <h3><a href="#">{{ $room->roomType->name }}</a></h3>
+                    <h3><a href="#">{{ $room->first()->roomType->name }}</a></h3>
                     <p class="price">
-                        <span class="currency">{{ $room->view }}</span>
-                        <span class="currency">{{ $room->bed->type }}</span>
+                        <span class="currency">{{ $room->first()->view }}</span>
+                        <span class="currency">{{ $room->count() }}</span>
                         {{-- <span class="">{{ $room->size }}$</span> --}}
                         <span class="price-room">199</span>
                         <span class="per">/ per night</span>

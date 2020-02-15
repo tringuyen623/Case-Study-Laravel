@@ -24,4 +24,8 @@ class RoomType extends Model
     public function images(){
         return $this->hasMany(RoomTypeImage::class);
     }
+
+    public function featuredImage(){
+        return $this->images->where('featured', 1)->first();
+    }
 }

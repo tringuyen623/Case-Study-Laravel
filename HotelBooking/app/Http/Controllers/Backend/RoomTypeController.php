@@ -24,14 +24,9 @@ class RoomTypeController extends Controller
     public function index()
     {
 
-        // $types = RoomType::all();
+        $types = RoomType::all();
 
-        // foreach ($types as $type) {
-        //     return $type->rates[0]->rate;
-        // }
-        // return response()->json(['data' => RoomType::all()]);
-        // if(request(aj)
-        return view('back_end.room_types.index');
+        return view('back_end.room_types.index', compact('types'));
     }
 
     public function getData()
@@ -130,6 +125,23 @@ class RoomTypeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function uploadImage(){
+        $image = new RoomTypeImage();
+
+        $imgUpload = request('image');
+        $imgUpload = base64_encode($imgUpload);
+        $imgUpload = 'data:image/png;base64,' . $imgUpload;
+
+        $featured = request('featured') ? 1 : 0;
+
+        $image->image = $imgUpload;
+        $image->room_type_id = request('room_type');
+        $image->featured = $featured;
+        $image->save();
+
+        return redirect(route('admin.room-types.index'));
     }
 
     public function validateAttribute()
