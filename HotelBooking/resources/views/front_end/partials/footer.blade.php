@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row row-pb-md">
             <div class="col-md-3 colorlib-widget">
-                <h4>{{ general_setting()->name }}</h4>
+                <h4>{{ hotel_information()->name }}</h4>
                 <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci
                     architecto culpa amet.</p>
                 <p>
@@ -18,7 +18,7 @@
                 <h4>Quick Links</h4>
                 <p>
                     <ul class="colorlib-footer-links">
-                        <li><a href="{{ route('rooms') }}">Accomodation</a></li>
+                        <li><a href="{{ route('room-list') }}">Accomodation</a></li>
                         <li><a href="#">Dining &amp; Bar</a></li>
                         <li><a href="#">Restaurants</a></li>
                         <li><a href="#">Beach &amp; Resorts</a></li>

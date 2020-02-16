@@ -11,22 +11,44 @@ use Illuminate\Database\Eloquent\Builder;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $search = [
             'arrival' => '',
             'departure' => '',
             'adults' => '',
             'children' => '',
         ];
-        
-        return view('front_end.home', ['roomTypes' => RoomType::all(), 'search'=> $search]);
+
+        $rooms = RoomType::whereHas('rooms', function($query){
+            $query->where('is_active', 1);
+        })->where('status', 1)->get();
+
+        return view('front_end.home', compact('rooms', 'search'));
     }
 
-    public function hotel(){
+    public function hotel()
+    {
         return $hotel = Hotel::first();
     }
 
-    public function checkAvailable(Request $request)
+    public function roomList()
+    {
+        $rooms = RoomType::whereHas('rooms', function($query){
+            $query->where('is_active', 1);
+        })->where('status', 1)->get();
+
+        $search = [
+            'arrival' => '',
+            'departure' => '',
+            'adults' => '',
+            'children' => '',
+        ];
+
+        return view('front_end.rooms', compact('rooms', 'search'));
+    }
+
+    public function checkAvailable()
     {
         $search = [
             'arrival' => '',
@@ -36,24 +58,23 @@ class HomeController extends Controller
         ];
 
         if (request('search')) {
-            $ava = Room::whereDoesntHave('bookings', function (Builder $query) {
-                $date_in =  request('search[arrival]');
-                $date_out =  request('search[departure]');
-                $query->whereBetween('booking_room.from_date', [$date_in, $date_out])
-                    ->orWhereBetween('booking_room.to_date', [$date_in, $date_out]);
-            })->get();
+            $roomAvailable = Room::whereDoesntHave('bookings', function (Builder $query) {
+                $arrival =  request('search.arrival');
+                $departure =  request('search.departure');
+                $query->whereBetween('booking_room.from_date', [$arrival, $departure])
+                    ->orWhereBetween('booking_room.to_date', [$arrival, $departure]);
+            })->where('is_active', 1)->get();
 
-            $ava = $ava->groupBy('room_type_id');
-            // $ava = $ava->roomType();
-            // $ava = $ava->all();
-            // return $ava;
+            $roomAvailable = $roomAvailable->groupBy('room_type_id');
+
             $search = [
-                'arrival' => $request->search['arrival'],
-                'departure' => $request->search['departure'],
-                'adults' => $request->search['adults'],
-                'children' => $request->search['children'],
+                'arrival' => request('search.arrival'),
+                'departure' => request('search.departure'),
+                'adults' => request('search.adults'),
+                'children' => request('search.children')
             ];
         }
-        return view('front_end.rooms', ['rooms' => $ava, 'search' => $search]);
+
+        return view('front_end.room_available', ['rooms' => $roomAvailable, 'search' => $search]);
     }
 }

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 search-wrap">
-                <form method="GET" action="{{ route('check') }}" class="colorlib-form">
+                <form method="GET" action="{{ route('check-available') }}" class="colorlib-form">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
@@ -10,7 +10,7 @@
                                 <label for="arrival">Arrival Date</label>
                                 <input id="arrival" type="text" class="form-control clickable input-md"
                                     name="search[arrival]" value="{{ $search['arrival'] }}"
-                                    placeholder="&#xf133;  Arrival Date">
+                                    placeholder="&#xf133;  Arrival Date" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -18,7 +18,7 @@
                                 <label for="departure">Departure Date</label>
                                 <input id="departure" type="text" class="form-control clickable input-md"
                                     name="search[departure]" value="{{ $search['departure'] }}"
-                                    placeholder="&#xf133;  Dearture Date">
+                                    placeholder="&#xf133;  Dearture Date" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -28,7 +28,7 @@
                                     <i class="icon icon-arrow-down3"></i>
                                     <select name="search[adults]" id="people" class="form-control">
                                         @for ($i = 1; $i <= 5 ; $i++) <option
-                                            {{ $search['adults'] === $i ? 'selected' : null }} value="{{ $i }}">{{ $i }}
+                                            {{ $search['adults'] == $i ? 'selected' : null }} value="{{ $i }}">{{ $i }}
                                             </option>
                                             @endfor
                                     </select>
@@ -42,7 +42,7 @@
                                     <i class="icon icon-arrow-down3"></i>
                                     <select name="search[children]" id="people" class="form-control">
                                         @for ($i = 0; $i <= 3 ; $i++) <option
-                                            {{ $search['children'] === $i ? 'selected' : null }} value="{{ $i }}">
+                                            {{ $search['children'] == $i ? 'selected' : null }} value="{{ $i }}">
                                             {{ $i }}
                                             </option>
                                             @endfor

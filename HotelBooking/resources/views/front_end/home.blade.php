@@ -12,7 +12,7 @@
                         <div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
                             <div class="slider-text-inner text-center">
                                 <h2>Welcome to</h2>
-                                <h1>{{ general_setting()->name }}</h1>
+                                <h1>{{ hotel_information()->name }}</h1>
                             </div>
                         </div>
                     </div>
@@ -69,19 +69,19 @@
         <div class="row">
             <div class="col-md-12 animate-box">
                 <div class="owl-carousel owl-carousel2">
-                    @forelse ($roomTypes as $room)
+                    @forelse ($rooms as $room)
                     <div class="item">
-                        <a href="images/room-1.jpg" class="room image-popup-link"
+                        <a href="{{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }}" class="room image-popup-link"
                             style="background-image: url({{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }});"></a>
-                        <div class="desc text-center">
-                            <span class="rate-star"><i class="icon-star-full full"></i><i
+                        <div class="desc  text-center">
+                            {{-- <span class="rate-star"><i class="icon-star-full full"></i><i
                                     class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                                    class="icon-star-full"></i><i class="icon-star-full"></i></span>
+                                    class="icon-star-full"></i><i class="icon-star-full"></i></span> --}}
                             <h3><a href="#">{{ $room->name }}</a></h3>
                             <p class="price">
-                                <span class="currency">$</span>
+                                {{-- <span class="currency">$</span>
                                 <span class="price-room">99</span>
-                                <span class="per">/ per night</span>
+                                <span class="per">/ per night</span> --}}
                             </p>
                             <p><a class="btn btn-primary btn-book">Book now!</a></p>
                         </div>
@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="col-md-12 text-center animate-box">
-                <a href="{{ route('rooms')}}">View all rooms <i class="icon-arrow-right3"></i></a>
+                <a href="{{ route('room-list')}}">View all rooms <i class="icon-arrow-right3"></i></a>
             </div>
         </div>
     </div>

@@ -14,13 +14,15 @@ use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'Frontend\HomeController@index')->name('home');
-Route::get('check', 'Frontend\HomeController@checkAvailable')->name('check');
+Route::get('room-list', 'Frontend\HomeController@roomList')->name('room-list');
+Route::get('room-details', 'Frontend\HomeController@roomDetails')->name('room-details');
+Route::get('room-available', 'Frontend\HomeController@checkAvailable')->name('check-available');
 
 Route::get('about', function () {
     return view('front_end.about');
 })->name('about');
 
-Route::get('rooms', 'Frontend\RoomController@index')->name('rooms');
+// Route::get('rooms', 'Frontend\RoomController@index')->name('rooms');
 // Route::get('rooms/check-available', 'Frontend\RoomController@checkAvailable')->name('check');
 
 
