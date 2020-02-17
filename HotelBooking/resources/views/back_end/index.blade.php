@@ -74,7 +74,7 @@
         <!-- small box -->
         <div class="small-box bg-danger">
           <div class="inner">
-          <h3>{{ general_setting()->rooms->count() }}</h3>
+          <h3>{{ hotel_information()->rooms->count() }}</h3>
 
             <p>Rooms</p>
           </div>

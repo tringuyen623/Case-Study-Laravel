@@ -58,6 +58,7 @@
                             class="icon-star-full full"></i><i class="icon-star-full full"></i><i
                             class="icon-star-full"></i></span>
                     <h3><a href="#">{{ $room->first()->roomType->name }}</a></h3>
+                    <input type="hidden" id="roomId" name="id" value="{{ $room->first()->id }}">
                     <p class="price">
                         <span class="currency">{{ $room->first()->view }}</span>
                         <span class="currency">{{ $room->count() }}</span>
@@ -71,7 +72,7 @@
                         <li><i class="icon-check"></i> Breakfast included</li>
                         <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
                     </ul>
-                    <p><a class="btn btn-primary btn-book" href="{{route('room-list')}}">Book now!</a></p>
+                <p><a href="{{ route('room-details-booking', $room->first()->roomType->id).'?arrival='.$search['arrival'].'&departure='.$search['departure'].'&adults='.$search['adults'].'&children='.$search['children'] }}" class="btn btn-primary btn-book" id="book">Book now!</a></p>
                 </div>
             </div>
             @endforeach

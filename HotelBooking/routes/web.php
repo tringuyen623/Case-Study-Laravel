@@ -17,6 +17,9 @@ Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('room-list', 'Frontend\HomeController@roomList')->name('room-list');
 Route::get('room-details', 'Frontend\HomeController@roomDetails')->name('room-details');
 Route::get('room-available', 'Frontend\HomeController@checkAvailable')->name('check-available');
+Route::get('room-details/{room}', 'Frontend\HomeController@book')->name('room-details-booking');
+// Route::get('room-details/{room}/book', 'Frontend\HomeController@book')->name('book');
+Route::post('booking/{id}', 'Frontend\HomeController@booking')->name('booking');
 
 Route::get('about', function () {
     return view('front_end.about');
