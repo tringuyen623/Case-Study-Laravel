@@ -126,11 +126,18 @@ class HomeController extends Controller
             'phone' => request('phone'),
             'gender' => request('gender')
         ];
+        $date1 = strtotime(request('arrival'));
+        $date2 = strtotime(request('departure'));
+        $timeDiff = abs($date2 - $date1);
+        $numberOfNights= $timeDiff/86400; 
 
         $bookingDetails = [
             'arrival' => request('arrival'),
             'departure' => request('departure'),
+            'adults' => request('adults'),
+            'children' => request('children'),
             'roomType' => RoomType::findOrFail($id)->name,
+            'night' => $numberOfNights
         ];
 
         return view('front_end.checkout', compact('cusDetails', 'bookingDetails'));

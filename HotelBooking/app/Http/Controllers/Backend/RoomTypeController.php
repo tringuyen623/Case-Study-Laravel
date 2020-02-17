@@ -131,7 +131,7 @@ class RoomTypeController extends Controller
         $image = new RoomTypeImage();
 
         $imgUpload = request('image');
-        $imgUpload = base64_encode($imgUpload);
+        $imgUpload = base64_encode(file_get_contents($imgUpload));
         $imgUpload = 'data:image/png;base64,' . $imgUpload;
 
         $featured = request('featured') ? 1 : 0;

@@ -29,20 +29,20 @@
                             </dl>
                             <dl class="row">
                                 <dt class="col-md">Departure Date</dt>
-                                <dd class="col-md">{{ $bookingDetails['arrival']}}</dd>
+                                <dd class="col-md">{{ $bookingDetails['departure']}}</dd>
                             </dl>
                             <dl class="row">
                                 <dt class="col-md">Nights</dt>
-                                <dd class="col-md">1 Night</dd>
+                                <dd class="col-md">{{ $bookingDetails['night'] }} Night</dd>
                             </dl>
 
                             <dl class="row">
                                 <dt class="col-md">Adults</dt>
-                                <dd class="col-md">3 Person</dd>
+                                <dd class="col-md">{{ $bookingDetails['adults'] }}</dd>
                             </dl>
                             <dl class="row">
                                 <dt class="col-md">Kids</dt>
-                                <dd class="col-md">2 Person</dd>
+                                <dd class="col-md">{{ $bookingDetails['children'] }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -230,6 +230,14 @@
     }
 
     .booking-form {}
+
+    .colorlib-nav #colorlib-logo {
+        font-size: 22px;
+        margin: 0;
+        padding: 0;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
 </style>
 {{-- <style>
     .fb-container {
