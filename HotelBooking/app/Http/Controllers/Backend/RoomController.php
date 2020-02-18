@@ -17,6 +17,12 @@ class RoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('back_end.rooms.index', ['types' => RoomType::all()]);
@@ -32,9 +38,19 @@ class RoomController extends Controller
 
                     return '
                     <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-outline-primary edit-room" data-toggle="modal" data-target="#add_room_type" data-id ="' . $rooms->id . '"><i
-                    class="fa fa-eye"></i></button>'
+                    <button type="button" class="btn btn-outline-primary edit-room" data-toggle="modal" data-target="#add_room" data-id ="' . $rooms->id . '"><i
+                    class="fa fa-edit"></i></button>'
                 ;
+                })
+                ->editColumn('room_type_id', function($rooms){
+                    return $rooms->roomType->name;
+                })
+                ->editColumn('is_active', function($rooms){
+                    if ($rooms->is_active === 1){
+                        return 'Active';
+                    }else {
+                        return 'Inactive';
+                    }
                 })
                 ->make(true);
         }
@@ -61,7 +77,6 @@ class RoomController extends Controller
         $this->validateAttribute();
 
         $room = new Room();
-        $room->hotel_id = 1;
         $room->room_type_id = request('room_type_id');
         $room->bed_id = 1;
         $room->view = request('view');
@@ -96,7 +111,7 @@ class RoomController extends Controller
     {
         $types = RoomType::all();
         $beds = Bed::all();
-        return view('back_end.rooms.edit', compact(['room', 'types', 'beds']));
+        return response()->json($room);
     }
 
     /**
@@ -109,7 +124,12 @@ class RoomController extends Controller
     public function update(Request $request, Room $room)
     {
         // return request('my-checkbox');
-        $room->update($this->validateAttribute());
+        $room->room_type_id = request('room_type_id');
+        $room->bed_id = 1;
+        $room->view = request('view');
+        $room->size = request('size');
+        $room->is_active = request('is_active');
+        $room->update();
 
         return redirect(route('admin.rooms.index'));
     }

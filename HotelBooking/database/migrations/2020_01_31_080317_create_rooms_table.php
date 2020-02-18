@@ -15,7 +15,6 @@ class CreateRoomsTable extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('hotel_id');
             $table->unsignedBigInteger('room_type_id');
             $table->string('view');
             $table->string('size');
@@ -23,7 +22,6 @@ class CreateRoomsTable extends Migration
             $table->unsignedBigInteger('bed_id');
             $table->timestamps();
 
-            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->foreign('room_type_id')->references('id')->on('room_types')->onDelete('cascade');
             $table->foreign('bed_id')->references('id')->on('beds')->onDelete('cascade');
         });

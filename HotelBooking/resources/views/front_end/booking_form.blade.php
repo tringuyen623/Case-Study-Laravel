@@ -10,8 +10,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
                             <div class="slider-text-inner slider-text-inner2 text-center">
-                                <h2>Choose our Best</h2>
-                                <h1>Rooms &amp; Suites</h1>
+                                <h1>Rooms Details</h1>
                             </div>
                         </div>
                     </div>
@@ -23,19 +22,17 @@
 
 @include('front_end.partials.search')
 
-<div id="colorlib-rooms" class="colorlib-light-grey">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-12">
+<div class="container">
+    <div class="row-1">
+
+        <div class="col-50">
+            <div id="colorlib-rooms" class="colorlib-light-grey">
                 <div class="room-wrap animate-box">
                     <a href="images/room-2.jpg" class="room image-popup-link"
                         style="background-image: url(/images/room-2.jpg);"></a>
                     <div class="desc">
-                        <span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                                class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                                class="icon-star-full"></i></span>
-                        <h3><a href="#">{{ $room->name }}</a></h3>
-                        <input type="hidden" id="roomId" name="id" value="{{ $room->first()->id }}">
+                        <h3><a href="#">{{ $room->roomType->name }}</a></h3>
+                        {{-- <input type="hidden" id="roomId" name="id" value="{{ $room->first()->id }}"> --}}
                         <p class="price">
                             {{-- <span class="currency">{{ $room->first()->view }}</span> --}}
                             {{-- <span class="currency">{{ $room->count() }}</span> --}}
@@ -43,78 +40,182 @@
                             <span class="price-room">199</span>
                             <span class="per">/ per night</span>
                         </p>
-                        <p>Chi do</p>
                         <ul>
-                            <li><i class="icon-check"></i> Perfect for traveling couples</li>
+                            {{-- <li><i class="icon-check"></i> Perfect for traveling couples</li>
                             <li><i class="icon-check"></i> Breakfast included</li>
-                            <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
+                            <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li> --}}
                         </ul>
                         {{-- <p><a href="{{ route('room-details', $room->first()->roomType->id).'?arrival='.$search['arrival'].'&departure='.$search['departure'].'&adults='.$search['adults'].'&children='.$search['children'] }}"
                         class="btn btn-primary btn-book" id="book">Book now!</a></p> --}}
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6">
-                <div class="desc">
-                    <form role="form" action="{{ route('booking', $room->id) }}" method="POST">
-                        @csrf
-                        <div class="card">
-                            <h4 class="text-center" style="font-family: 'Poppins'"><strong>BOOKING</strong></h4>
-                        </div>
-                        <div class="form-group">
-                            <label for="gender">Gender</label>
-                            <select class="form-control" style="width: auto" name="gender" id="gender">
-                                <option value="0">Mr</option>
-                                <option value="1">Ms</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">First Name</label>
-                            <input type="text" name="first_name" class="form-control" id="exampleInputEmail1"
-                                value="{{ $room->view }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Last Name</label>
-                            <input type="text" name="last_name" class="form-control" id="exampleInputPassword1"
-                                value="{{ $room->size }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Phone</label>
-                            <input type="text" name="phone" class="form-control" id="exampleInputPassword1"
-                                value="{{ $room->size }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Email</label>
-                            <input type="text" name="email" class="form-control" id="exampleInputPassword1"
-                                value="{{ $room->size }}">
-                        </div>
-                        <div class="form-group">
-                        <div class="col-md-6"><input type="text" name="adults" value="{{$search['adults']}}"></div>
-                        <div class="col-md-6"><input type="text" name="children" value="{{$search['children']}}"></div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-6"><input type="text" name="arrival" value="{{$search['arrival']}}"></div>
-                            <div class="col-md-6"><input type="text" name="departure" value="{{$search['departure']}}"></div>
-                            </div>
-                        <div class="form-group text-center">
-                            <button type="submit" class="btn btn-primary">Booking</button>
-                        </div>
-                </div>
+        </div>
 
-                <!-- /.card-body -->
-                <div class="card-footer">
-                </div>
+        <div class="col-50">
+            <div class="containerblock">
+                <form action="{{ route('booking') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-50">
+                            <h3 class="text-center"><strong>Booking</strong></h3>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="gender"><i class="fa fa-user"></i> Gen</label>
+                                    <select class="form-control" style="width: auto; height: 50px" name="gender"
+                                        id="gender">
+                                        <option value="0">Mr</option>
+                                        <option value="1">Ms</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="fname">First Name</label>
+                                    <input type="text" id="fname" name="first_name" placeholder="M. Doe">
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="fname">Last Name</label>
+                                    <input type="text" name="last_name" placeholder="John">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="fname"><i class="fa fa-phone"></i> Phone</label>
+                                    <input type="text" name="phone" placeholder="00-xxxx">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="fname"><i class="fa fa-envelope"></i> Email</label>
+                                    <input type="text" name="email" placeholder="john@example.com">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="fname"><i class="fa fa-calendar"></i> Arrival</label>
+                                    <input type="text" name="arrival" value="{{$search['arrival']}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="fname"><i class="fa fa-calendar"></i> Departure</label>
+                                    <input type="text" name="departure" value="{{$search['departure']}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="fname"><i class="fa fa-user"></i> Adults</label>
+                                    <input type="text" name="adults" value="{{$search['adults']}}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="fname"><i class="fa fa-child"></i> Children</label>
+                                    <input type="text" name="children" value="{{$search['children']}}">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <input type="hidden" name="room_id" value="{{ $room->id }}">
+                    <input type="submit" value="Book" class="btn">
                 </form>
             </div>
         </div>
-
-
-
     </div>
 </div>
-</div>
+
 @endsection
 
 @push('style')
+<style>
+    #colorlib-rooms {
+        padding: 0;
+    }
+
+    .row-1 {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin: 0 -16px;
+        padding: 84px 0 84px 0;
+    }
+
+    .col-25 {
+        -ms-flex: 25%;
+        flex: 25%;
+    }
+
+    .col-50 {
+        -ms-flex: 50%;
+        /* IE10 */
+        flex: 50%;
+    }
+
+    .col-75 {
+        -ms-flex: 75%;
+        /* IE10 */
+        flex: 75%;
+    }
+
+    .col-25,
+    .col-50,
+    .col-75 {
+        padding: 20px 16px 0 16px;
+    }
+
+    .containerblock {
+        background-color: #f2f2f2;
+        padding: 5px 20px 15px 20px;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+    }
+
+    input[type=text] {
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    label {
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .icon-container {
+        margin-bottom: 20px;
+        padding: 7px 0;
+        font-size: 24px;
+    }
+
+    .btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        width: 100%;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 17px;
+    }
+
+    .btn:hover {
+        background-color: #45a049;
+    }
+
+    span.price {
+        float: right;
+        color: grey;
+    }
+
+    /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (and change the direction - make the "cart" column go on top) */
+    @media (max-width: 800px) {
+        .row {
+            flex-direction: column-reverse;
+        }
+
+        .col-25 {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
 {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
 @endpush

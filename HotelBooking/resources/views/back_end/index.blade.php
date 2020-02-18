@@ -108,7 +108,7 @@
             <div class="form-row mb-2">
 
               <div class="col-md">
-                <a class="btn btn-primary " href="http://rifat636.thesoftking.com/hoteleo/admin/reservation/create"><i
+                <a class="btn btn-primary " href="#"><i
                     class="fa fa-plus"></i> Add Reservation</a>
 
               </div>

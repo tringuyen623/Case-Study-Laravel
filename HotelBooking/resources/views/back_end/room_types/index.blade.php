@@ -242,7 +242,8 @@
               {
                   data: 'action', name: 'action', orderable: false, searchable: false
               }
-          ]
+          ],
+          order: [[0, 'asc']]
       });
     
     $.ajaxSetup({
@@ -253,7 +254,7 @@
 
     $('#create_room_type').click(function(){
        $('.modal-title').text('Add Room Type');
-       $('action').val('Add');
+       $('#action').val('Add');
     });
 
     $('#form_room_type').on('submit', function(e){
@@ -342,7 +343,7 @@
                 $('#description').val(data.description),
                 $('#action_button').html('Update'),
                 $('#action').val('Edit'),
-                data.status === 1 ? $('#status').prop('checked', true) : $('#status').prop('checked', false)
+                data.status === 1 ? $('#status').prop('checked', true).change() : $('#status').prop('checked', false).change(),  
             },
             error: function(error){
                 console.log(error)

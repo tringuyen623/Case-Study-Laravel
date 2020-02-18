@@ -22,7 +22,7 @@ class HomeController extends Controller
             'children' => '',
         ];
 
-        $rooms = RoomType::whereHas('rooms', function($query){
+        $rooms = RoomType::whereHas('rooms', function ($query) {
             $query->where('is_active', 1);
         })->where('status', 1)->get();
 
@@ -36,7 +36,7 @@ class HomeController extends Controller
 
     public function roomList()
     {
-        $rooms = RoomType::whereHas('rooms', function($query){
+        $rooms = RoomType::whereHas('rooms', function ($query) {
             $query->where('is_active', 1);
         })->where('status', 1)->get();
 
@@ -61,10 +61,13 @@ class HomeController extends Controller
 
         if (request('search')) {
             $roomAvailable = Room::whereDoesntHave('bookings', function (Builder $query) {
-                $arrival =  request('search.arrival');
-                $departure =  request('search.departure');
-                $query->whereBetween('booking_room.from_date', [$arrival, $departure])
-                    ->orWhereBetween('booking_room.to_date', [$arrival, $departure]);
+                $arrival = date('Y-m-d', strtotime(request('search.arrival')));
+                $departure =  date('Y-m-d', strtotime(request('search.departure')));
+                $query->where('booking_room.from_date', '>=', $arrival)
+                    ->where('booking_room.from_date', '<=', $departure)
+                    ->where('booking_room.to_date', '>=', $arrival)
+                    ->where('booking_room.to_date', '<=', $departure);
+                // ->orWhereBetween('booking_room.to_date', [$arrival, $departure]);
             })->where('is_active', 1)->get();
 
             $roomAvailable = $roomAvailable->groupBy('room_type_id');
@@ -77,48 +80,81 @@ class HomeController extends Controller
             ];
         }
 
+        // return request('search.arrival') ;
+        // return $roomAvailable;
+
         return view('front_end.room_available', ['rooms' => $roomAvailable, 'search' => $search]);
     }
 
-    public function book($id){
-        $room = RoomType::where('status', 1)->findOrFail($id);
+    public function book($id)
+    {
+        $room = Room::where('is_active', 1)->findOrFail($id);
+        // $roomType = RoomType::where('status', 1)->findOrFail($room->room)
         $search = [
             'arrival' => request()->arrival,
             'departure' => request()->departure,
             'adults' => request()->adults,
             'children' => request()->children
         ];
+        // return $room->rooms;
         return view('front_end.booking_form', compact('room', 'search'));
     }
 
-    public function booking($id){
-        // $customer = new Customer();
-        // $customer->first_name = request('first_name');
-        // $customer->last_name = request('last_name');
-        // $customer->address = 'Hue';
-        // $customer->email = request('email');
-        // $customer->phone = request('phone');
-        // $customer->gender = request('gender');
-        // $customer->save();
+    public function booking()
+    {
+        // return 'chi do';
+        $cusDetails = [
+            'first_name' => request('first_name'),
+            'last_name' => request('last_name'),
+            'email' => request('email'),
+            'phone' => request('phone'),
+            'gender' => request('gender')
+        ];
+        $date_in = strtotime(request('arrival'));
+        $date_out = strtotime(request('departure'));
+        $timeDiff = abs($date_in - $date_out);
+        $numberOfNights = $timeDiff / 86400;
 
-        // $booking = new Booking();
-        // $booking->customer_id = $customer->id;
-        // $booking->no_of_guests = request('adults') + request('children');
-        // $booking->save();
+        $bookingDetails = [
+            'arrival' => request('arrival'),
+            'departure' => request('departure'),
+            'adults' => request('adults'),
+            'children' => request('children'),
+            'roomType' => Room::findOrFail(request('room_id'))->roomType->name,
+            'night' => $numberOfNights
+        ];
 
-        // $date_in =  request('arrival');
-        // $date_out = request('departure');
+        // return $cusDetails['first_name'];
 
-        // $roomId = RoomType::findOrFail($id)->rooms->first()->id;
-        // $booking->rooms()->attach(
-        //     $booking->id,
-        //     [
-        //         'room_id' => $roomId,
-        //         'from_date' => $date_in,
-        //         'to_date' => $date_out
-        //     ]
-        // );
+        $customer = new Customer();
+        $customer->first_name = $cusDetails['first_name'];
+        $customer->last_name = $cusDetails['last_name'];
+        $customer->email = $cusDetails['email'];
+        $customer->phone = $cusDetails['phone'];
+        $customer->gender = $cusDetails['gender'];
+        $customer->save();
 
+        $booking = new Booking();
+        $booking->customer_id = $customer->id;
+        $booking->no_of_guests = request('adults') + request('children');
+        $booking->save();
+
+
+        $roomId = request('room_id');
+        $booking->rooms()->attach(
+            $booking->id,
+            [
+                'room_id' => $roomId,
+                'from_date' => request('arrival'),
+                'to_date' => request('departure')
+            ]
+        );
+
+        return view('front_end.checkout', compact('cusDetails', 'bookingDetails', 'booking'));
+    }
+
+    public function checkout()
+    {
         $cusDetails = [
             'first_name' => request('first_name'),
             'last_name' => request('last_name'),
@@ -129,21 +165,17 @@ class HomeController extends Controller
         $date1 = strtotime(request('arrival'));
         $date2 = strtotime(request('departure'));
         $timeDiff = abs($date2 - $date1);
-        $numberOfNights= $timeDiff/86400; 
+        $numberOfNights = $timeDiff / 86400;
 
         $bookingDetails = [
             'arrival' => request('arrival'),
             'departure' => request('departure'),
             'adults' => request('adults'),
             'children' => request('children'),
-            'roomType' => RoomType::findOrFail($id)->name,
+            'roomType' => RoomType::findOrFail(request('room_type_id'))->name,
             'night' => $numberOfNights
         ];
 
         return view('front_end.checkout', compact('cusDetails', 'bookingDetails'));
-    }
-
-    public function checkout(){
-
     }
 }

@@ -49,7 +49,7 @@
                 </div>
             </div> --}}
 
-            @foreach ($rooms as $room)
+            @forelse ($rooms as $room)
             <div class="col-md-4 room-wrap animate-box">
                 <a href="images/room-2.jpg" class="room image-popup-link"
                     style="background-image: url(images/room-2.jpg);"></a>
@@ -72,10 +72,14 @@
                         <li><i class="icon-check"></i> Breakfast included</li>
                         <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
                     </ul>
-                <p><a href="{{ route('room-details-booking', $room->first()->roomType->id).'?arrival='.$search['arrival'].'&departure='.$search['departure'].'&adults='.$search['adults'].'&children='.$search['children'] }}" class="btn btn-primary btn-book" id="book">Book now!</a></p>
+                <p><a href="{{ route('room-details-booking', $room->first()->id).'?arrival='.$search['arrival'].'&departure='.$search['departure'].'&adults='.$search['adults'].'&children='.$search['children'] }}" class="btn btn-primary btn-book" id="book">Book now!</a></p>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <div class="col-md-12 animate-box text-center">
+                <h1 class="text-warning text-center">No Room Available!</h1>
+            </div>
+            @endforelse
 
 
         </div>

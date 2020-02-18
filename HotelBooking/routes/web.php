@@ -19,7 +19,8 @@ Route::get('room-details', 'Frontend\HomeController@roomDetails')->name('room-de
 Route::get('room-available', 'Frontend\HomeController@checkAvailable')->name('check-available');
 Route::get('room-details/{room}', 'Frontend\HomeController@book')->name('room-details-booking');
 // Route::get('room-details/{room}/book', 'Frontend\HomeController@book')->name('book');
-Route::post('booking/{id}', 'Frontend\HomeController@booking')->name('booking');
+// Route::get('checkout', 'Frontend\HomeController@checkout')->name('checkout');
+Route::post('booking', 'Frontend\HomeController@booking')->name('booking');
 
 Route::get('about', function () {
     return view('front_end.about');
@@ -52,6 +53,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('room-types/list', 'Backend\RoomTypeController@getData')->name('room-types.list');
     Route::resource('room-types', 'Backend\RoomTypeController');
     Route::post('room-types/upload-image', 'Backend\RoomTypeController@uploadImage')->name('room-types.storeImage');
+
+    Route::resource('amenities', 'Backend\AmenityController');
 
 });
 

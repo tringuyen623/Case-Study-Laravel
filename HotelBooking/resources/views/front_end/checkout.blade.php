@@ -20,6 +20,10 @@
                         <h4>Booking Details</h4>
                         <div>
                             <dl class="row">
+                                <dt class="col-md">Booking ID</dt>
+                                <dd class="col-md">{{ $booking->id }}</dd>
+                            </dl>
+                            <dl class="row">
                                 <dt class="col-md">Room Type</dt>
                                 <dd class="col-md">{{ $bookingDetails['roomType'] }}</dd>
                             </dl>
@@ -139,8 +143,8 @@
                             </table>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 text-right ">
-                                <a class="bttn btn-fill mt-4"
+                            <div class="col-md-12 text-right mt-5">
+                                <a class="btn btn-primary"
                                     href="http://rifat636.thesoftking.com/hoteleo/confirm-checkout">Confirm Checkout
                                     &gt; &gt; &gt;</a>
                             </div>
@@ -237,6 +241,30 @@
         padding: 0;
         text-transform: uppercase;
         font-weight: 600;
+    }
+
+    .w-100 {
+        width: 100% !important;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+
+    .border-top {
+        border-top: 1px solid #dee2e6 !important;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25rem;
     }
 </style>
 {{-- <style>
