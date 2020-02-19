@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,7 +40,7 @@ Auth::routes();
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('/', function () {
 
-        if (Auth::user()){
+        if (Auth::user()) {
             return redirect('admin/dashboard');
         }
         return view('auth.login');
@@ -47,22 +48,25 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
     Route::get('dashboard', 'Backend\HomeController@index')->name('dashboard');
 
+    Route::get('/hotel', 'Backend\HotelController@index')->name('hotel.index');
+    Route::get('/hotel/{id}/edit', 'Backend\HotelController@edit')->name('hotel.edit');
+    Route::patch('/hotel/{id}', 'Backend\HotelController@update')->name('hotel.update');
+
     Route::get('rooms/list', 'Backend\RoomController@getData')->name('rooms.list');
     Route::resource('rooms', 'Backend\RoomController');
 
     Route::get('room-types/list', 'Backend\RoomTypeController@getData')->name('room-types.list');
+    Route::get('room-types/listDeleted', 'Backend\RoomTypeController@getDeletedData')->name('room-types.listDeleted');
+    Route::get('room-types/{id}/restore', 'Backend\RoomTypeController@restore')->name('room-types.restore');
     Route::resource('room-types', 'Backend\RoomTypeController');
     Route::post('room-types/upload-image', 'Backend\RoomTypeController@uploadImage')->name('room-types.storeImage');
 
     Route::resource('amenities', 'Backend\AmenityController');
-
 });
 
 // // Route::get('/home', 'Backend\HomeController@index')->name('admin');
 
-// // Route::get('/hotels', 'Backend\HotelController@index')->name('hotels.index');
-// // Route::get('/hotels/{id}', 'HotelController@edit')->name('hotels.edit');
-// // Route::patch('/hotels/{id}', 'HotelController@update')->name('hotels.update');
+
 
 // // Route::resource('rooms', 'RoomController');
 // // Route::resource('rooms/types', 'RoomTypeController');

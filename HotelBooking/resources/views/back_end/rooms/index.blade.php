@@ -154,9 +154,9 @@
           columns: [
               {
                   data: 'id',
-                  render: function (){
-                      return no += 1;
-                  }
+                  render: function (data, type, row, meta) {
+        return meta.row + meta.settings._iDisplayStart + 1;
+    }
               },
               {
                   data: 'room_type_id'

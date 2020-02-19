@@ -52,7 +52,6 @@
                                         <th>Name</th>
                                         <th>Description</th>
                                         <th>Price</th>
-                                        {{-- <th>Action</th> --}}
                                         <th>Total Room</th>
                                         <th>Action</th>
                                     </tr>
@@ -61,8 +60,21 @@
                         </div>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane active" id="deleted">
-
+                    <div role="tabpanel" class="tab-pane" id="deleted">
+                        <div class="card-body">
+                            <table id="roomTypeDeleted" class="table table-bordered table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Price</th>
+                                        <th>Total Room</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -209,24 +221,48 @@
             </div>
         </div>
     </div>
-    <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-danger" role="document">
+            <!--Content-->
             <form method="POST">
                 @csrf
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h2 class="modal-title">Confirmation</h2>
-                    </div>
+                    <!--Body-->
                     <div class="modal-body">
-                        <h4 align="center" style="margin:0;">Are you sure you want to remove this data?</h4>
+                        <div class="text-center">
+                            <i class="far fa-times-circle fa-8x text-danger mb-3"></i>
+                            <h4>Are you sure you want to remove this data?</h4>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" name="ok_button" id="ok_button" class="btn btn-danger">Remove</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </form>
+            <!--/.Content-->
+        </div>
+    </div>
+
+    <div id="success" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-8x text-success mb-3"></i>
+                        <h4 class="modal-title">Awesome!</h4>
+                    </div>
+                    <p class="text-center" id="success_content">Your booking has been confirmed. Check your email for
+                        detials.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -241,7 +277,6 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script>
     $(document).ready(function(){
-        let no = 0;
     $("#roomType").DataTable({
           processing: true,
           serverSide: true,
@@ -249,9 +284,9 @@
           columns: [
               {
                   data: 'id',
-                  render: function(){
-                      return no += 1;
-                  }
+                  render: function (data, type, row, meta) {
+                      return meta.row + meta.settings._iDisplayStart + 1;
+                      }
               },
               {
                   data: 'name', name: 'name'
@@ -285,7 +320,6 @@
 
     $('#form_room_type').on('submit', function(e){
         e.preventDefault();
-        var formData = new FormData(this);
 
         let action_url = '';
         let type = '';
@@ -327,6 +361,8 @@
                 $('#add_room_type').modal('hide');
                 $("#roomType").DataTable().ajax.reload();
                 $('#form_room_type')[0].reset();
+                $('#success_content').html('Your record has been added');
+                $('#success').modal('show');
             },
             error: function(err){
                 console.log(err);
@@ -345,6 +381,9 @@
             success: function(){
                 $('#add_image').modal('hide');
                 $('#form_image')[0].reset();
+                $('#success_content').html('Your record has been added');
+                $('#success').modal('show');
+
             },
             cache: false,
             contentType: false,
@@ -386,12 +425,11 @@
                 beforeSend:function(){
                     $('#ok_button').text('Deleting...');
                 },
-                success: function(data){
-                    setTimeout(function(){
-                        $('#confirmModal').modal('hide');
-                        $('#roomType').DataTable().ajax.reload();
-                        alert('Data Deleted');
-                    }, 2000);
+                success: function(){
+                    $('#confirmModal').modal('hide');
+                    $('#roomType').DataTable().ajax.reload();
+                    $('#success_content').html('Your record has been deleted');
+                    $('#success').modal('show');
                 },
                 error: function(err){
                     console.log(err);
@@ -399,6 +437,56 @@
             })
         })
     })
+
+    // RoomType Deleted
+    $("#roomTypeDeleted").DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: '{{ route("admin.room-types.listDeleted") }}',
+          columns: [
+              {
+                  data: 'id',
+                  render: function (data, type, row, meta) {
+                      return meta.row + meta.settings._iDisplayStart + 1;
+                      }
+              },
+              {
+                  data: 'name', name: 'name'
+              },
+              {
+                  data: 'description', name: 'description'
+              },
+              {
+                  data: 'base_price', name: 'base_price'
+              },
+              {
+                  data: 'Total Rooms',
+              },
+              {
+                  data: 'action', name: 'action', orderable: false, searchable: false
+              }
+          ],
+          order: [[0, 'asc']]
+      });
+
+      $(document).on('click', '.restore-room-type', function(){
+          let id = $(this).data('id');
+          if(confirm('Are you sure to restore?')){
+            $.ajax({
+              url: `room-types/${id}/restore`,
+              success: function(){
+                $('#roomType').DataTable().ajax.reload();
+                $('#roomTypeDeleted').DataTable().ajax.reload();
+                $('#success_content').html('Your record has been restore');
+                $('#success').modal('show');
+              },
+              error: function(err){
+                  console.log(err);
+              }
+          });
+        }
+      })
+      
 });
 </script>
 @endsection

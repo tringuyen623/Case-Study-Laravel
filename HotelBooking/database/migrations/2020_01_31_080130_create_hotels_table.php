@@ -19,7 +19,10 @@ class CreateHotelsTable extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('email');
-            $table->text('image')->nullable();
+            $table->time('check_in_time')->default('14:00:00');
+            $table->time('check_out_time')->default('12:00:00');
+            $table->string('currency', 15)->default('USD');
+            $table->string('currency_symbol', 15)->nullable()->default('$');
             $table->timestamps();
             
         });

@@ -41,15 +41,36 @@ class RoomTypeController extends Controller
                     <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-outline-primary view-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
                     class="fa fa-eye"></i></button>' .
-                    '<button type="button" class="btn btn-outline-primary edit-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
+                        '<button type="button" class="btn btn-outline-primary edit-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
                     class="fa fa-edit"></i></button>
-                    '.
-                    '<button type="button" class="btn btn-outline-primary delete-room-type" data-toggle="modal" data-target="#confirmModal" data-id ="' . $roomType->id . '"><i
+                    ' .
+                        '<button type="button" class="btn btn-outline-primary delete-room-type" data-toggle="modal" data-target="#confirmModal" data-id ="' . $roomType->id . '"><i
                     class="fa fa-trash"></i></button>
-                    </div>'
-                ;
+                    </div>';
                 })
-                ->addColumn('Total Rooms', function($roomType){
+                ->addColumn('Total Rooms', function ($roomType) {
+                    return $roomType->rooms->count();
+                })
+                ->make(true);
+        }
+    }
+
+    public function getDeletedData()
+    {
+        $deletedRoomType = RoomType::onlyTrashed();
+
+        if (request()->ajax()) {
+            return DataTables::of($deletedRoomType)
+                ->addColumn('action', function ($deletedRoomType) {
+                    return '
+            <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-primary restore-room-type" data-id ="' . $deletedRoomType->id . '"><i
+            class="fa fa-undo"></i></button>' .
+                        '<button type="button" class="btn btn-outline-primary delete-room-type" data-toggle="modal" data-target="#confirmModal" data-id ="' . $deletedRoomType->id . '"><i
+            class="fa fa-trash"></i></button>
+            </div>';
+                })
+                ->addColumn('Total Rooms', function ($roomType) {
                     return $roomType->rooms->count();
                 })
                 ->make(true);
@@ -135,7 +156,14 @@ class RoomTypeController extends Controller
         return redirect()->route('admin.room-types.index');
     }
 
-    public function uploadImage(){
+    public function restore($id){
+        RoomType::onlyTrashed()->where('id','=',$id)->restore();
+
+        return redirect()->route('admin.room-types.index');
+    }
+
+    public function uploadImage()
+    {
         $image = new RoomTypeImage();
 
         $imgUpload = request('image');

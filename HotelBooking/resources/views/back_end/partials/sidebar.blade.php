@@ -49,7 +49,7 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.hotel.index') }}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Hotel Info</p>
             </a>
@@ -116,7 +116,7 @@
           <li class="nav-item">
             <a href="pages/tables/simple.html" class="nav-link">
               <i class="fa fa-fw fa-wrench"></i>
-              <p>General Setting</p>
+              <p>Hotel Information</p>
             </a>
           </li>
           <li class="nav-item">
