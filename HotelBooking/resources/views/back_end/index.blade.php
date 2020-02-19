@@ -29,7 +29,7 @@
         <!-- small box -->
         <div class="small-box bg-info">
           <div class="inner">
-            <h3>{{hotel_information()->rooms}}</h3>
+            <h3>{{ $bookings->count() }}</h3>
 
             <p>Bookings</p>
           </div>
@@ -59,7 +59,7 @@
         <!-- small box -->
         <div class="small-box bg-warning">
           <div class="inner">
-            <h3>44</h3>
+          <h3>{{ $bookings->sum('no_of_guests')}}</h3>
 
             <p>Guests</p>
           </div>
@@ -74,7 +74,7 @@
         <!-- small box -->
         <div class="small-box bg-danger">
           <div class="inner">
-          <h3>{{ hotel_information()->rooms->count() }}</h3>
+          <h3>{{ count($rooms) }}</h3>
 
             <p>Rooms</p>
           </div>

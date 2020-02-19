@@ -28,20 +28,37 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
-                    <table id="rooms" class="table table-bordered table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                {{-- <th>NO</th> --}}
-                                <th>Room Type</th>
-                                <th>View</th>
-                                <th>Size</th>
-                                <th>Status</th>
-                                {{-- <th>Total Room</th> --}}
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                    </table>
+                <ul class="nav nav-tabs d-print-none mb-2" role="tablist">
+                    <li class="nav-item ">
+                        <a class="nav-link  active " href="#active" role="tab" data-toggle="tab"
+                            aria-selected="true">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#deleted" role="tab" data-toggle="tab">Deleted</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="active">
+                        <div class="card-body">
+                            <table id="rooms" class="table table-bordered table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Room Type</th>
+                                        <th>View</th>
+                                        <th>Size</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane active" id="deleted">
+
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -92,8 +109,8 @@
                                 <div class="form-row justify-content-center">
                                     <div class="form-group col-md-12">
                                         <label><strong>Status</strong> <small class="text-danger">*</small></label>
-                                        <input type="checkbox" id="is_active" name="my-checkbox" checked data-toggle="toggle"
-                                            data-off-color="danger">
+                                        <input type="checkbox" id="is_active" name="my-checkbox" checked
+                                            data-toggle="toggle" data-off-color="danger">
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
@@ -129,11 +146,18 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script>
     $(document).ready(function(){
+        let no = 0;
     $("#rooms").DataTable({
           processing: true,
           serverSide: true,
           ajax: '{{ route("admin.rooms.list") }}',
           columns: [
+              {
+                  data: 'id',
+                  render: function (){
+                      return no += 1;
+                  }
+              },
               {
                   data: 'room_type_id'
               },

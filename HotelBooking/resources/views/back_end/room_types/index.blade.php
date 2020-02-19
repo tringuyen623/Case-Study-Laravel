@@ -32,43 +32,39 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                {{-- <div class="card-header">
-            <h3 class="card-title">Create Room</h3>
-          </div> --}}
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="roomType" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                {{-- <th>NO</th> --}}
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                                <th>Action</th>
-                                {{-- <th>Total Room</th> --}}
-                                {{-- <th>Action</th> --}}
-                            </tr>
-                        </thead>
-                        {{-- <tbody>
-                            @forelse ($roomTypes as $key=>$type)
-                            <tr>
-                                <td>{{ ++$key }}</td>
-                        <td>{{ $type->name }}</td>
-                        <td>{{ $type->description }}</td>
-                        <td>{{ 300 }}</td>
-                        <td>{{ $type->rooms->count() }}</td>
-                        <td>
-                            <a class="btn btn-warning" href="{{ route('admin.room-types.edit', $type->id) }}">Edit</a>
-                        </td>
-                        </tr>
-                        @empty
-                        <p>Not have any room yet</p>
-                        @endforelse
+                <ul class="nav nav-tabs d-print-none mb-2" role="tablist">
+                    <li class="nav-item ">
+                        <a class="nav-link  active " href="#active" role="tab" data-toggle="tab"
+                            aria-selected="true">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#deleted" role="tab" data-toggle="tab">Deleted</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
 
-                        </tbody> --}}
-                    </table>
+                    <div role="tabpanel" class="tab-pane active" id="active">
+                        <div class="card-body">
+                            <table id="roomType" class="table table-bordered table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Price</th>
+                                        {{-- <th>Action</th> --}}
+                                        <th>Total Room</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane active" id="deleted">
+
+                    </div>
                 </div>
-                <!-- /.card-body -->
             </div>
             <!-- /.card -->
         </div>
@@ -213,6 +209,26 @@
             </div>
         </div>
     </div>
+    <div id="confirmModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <form method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="modal-title">Confirmation</h2>
+                    </div>
+                    <div class="modal-body">
+                        <h4 align="center" style="margin:0;">Are you sure you want to remove this data?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </section>
 
 
@@ -225,11 +241,18 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script>
     $(document).ready(function(){
+        let no = 0;
     $("#roomType").DataTable({
           processing: true,
           serverSide: true,
           ajax: '{{ route("admin.room-types.list") }}',
           columns: [
+              {
+                  data: 'id',
+                  render: function(){
+                      return no += 1;
+                  }
+              },
               {
                   data: 'name', name: 'name'
               },
@@ -238,6 +261,9 @@
               },
               {
                   data: 'base_price', name: 'base_price'
+              },
+              {
+                  data: 'Total Rooms',
               },
               {
                   data: 'action', name: 'action', orderable: false, searchable: false
@@ -343,13 +369,36 @@
                 $('#description').val(data.description),
                 $('#action_button').html('Update'),
                 $('#action').val('Edit'),
-                data.status === 1 ? $('#status').prop('checked', true).change() : $('#status').prop('checked', false).change(),  
+                data.status === 1 ? $('#status').prop('checked', true).change() : $('#status').prop('checked', false).change()  
             },
             error: function(error){
                 console.log(error)
             }
         });
     });
+
+    $(document).on('click', '.delete-room-type', function(){
+        let id = $(this).data('id');
+        $('#ok_button').click(function(){
+            $.ajax({
+                url: `room-types/${id}`,
+                method: 'delete',
+                beforeSend:function(){
+                    $('#ok_button').text('Deleting...');
+                },
+                success: function(data){
+                    setTimeout(function(){
+                        $('#confirmModal').modal('hide');
+                        $('#roomType').DataTable().ajax.reload();
+                        alert('Data Deleted');
+                    }, 2000);
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            })
+        })
+    })
 });
 </script>
 @endsection

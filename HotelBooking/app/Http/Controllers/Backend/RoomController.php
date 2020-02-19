@@ -30,7 +30,7 @@ class RoomController extends Controller
 
     public function getData()
     {
-        $rooms = Room::all();
+        $rooms = Room::latest();
 
         if (request()->ajax()) {
             return DataTables::of($rooms)
