@@ -55,7 +55,7 @@
             </a>
           </li>
           <li class="nav-item">
-          <a href="{{ route('admin.room-types.index') }}" class="nav-link">
+            <a href="{{ route('admin.room-types.index') }}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Room Type</p>
             </a>
@@ -68,7 +68,7 @@
           </li>
         </ul>
       </li>
-      
+
       <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
           <i class="nav-icon fas fa-edit"></i>
@@ -105,30 +105,25 @@
         </ul>
       </li>
       <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fa fa-fw fa-cogs"></i>
+        <a href="pages/gallery.html" class="nav-link">
+          <i class="nav-icon far fa-image"></i>
           <p>
-            General Setting
+            Gallery
             <i class="fas fa-angle-left right"></i>
           </p>
         </a>
+
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="pages/tables/simple.html" class="nav-link">
-              <i class="fa fa-fw fa-wrench"></i>
-              <p>Hotel Information</p>
+            <a href="{{ route('admin.gallery-categories.index') }}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Categories</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/tables/data.html" class="nav-link">
-              <i class="fa fa-image" aria-hidden="true"></i>
-              <p>Logo Setting</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/tables/jsgrid.html" class="nav-link">
-              <i class="far fa-envelope"></i>
-              <p>Email Setting</p>
+            <a href="{{ route('admin.galleries.index') }}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Gallery</p>
             </a>
           </li>
         </ul>

@@ -17,6 +17,7 @@ class CreateHotelGalleriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('image');
             $table->unsignedBigInteger('gallery_category_id');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('gallery_category_id')->references('id')->on('gallery_categories')->onDelete('cascade');

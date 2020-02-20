@@ -18,7 +18,7 @@ class CreateRoomsTable extends Migration
             $table->unsignedBigInteger('room_type_id');
             $table->string('view');
             $table->string('size');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(1);
             $table->unsignedBigInteger('bed_id');
             $table->timestamps();
 

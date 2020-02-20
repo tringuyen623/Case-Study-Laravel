@@ -62,6 +62,14 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::post('room-types/upload-image', 'Backend\RoomTypeController@uploadImage')->name('room-types.storeImage');
 
     Route::resource('amenities', 'Backend\AmenityController');
+
+    Route::get('galleries/listDeleted', 'Backend\GalleryCategoryController@getDeletedData')->name('galleries.listDeleted');
+    Route::get('galleries/{id}/restore', 'Backend\GalleryCategoryController@restore')->name('galleries.restore');
+    Route::resource('galleries', 'Backend\HotelGalleryController');
+
+    Route::get('gallery-categories/listDeleted', 'Backend\GalleryCategoryController@getDeletedData')->name('gallery-categories.listDeleted');
+    Route::get('gallery-categories/{id}/restore', 'Backend\GalleryCategoryController@restore')->name('gallery-categories.restore');
+    Route::resource('gallery-categories', 'Backend\GalleryCategoryController');
 });
 
 // // Route::get('/home', 'Backend\HomeController@index')->name('admin');
