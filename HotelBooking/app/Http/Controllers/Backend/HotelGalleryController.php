@@ -10,98 +10,75 @@ use Yajra\DataTables\DataTables;
 
 class HotelGalleryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $galleries = HotelGallery::all();
         $cates = GalleryCategory::all();
 
-        if(request()->ajax()){
+        if (request()->ajax()) {
             return DataTables::of($galleries, $cates)
-            ->addColumn('action', function($galleries){
-                return '
+                ->addColumn('action', function ($galleries) {
+                    return '
                 <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-outline-primary edit-gallery" data-toggle="modal" data-target="#add-image" data-id ="' . $galleries->id . '"><i
                 class="fa fa-edit"></i></button>
                 ' .
-                    '<button type="button" class="btn btn-outline-primary delete-gallery" data-toggle="modal" data-target="#confirmModal" data-id ="' . $galleries->id . '"><i
+                        '<button type="button" class="btn btn-outline-primary delete-gallery" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $galleries->id . '"><i
                 class="fa fa-trash"></i></button>
                 </div>';
-            })
-            ->make(true);
+                })
+                ->editColumn('gallery_category_id', function ($galleries) {
+                    return $galleries->galleryCategory->name;
+                })
+                ->make(true);
         }
 
         return view('back_end.galleries.gallery', compact('cates'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $gallery = new HotelGallery();
+
+        $imgUpload = request('image');
+        $imgUpload = base64_encode(file_get_contents($imgUpload));
+        $imgUpload = 'data:image/png;base64,' . $imgUpload;
+
+        $gallery->image = $imgUpload;
+        $gallery->gallery_category_id = request('gallery_category_id');
+
+        $gallery->save();
+
+        return redirect()->route('admin.galleries.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\HotelGallery  $hotelGallery
-     * @return \Illuminate\Http\Response
-     */
     public function show(HotelGallery $hotelGallery)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\HotelGallery  $hotelGallery
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(HotelGallery $hotelGallery)
+    public function edit($id)
     {
-        //
+        $hotelGallery = HotelGallery::findOrFail($id);
+
+        return response()->json($hotelGallery);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\HotelGallery  $hotelGallery
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, HotelGallery $hotelGallery)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\HotelGallery  $hotelGallery
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(HotelGallery $hotelGallery)
+    public function destroy($id)
     {
-        //
+        HotelGallery::destroy($id);
+
+        return redirect()->route('admin.galleries.index');
     }
 
     public function getDeletedData()
@@ -113,11 +90,14 @@ class HotelGalleryController extends Controller
                 ->addColumn('action', function ($deletedGalleryCategory) {
                     return '
             <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-outline-primary restore-gallery-category" data-id ="' . $deletedGalleryCategory->id . '"><i
+            <button type="button" class="btn btn-outline-primary restore-gallery" data-id ="' . $deletedGalleryCategory->id . '"><i
             class="fa fa-undo"></i></button>' .
                         '<button type="button" class="btn btn-outline-primary delete-gallery-category" data-toggle="modal" data-target="#confirmModal" data-id ="' . $deletedGalleryCategory->id . '"><i
             class="fa fa-trash"></i></button>
             </div>';
+                })
+                ->editColumn('gallery_category_id', function ($galleries) {
+                    return $galleries->galleryCategory->name;
                 })
                 ->make(true);
         }

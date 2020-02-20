@@ -31,7 +31,7 @@ class GalleryCategoryController extends Controller
                     <button type="button" class="btn btn-outline-primary edit-gallery-category" data-toggle="modal" data-target="#add_category" data-id ="' . $galleryCategory->id . '"><i
                     class="fa fa-edit"></i></button>
                     ' .
-                        '<button type="button" class="btn btn-outline-primary delete-gallery-category" data-toggle="modal" data-target="#confirmModal" data-id ="' . $galleryCategory->id . '"><i
+                        '<button type="button" class="btn btn-outline-primary delete-gallery-category" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $galleryCategory->id . '"><i
                     class="fa fa-trash"></i></button>
                     </div>';
                 })

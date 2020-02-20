@@ -98,7 +98,7 @@
                                         <label><strong>Image</strong> <small class="text-danger">*</small></label>
                                         <input type="file" accept="image/gif, image/jpeg, image/png" name="image"
                                             id="file-image">
-                                        <div id="image-holder"> </div>
+                                        <div> <img src="" id="image-holder" style="height: 200px"></div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label><strong>Category</strong> <small class="text-danger">*</small></label>
@@ -129,50 +129,8 @@
         </div>
     </div>
 
-
-    <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-notify modal-danger" role="document">
-            <!--Content-->
-            <form method="POST">
-                @csrf
-                <div class="modal-content">
-                    <!--Body-->
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <i class="far fa-times-circle fa-8x text-danger mb-3"></i>
-                            <h4>Are you sure you want to remove this data?</h4>
-                        </div>
-                    </div>
-
-                    <!--Footer-->
-                    <div class="modal-footer justify-content-center">
-                        <button type="submit" name="ok_button" id="ok_button" class="btn btn-danger">Remove</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </form>
-            <!--/.Content-->
-        </div>
-    </div>
-
-    <div id="success" class="modal fade">
-        <div class="modal-dialog modal-confirm">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="text-center">
-                        <i class="far fa-check-circle fa-8x text-success mb-3"></i>
-                        <h4 class="modal-title">Awesome!</h4>
-                    </div>
-                    <p class="text-center" id="success_content">Your booking has been confirmed. Check your email for
-                        detials.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('back_end.partials.modal-form')
+    
 </section>
 
 
@@ -197,10 +155,13 @@
                       }
               },
               {
-                  data: 'image', name: 'image'
+                  data: 'image',
+                  render: function(data, type, row, meta){
+                      return `<img src="${data}" alt="" style="height: 100px;">`
+                  }
               },
               {
-                  data: 'category', name: 'category'
+                  data: 'gallery_category_id', name: 'category'
               },
               {
                   data: 'action', name: 'action', orderable: false, searchable: false
@@ -226,7 +187,7 @@
             image_holder.empty();
             var reader = new FileReader();
             reader.onload = function (e) {
-                $("<img />", {"src": e.target.result,"class": "thumb-image", "width": "180px", 'height':"200px"}).appendTo(image_holder);
+                $('#image-holder').attr('src', e.target.result);
                 }
                 image_holder.show();
                 reader.readAsDataURL($(this)[0].files[0]);
@@ -235,53 +196,53 @@
         }
     });
 
-    $('#form_category').on('submit', function(e){
+    $('#form-image').on('submit', function(e){
         e.preventDefault();
+        var formData = new FormData(this);
 
         let action_url = '';
         let type = '';
-        let name = $('#name').val();
         let id = $('#gallery_category_id').val();
 
         status ? status = 1 : status = 0;
 
         if($('#action').val() === 'Add'){
-            action_url = "gallery-categories";
-            type = 'POST';
+            action_url = "galleries";
         }
 
         if($('#action').val() === 'Edit'){
-            action_url = `gallery-categories/${id}`;
-            type = 'PATCH';
+            action_url = `galleries/${id}`;
+            formData.append('_method', 'PATCH');
         }        
 
         $.ajax({
             url: action_url,
             method: 'POST',
-            data: {
-                name: name,
-                '_method': type
-            },
+            data: formData,
             success: function(){
                 $('#add-image').modal('hide');
                 $("#gallery").DataTable().ajax.reload();
                 $('#form-image')[0].reset();
+                $('#image-holder').attr('src', null);
                 $('#success_content').html('Your record has been added');
                 $('#success').modal('show');
             },
+            cache: false,
+            contentType: false,
+            processData: false,
             error: function(err){
                 console.log(err);
             }
         });
     });
 
-    $(document).on('click', '.edit-gallery-category', function(){
+    $(document).on('click', '.edit-gallery', function(){
         let id = $(this).data('id');
         $.ajax({
-            url: `gallery-categories/${id}/edit`,
+            url: `galleries/${id}/edit`,
             success: function(data){
                 $('#gallery_category_id').val(id),
-                $('#name').val(data.name),
+                $('#image-holder').attr('src', data.image),
                 $('#action-button').html('Update'),
                 $('#action').val('Edit')
             },
@@ -291,25 +252,33 @@
         });
     });
 
-    $(document).on('click', '.delete-category-gallery', function(){
+    $(document).on('click', '.delete-gallery', function(){
         let id = $(this).data('id');
-        $('#ok_button').click(function(){
-            $.ajax({
-                url: `gallery-categories/${id}`,
-                method: 'delete',
-                beforeSend:function(){
-                    $('#ok_button').text('Deleting...');
-                },
-                success: function(){
-                    $('#confirm-modal').modal('hide');
-                    $('#gallery').DataTable().ajax.reload();
-                    $('#success_content').html('Your record has been deleted');
-                    $('#success').modal('show');
-                },
-                error: function(err){
-                    console.log(err);
-                }
-            })
+        $('#delete-id').val(id);
+    })
+
+    $('#form-delete').on('submit', function(e){
+        e.preventDefault();
+        let id = $('#delete-id').val();
+        $.ajax({
+            url: `galleries/${id}`,
+            method: 'post',
+            data: {
+                '_method': 'DELETE'
+            },
+            beforeSend:function(){
+                $('#ok-button').text('Deleting...');
+            },
+            success: function(){
+                $('#confirm-modal').modal('hide');
+                $('#gallery').DataTable().ajax.reload();
+                $('#gallery-deleted').DataTable().ajax.reload();
+                $('#success_content').html('Your record has been deleted');
+                $('#success').modal('show');
+            },
+            error: function(err){
+                console.log(err);
+            }
         })
     })
 
@@ -326,7 +295,13 @@
                       }
               },
               {
-                  data: 'name', name: 'name'
+                  data: 'image',
+                  render: function(data, type, row, meta){
+                      return `<img src="${data}" alt="" style="height: 100px;">`
+                  }
+              },
+              {
+                  data: 'gallery_category_id', name: 'category'
               },
               {
                   data: 'action', name: 'action', orderable: false, searchable: false
@@ -335,13 +310,13 @@
           order: [[0, 'asc']]
       });
 
-      $(document).on('click', '.restore-gallery-category', function(){
+      $(document).on('click', '.restore-gallery', function(){
           let id = $(this).data('id');
           if(confirm('Are you sure to restore?')){
             $.ajax({
-              url: `gallery-categories/${id}/restore`,
+              url: `galleries/${id}/restore`,
               success: function(){
-                $('#categgalleryCategory').DataTable().ajax.reload();
+                $('#gallery').DataTable().ajax.reload();
                 $('#gallery-deleted').DataTable().ajax.reload();
                 $('#success_content').html('Your record has been restore');
                 $('#success').modal('show');

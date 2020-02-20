@@ -44,7 +44,7 @@ class RoomTypeController extends Controller
                         '<button type="button" class="btn btn-outline-primary edit-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
                     class="fa fa-edit"></i></button>
                     ' .
-                        '<button type="button" class="btn btn-outline-primary delete-room-type" data-toggle="modal" data-target="#confirmModal" data-id ="' . $roomType->id . '"><i
+                        '<button type="button" class="btn btn-outline-primary delete-room-type" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $roomType->id . '"><i
                     class="fa fa-trash"></i></button>
                     </div>';
                 })

@@ -15,7 +15,7 @@ class CreateHotelGalleriesTable extends Migration
     {
         Schema::create('hotel_galleries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('image');
+            $table->longText('image');
             $table->unsignedBigInteger('gallery_category_id');
             $table->softDeletes();
             $table->timestamps();

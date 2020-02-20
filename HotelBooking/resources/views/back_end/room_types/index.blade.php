@@ -222,49 +222,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-notify modal-danger" role="document">
-            <!--Content-->
-            <form method="POST">
-                @csrf
-                <div class="modal-content">
-                    <!--Body-->
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <i class="far fa-times-circle fa-8x text-danger mb-3"></i>
-                            <h4>Are you sure you want to remove this data?</h4>
-                        </div>
-                    </div>
+    @include('back_end.partials.modal-form')
 
-                    <!--Footer-->
-                    <div class="modal-footer justify-content-center">
-                        <button type="submit" name="ok_button" id="ok_button" class="btn btn-danger">Remove</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </form>
-            <!--/.Content-->
-        </div>
-    </div>
-
-    <div id="success" class="modal fade">
-        <div class="modal-dialog modal-confirm">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="text-center">
-                        <i class="far fa-check-circle fa-8x text-success mb-3"></i>
-                        <h4 class="modal-title">Awesome!</h4>
-                    </div>
-                    <p class="text-center" id="success_content">Your booking has been confirmed. Check your email for
-                        detials.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 
 
@@ -418,23 +377,31 @@
 
     $(document).on('click', '.delete-room-type', function(){
         let id = $(this).data('id');
-        $('#ok_button').click(function(){
-            $.ajax({
-                url: `room-types/${id}`,
-                method: 'delete',
-                beforeSend:function(){
-                    $('#ok_button').text('Deleting...');
-                },
-                success: function(){
-                    $('#confirmModal').modal('hide');
-                    $('#roomType').DataTable().ajax.reload();
-                    $('#success_content').html('Your record has been deleted');
-                    $('#success').modal('show');
-                },
-                error: function(err){
-                    console.log(err);
-                }
-            })
+        $('#delete-id').val(id);
+
+    })
+
+    $('#form-delete').on('submit', function(e){
+        e.preventDefault();
+        let id = $('#delete-id').val();
+        $.ajax({
+            url: `room-types/${id}`,
+            method: 'post',
+            data: {
+                '_method': 'DELETE'
+            },
+            beforeSend:function(){
+                $('#ok-button').text('Deleting...');
+            },
+            success: function(){
+                $('#confirm-modal').modal('hide');
+                $('#roomType').DataTable().ajax.reload();
+                $('#success_content').html('Your record has been deleted');
+                $('#success').modal('show');
+            },
+            error: function(err){
+                console.log(err);
+            }
         })
     })
 

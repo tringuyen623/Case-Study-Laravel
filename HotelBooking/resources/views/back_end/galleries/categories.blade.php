@@ -117,51 +117,9 @@
             </div>
         </div>
     </div>
+    
+    @include('back_end.partials.modal-form')
 
-
-    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-notify modal-danger" role="document">
-            <!--Content-->
-            <form method="POST">
-                @csrf
-                <div class="modal-content">
-                    <!--Body-->
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <i class="far fa-times-circle fa-8x text-danger mb-3"></i>
-                            <h4>Are you sure you want to remove this data?</h4>
-                        </div>
-                    </div>
-
-                    <!--Footer-->
-                    <div class="modal-footer justify-content-center">
-                        <button type="submit" name="ok_button" id="ok_button" class="btn btn-danger">Remove</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </form>
-            <!--/.Content-->
-        </div>
-    </div>
-
-    <div id="success" class="modal fade">
-        <div class="modal-dialog modal-confirm">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="text-center">
-                        <i class="far fa-check-circle fa-8x text-success mb-3"></i>
-                        <h4 class="modal-title">Awesome!</h4>
-                    </div>
-                    <p class="text-center" id="success_content">Your booking has been confirmed. Check your email for
-                        detials.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 
 
@@ -209,31 +167,26 @@
 
     $('#form_category').on('submit', function(e){
         e.preventDefault();
-
+        var formData = new FormData(this);
         let action_url = '';
         let type = '';
-        let name = $('#name').val();
         let id = $('#gallery_category_id').val();
 
         status ? status = 1 : status = 0;
 
         if($('#action').val() === 'Add'){
             action_url = "gallery-categories";
-            type = 'POST';
         }
 
         if($('#action').val() === 'Edit'){
             action_url = `gallery-categories/${id}`;
-            type = 'PATCH';
+            formData.append('_method', 'PATCH');
         }        
 
         $.ajax({
             url: action_url,
             method: 'POST',
-            data: {
-                name: name,
-                '_method': type
-            },
+            data: formData,
             success: function(){
                 $('#add_category').modal('hide');
                 $("#galleryCategory").DataTable().ajax.reload();
@@ -241,6 +194,9 @@
                 $('#success_content').html('Your record has been added');
                 $('#success').modal('show');
             },
+            cache: false,
+            contentType: false,
+            processData: false,
             error: function(err){
                 console.log(err);
             }
@@ -265,16 +221,26 @@
 
     $(document).on('click', '.delete-gallery-category', function(){
         let id = $(this).data('id');
-        $('#ok_button').click(function(){
+        $('#delete-id').val(id)
+        
+    })
+
+    $('#form-delete').on('submit',function(e){
+            e.preventDefault();
+            let id = $('#delete-id').val();
             $.ajax({
                 url: `gallery-categories/${id}`,
-                method: 'delete',
-                // beforeSend:function(){
-                //     $('#ok_button').text('Deleting...');
-                // },
+                method: 'POST',
+                data: {
+                    '_method': 'DELETE'
+                },
+                beforeSend:function(){
+                    $('#ok-button').text('Deleting...');
+                },
                 success: function(){
-                    $('#confirmModal').modal('hide');
-                    $('#gallery').DataTable().ajax.reload();
+                    $('#confirm-modal').modal('hide');
+                    $('#galleryCategory').DataTable().ajax.reload();
+                    $('#galleryCategoryDeleted').DataTable().ajax.reload();
                     $('#success_content').html('Your record has been deleted');
                     $('#success').modal('show');
                 },
@@ -283,7 +249,6 @@
                 }
             })
         })
-    })
 
     // RoomType Deleted
     $("#galleryCategoryDeleted").DataTable({
