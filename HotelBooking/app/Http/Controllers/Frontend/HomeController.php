@@ -115,12 +115,15 @@ class HomeController extends Controller
         $timeDiff = abs($date_in - $date_out);
         $numberOfNights = $timeDiff / 86400;
 
+        $roomType = Room::findOrFail(request('room_id'))->roomType;
+
         $bookingDetails = [
             'arrival' => request('arrival'),
             'departure' => request('departure'),
             'adults' => request('adults'),
             'children' => request('children'),
-            'roomType' => Room::findOrFail(request('room_id'))->roomType->name,
+            'roomType' => $roomType->name,
+            'roomRate' => $roomType->base_price,
             'night' => $numberOfNights
         ];
 

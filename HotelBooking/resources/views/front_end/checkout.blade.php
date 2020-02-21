@@ -58,7 +58,7 @@
                 <div class="single-sidebar-block booking-form">
                     <h3>Payment Details</h3>
                     <div class="">
-                        <p><span class="badge bg-light">Night list</span></p>
+                        <p><span class="">Night list</span></p>
                         <div class="table-responsive">
                             <table class="w-100">
                                 <thead class="bg-light">
@@ -71,26 +71,28 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1.</td>
-                                        <td>2020/02/16<br>
-                                            <small class="text-info"> <span class="base-price">$ 5,000.00</span></small>
+                                        <td></td>
+                                        <td>{{ date('d')}}<br>
                                         </td>
                                         <td class="text-center">1</td>
-                                        <td align="right">$5,000.00</td>
-
+                                        <td align="right">
+                                            {{ hotel_information()->currency_symbol . $bookingDetails['roomRate'] }}
+                                        </td>
                                     </tr>
 
                                 </tbody>
                                 <tfoot>
                                     <tr class="border-top">
                                         <td colspan="3"><b>Total Night Price</b></td>
-                                        <td align="right"> <b> $5,000.00</b></td>
+                                        <td align="right"> <b>
+                                                {{ hotel_information()->currency_symbol .  $subTotal = $bookingDetails['roomRate'] * $bookingDetails['night'] }}
+                                            </b></td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
 
-                        {{-- <div class="table-responsive">
+                        <div class="table-responsive">
                             <table class="w-100 table-sm">
                                 <tbody>
                                     <tr>
@@ -106,29 +108,22 @@
                                     </tr>
                                     <tr class="border-top">
                                         <td><b>Subtotal</b></td>
-                                        <td class="text-right"><b>$5,000.00</b></td>
+                                        <td class="text-right"><b>{{ $subTotal }}</b></td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div> --}}
-                        <p><span class="badge bg-light">Taxes</span></p>
+                        </div>
+                        <p><span class="">Taxes</span></p>
                         <div class="table-responsive">
                             <table class="w-100 table-sm">
                                 <tbody>
+                                    @foreach (App\Tax::all() as $key=>$tax)
                                     <tr>
-                                        <td>1.</td>
-                                        <td>gsdf <small class="text-info">(10.00 %)</small></td>
-                                        <td class="text-right">$500.00</td>
+                                        <td>{{ $key += 1}}</td>
+                                        <td>{{ $tax->name }} <small class="text-info">({{$tax->rate}}.00 %)</small></td>
+                                        <td class="text-right">{{ hotel_information()->currency_symbol . $taxTotal[$key] = $subTotal * $tax->rate / 100}}</td>
                                     </tr>
-                                    <tr>
-                                        <td>2.</td>
-                                        <td>Vat <small class="text-info">(1.20 %)</small></td>
-                                        <td class="text-right">$60.00</td>
-                                    </tr>
-                                    <tr class="border-top">
-                                        <td colspan="2" align=""><b>Total Tax</b></td>
-                                        <td class="text-right"><b>$560.00</b></td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -137,15 +132,15 @@
                                 <tbody>
                                     <tr>
                                         <td><b>Payable Amount</b></td>
-                                        <td class="text-right"><b>$5,560.00</b></td>
+                                        <td class="text-right"><b>{{ hotel_information()->currency_symbol . ($subTotal + array_sum($taxTotal))}}</b></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 text-right mt-5">
+                            <div class="col-md-12 text-center" style="padding-top: 24px">
                                 <a class="btn btn-primary"
-                                    href="http://rifat636.thesoftking.com/hoteleo/confirm-checkout">Confirm Checkout
+                                    href="#">Confirm Checkout
                                     &gt; &gt; &gt;</a>
                             </div>
                         </div>

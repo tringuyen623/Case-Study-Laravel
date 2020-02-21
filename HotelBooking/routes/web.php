@@ -67,6 +67,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('galleries/{id}/restore', 'Backend\HotelGalleryController@restore')->name('galleries.restore');
     Route::resource('galleries', 'Backend\HotelGalleryController');
 
+    Route::get('taxes/listDeleted', 'Backend\TaxController@getDeletedData')->name('taxes.listDeleted');
+    Route::get('taxes/{id}/restore', 'Backend\TaxController@restore')->name('taxes.restore');
+    Route::resource('taxes', 'Backend\TaxController');
+
     Route::get('gallery-categories/listDeleted', 'Backend\GalleryCategoryController@getDeletedData')->name('gallery-categories.listDeleted');
     Route::get('gallery-categories/{id}/restore', 'Backend\GalleryCategoryController@restore')->name('gallery-categories.restore');
     Route::resource('gallery-categories', 'Backend\GalleryCategoryController');
