@@ -51,8 +51,8 @@
 
             @foreach ($rooms as $room)
             <div class="col-md-4 room-wrap animate-box">
-                <a href="images/room-2.jpg" class="room image-popup-link"
-                    style="background-image: url(images/room-2.jpg);"></a>
+                <a href="{{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }}" class="room image-popup-link"
+                    style="background-image: url({{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }});"></a>
                 <div class="desc">
                     {{-- <span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i
                             class="icon-star-full full"></i><i class="icon-star-full full"></i><i

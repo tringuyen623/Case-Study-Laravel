@@ -5,7 +5,9 @@
 <aside id="colorlib-hero">
     <div class="flexslider">
         <ul class="slides">
-            <li style="background-image: url(images/img_bg_5.jpg);">
+            @foreach (App\HotelGallery::all() as $image)
+
+            <li style="background-image: url({{$image->image}});">
                 <div class="overlay"></div>
                 <div class="container-fluid">
                     <div class="row">
@@ -18,15 +20,8 @@
                     </div>
                 </div>
             </li>
-            <li style="background-image: url(images/img_bg_1.jpg);">
 
-            </li>
-            <li style="background-image: url(images/img_bg_3.jpg);">
-
-            </li>
-            <li style="background-image: url(images/img_bg_4.jpg);">
-
-            </li>
+            @endforeach
         </ul>
     </div>
 </aside>

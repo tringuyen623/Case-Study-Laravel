@@ -4,7 +4,7 @@
 <aside id="colorlib-hero">
     <div class="flexslider">
         <ul class="slides">
-            <li style="background-image: url(/images/img_bg_5.jpg);">
+            <li style="background-image: url({{App\HotelGallery::first()->image}});">
                 <div class="overlay"></div>
                 <div class="container-fluid">
                     <div class="row">
@@ -28,8 +28,8 @@
         <div class="col-50">
             <div id="colorlib-rooms" class="colorlib-light-grey">
                 <div class="room-wrap animate-box">
-                    <a href="images/room-2.jpg" class="room image-popup-link"
-                        style="background-image: url(/images/room-2.jpg);"></a>
+                    <a href="{{ null !== ($room->roomType->featuredImage()) ? $room->roomType->featuredImage()->image : '' }}" class="room image-popup-link"
+                        style="background-image: url({{ null !== ($room->roomType->featuredImage()) ? $room->roomType->featuredImage()->image : '' }});"></a>
                     <div class="desc">
                         <h3><a href="#">{{ $room->roomType->name }}</a></h3>
                         {{-- <input type="hidden" id="roomId" name="id" value="{{ $room->first()->id }}"> --}}

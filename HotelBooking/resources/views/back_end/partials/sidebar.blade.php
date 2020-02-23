@@ -1,13 +1,13 @@
 <div class="sidebar">
   <!-- Sidebar user panel (optional) -->
-  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+  {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
     <div class="image">
       <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
     </div>
     <div class="info">
       <a href="#" class="d-block">{{Auth::user()->name}}</a>
     </div>
-  </div>
+  </div> --}}
 
   <!-- Sidebar Menu -->
   <nav class="mt-2">
@@ -69,7 +69,7 @@
         </ul>
       </li>
 
-      <li class="nav-item has-treeview">
+      {{-- <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
           <i class="nav-icon fas fa-edit"></i>
           <p>
@@ -103,7 +103,7 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> --}}
       <li class="nav-item has-treeview">
         <a href="pages/gallery.html" class="nav-link">
           <i class="nav-icon far fa-image"></i>
@@ -128,7 +128,7 @@
           </li>
         </ul>
       </li>
-      <li class="nav-header">EXAMPLES</li>
+      {{-- <li class="nav-header">EXAMPLES</li>
       <li class="nav-item">
         <a href="pages/calendar.html" class="nav-link">
           <i class="nav-icon far fa-calendar-alt"></i>
@@ -233,7 +233,7 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> --}}
     </ul>
   </nav>
   <!-- /.sidebar-menu -->

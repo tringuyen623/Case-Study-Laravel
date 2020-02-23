@@ -20,14 +20,14 @@
     <div class="top-menu">
         <div class="container">
             <div class="row">
-                <div class="col-xs-2">
+                <div class="col-md-4">
                     <div id="colorlib-logo"><a href="#">{{ hotel_information()->name }}</a></div>
                 </div>
-                <div class="col-xs-10 text-right menu-1">
+                <div class="col-md-8 text-right menu-1">
                     <ul>
                         <li class="{{ Request::path() === '/' ? 'active' : '' }}"><a href="{{ route('home') }}">Home</a>
                         </li>
-                        <li class="{{ Request::path() === 'rooms' ? 'active' : '' }}">
+                        <li class="{{ Request::path() === 'room-list' ? 'active' : '' }}">
                             <a href="{{ route('room-list') }}">Rooms</a>
                         </li>
                         {{-- <li><a href="dining-bar.html">Dining &amp; Bar</a></li>

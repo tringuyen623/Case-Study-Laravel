@@ -18,14 +18,16 @@ class HomeController extends Controller
         $search = [
             'arrival' => '',
             'departure' => '',
-            'adults' => '',
-            'children' => '',
+            'rooms' => [1],
+            'adults' => [1],
+            'children' => [0],
         ];
 
         $rooms = RoomType::whereHas('rooms', function ($query) {
             $query->where('is_active', 1);
         })->where('status', 1)->get();
 
+        session()->put('search', $search);
         return view('front_end.home', compact('rooms', 'search'));
     }
 
@@ -40,26 +42,28 @@ class HomeController extends Controller
             $query->where('is_active', 1);
         })->where('status', 1)->get();
 
-        $search = [
-            'arrival' => '',
-            'departure' => '',
-            'adults' => '',
-            'children' => '',
-        ];
+        $search= session()->get('search');
 
         return view('front_end.rooms', compact('rooms', 'search'));
     }
 
-    public function checkAvailable()
+    public function checkAvailable(Request $request)
     {
-        $search = [
-            'arrival' => '',
-            'departure' => '',
-            'adults' => '',
-            'children' => '',
-        ];
+        // $search= session()->get('search');
 
         if (request('search')) {
+            session()->forget('search');
+            
+            $search_data = collect([
+                'arrival' => request('search.arrival'),
+                'departure' => request('search.departure'),
+                'rooms' => request('search.rooms'),
+                'adults' => request('search.adults'),
+                'children' => request('search.children')
+            ]);
+
+            session()->put('search', $search_data);
+
             $roomAvailable = Room::whereDoesntHave('bookings', function (Builder $query) {
                 $arrival = date('Y-m-d', strtotime(request('search.arrival')));
                 $departure =  date('Y-m-d', strtotime(request('search.departure')));
@@ -70,32 +74,27 @@ class HomeController extends Controller
                 // ->orWhereBetween('booking_room.to_date', [$arrival, $departure]);
             })->where('is_active', 1)->get();
 
-            $roomAvailable = $roomAvailable->groupBy('room_type_id');
+            $numberOfRooms = $roomAvailable->count();
+            
+            if($numberOfRooms < count(request('search.rooms'))){
+                return view('front_end.room_available', ['rooms' => []]);
+            };
 
-            $search = [
-                'arrival' => request('search.arrival'),
-                'departure' => request('search.departure'),
-                'adults' => request('search.adults'),
-                'children' => request('search.children')
-            ];
+            
+            $roomAvailable = $roomAvailable->groupBy('room_type_id');            
         }
 
         // return request('search.arrival') ;
         // return $roomAvailable;
 
-        return view('front_end.room_available', ['rooms' => $roomAvailable, 'search' => $search]);
+        return view('front_end.room_available', ['rooms' => $roomAvailable]);
     }
 
     public function book($id)
     {
         $room = Room::where('is_active', 1)->findOrFail($id);
         // $roomType = RoomType::where('status', 1)->findOrFail($room->room)
-        $search = [
-            'arrival' => request()->arrival,
-            'departure' => request()->departure,
-            'adults' => request()->adults,
-            'children' => request()->children
-        ];
+        $search = session()->get('search');
         // return $room->rooms;
         return view('front_end.booking_form', compact('room', 'search'));
     }
@@ -143,15 +142,19 @@ class HomeController extends Controller
         $booking->save();
 
 
-        $roomId = request('room_id');
-        $booking->rooms()->attach(
-            $booking->id,
-            [
-                'room_id' => $roomId,
-                'from_date' => request('arrival'),
-                'to_date' => request('departure')
-            ]
-        );
+        $roomId = array(1,2,4,5);
+        foreach($roomId as $id){
+            $booking->rooms()->attach(
+                $booking->id,
+                [
+                    'room_id' => $id,
+                    'from_date' => request('arrival'),
+                    'to_date' => request('departure')
+                ]
+            );
+
+        }
+        
 
         return view('front_end.checkout', compact('cusDetails', 'bookingDetails', 'booking'));
     }

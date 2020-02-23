@@ -116,6 +116,7 @@
                                                 class="fa fa-refresh"></i>
                                             Reset</button>
                                         <input type="hidden" name="action" id="action" value="Add">
+                                        <input type="hidden" id="gallery-id">
                                         <button type="submit" class="btn btn-primary btn-submit" name="action-button"
                                             id="action-button"><i class="fa fa-save"></i>
                                             Save</button>
@@ -202,7 +203,7 @@
 
         let action_url = '';
         let type = '';
-        let id = $('#gallery_category_id').val();
+        let id = $('#gallery-id').val();
 
         status ? status = 1 : status = 0;
 
@@ -241,7 +242,8 @@
         $.ajax({
             url: `galleries/${id}/edit`,
             success: function(data){
-                $('#gallery_category_id').val(id),
+                $('#gallery-id').val(data.id)
+                $('#gallery-category').val(data.gallery_category_id),
                 $('#image-holder').attr('src', data.image),
                 $('#action-button').html('Update'),
                 $('#action').val('Edit')

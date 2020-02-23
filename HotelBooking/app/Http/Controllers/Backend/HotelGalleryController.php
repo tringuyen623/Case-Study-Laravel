@@ -69,9 +69,28 @@ class HotelGalleryController extends Controller
         return response()->json($hotelGallery);
     }
 
-    public function update(Request $request, HotelGallery $hotelGallery)
+    public function update(Request $request, $id)
     {
-        //
+        $hotelGallery = HotelGallery::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $imgUpload = request('image');
+            $imgUpload = base64_encode(file_get_contents($imgUpload));
+            $imgUpload = 'data:image/png;base64,' . $imgUpload;
+
+            $hotelGallery->image = $imgUpload;
+            $hotelGallery->gallery_category_id = request('gallery_category_id');
+
+            $hotelGallery->save();
+
+            return redirect()->route('admin.galleries.index');
+        } else {
+            $hotelGallery->image = $hotelGallery->image;
+            $hotelGallery->gallery_category_id = request('gallery_category_id');
+
+            $hotelGallery->save();
+            return redirect()->route('admin.galleries.index');
+        }
     }
 
     public function destroy($id)

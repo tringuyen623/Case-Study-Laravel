@@ -8,87 +8,601 @@
                             <div class="form-group">
                                 <label for="arrival">Arrival Date</label>
                                 <input id="arrival" type="text" class="form-control clickable input-md"
-                                    name="search[arrival]" value="{{ $search['arrival'] }}"
-                                    placeholder="&#xf133;  Arrival Date" autocomplete="off">
+                                    name="search[arrival]" value="{{ Session::get('search')['arrival'] }}"
+                                    placeholder="  Arrival Date" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="departure">Departure Date</label>
                                 <input id="departure" type="text" class="form-control clickable input-md"
-                                    name="search[departure]" value="{{ $search['departure'] }}"
-                                    placeholder="&#xf133;  Dearture Date" autocomplete="off">
+                                    name="search[departure]" value="{{ Session::get('search')['departure'] }}"
+                                    placeholder="  Dearture Date" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group m-b-0">
+                                    <label for="js-select-special">No of Rooms</label>
+                                    <div class="input-group-icon" id="js-select-special">
+
+                                        <input class="form-control" type="text" name="passengers" value=""
+                                            placeholder="{{ count(Session::get('search')['rooms'])}} Room, {{ array_sum(Session::get('search')['adults']) + array_sum(Session::get('search')['children'])}} Guest" disabled="disabled" style="disabled:pointer;"
+                                            id="info">
+                                    </div>
+                                    <div class="dropdown-select">
+                                        <ul class="list-room">
+                                            @for ($i = 0; $i < count(Session::get('search')['rooms']); $i++)
+                                            <li class="list-room__item">
+                                                <input type="hidden" name="search[rooms][]" value="{{Session::get('search')['rooms'][$i]}}">
+                                            <span class="list-room__name">Room {{Session::get('search')['rooms'][$i]}}</span>
+                                                <ul class="list-person">
+                                                    <li class="list-person__item">
+                                                        <span class="name">Adults</span>
+                                                        <div class="quantity quantity1">
+                                                            <span class="minus">-</span>
+                                                            <input class="inputQty" type="number"
+                                                        name="search[adults][]" min="0" value="{{Session::get('search')['adults'][$i]}}">
+                                                            <span class="plus">+</span>
+                                                        </div>
+                                                    </li>
+                                                    <li class="list-person__item">
+                                                        <span class="name">Children</span>
+                                                        <div class="quantity quantity2">
+                                                            <span class="minus">-</span>
+                                                            <input class="inputQty" type="number"
+                                                                name="search[children][]" min="0" value="{{Session::get('search')['children'][$i]}}">
+                                                            <span class="plus">+</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            @endfor
+                                            
+                                        </ul>
+                                        <div class="list-room__footer">
+                                            <a href="#" id="btn-add-room">Add room</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <div class="col-2">
+                                    <div class="input-group m-b-0">
+                                        <label class="label">Depart</label>
+                                        <input class="input--style-1" type="text" name="depart" placeholder="mm/dd/yyyy"
+                                            id="input-start">
+                                    </div>
+                                </div> --}}
+                            </div>
+                        </div>
+
+                        {{-- <div class="col-md-2">
                             <div class="form-group">
                                 <label for="adults">Adults</label>
                                 <div class="form-field">
                                     <i class="icon icon-arrow-down3"></i>
                                     <select name="search[adults]" id="people" class="form-control">
-                                        @for ($i = 1; $i <= 5 ; $i++) <option
-                                            {{ $search['adults'] == $i ? 'selected' : null }} value="{{ $i }}">{{ $i }}
-                                            </option>
-                                            @endfor
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="children">Children</label>
-                                <div class="form-field">
-                                    <i class="icon icon-arrow-down3"></i>
-                                    <select name="search[children]" id="people" class="form-control">
-                                        @for ($i = 0; $i <= 3 ; $i++) <option
-                                            {{ $search['children'] == $i ? 'selected' : null }} value="{{ $i }}">
-                                            {{ $i }}
-                                            </option>
-                                            @endfor
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="submit" name="submit" id="submit" value="Check Available"
-                                class="btn btn-primary btn-block">
-                        </div>
+                                        @for ($i = 1; $i <= 4 ; $i++) <option
+                                            {{ Session::get('search')['adults'] == $i ? 'selected' : null }}
+                        value="{{ $i }}">{{ $i }}
+                        </option>
+                        @endfor
+                        </select>
                     </div>
-                </form>
             </div>
         </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="children">Children</label>
+                <div class="form-field">
+                    <i class="icon icon-arrow-down3"></i>
+                    <select name="search[children]" id="people" class="form-control">
+                        @for ($i = 0; $i <= 2 ; $i++) <option
+                            {{ Session::get('search')['children'] == $i ? 'selected' : null }} value="{{ $i }}">
+                            {{ $i }}
+                            </option>
+                            @endfor
+                    </select>
+                </div>
+            </div>
+        </div> --}}
+        <div class="col-md-3">
+            <input type="submit" name="submit" id="submit" value="Check Available" class="btn btn-primary btn-block">
+        </div>
     </div>
+    </form>
 </div>
+</div>
+</div>
+</div>
+
+
 
 @push('style')
 
 <style>
-    input {
-        padding: 10px;
-        font-family: FontAwesome, "Open Sans", Verdana, sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: inherit;
-        border-radius: 0 !important;
+    .row-space {
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        -moz-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
     }
 
-    .form-control {
-        border-radius: 0 !important;
-        font-size: 12x;
+    .row-refine {
+        margin: 0 -15px;
     }
 
-    .clickable {
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    blockquote,
+    p,
+    pre,
+    dl,
+    dd,
+    ol,
+    ul,
+    figure,
+    hr,
+    fieldset,
+    legend {
+        margin: 0;
+        padding: 0;
+    }
+
+    /**
+ * Remove trailing margins from nested lists.
+ */
+    li>ol,
+    li>ul {
+        margin-bottom: 0;
+    }
+
+
+    input,
+    textarea {
+        outline: none;
+        margin: 0;
+        border: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        width: 100%;
+        font-size: 18px;
+        font-family: inherit;
+    }
+
+    input:disabled {
         cursor: pointer;
     }
+
+    .form-control[disabled],
+    fieldset[disabled] .form-control {
+        cursor: pointer;
+    }
+
+    .m-b-0 {
+        margin-bottom: 0;
+    }
+
+
+    .input-group-icon {
+        position: relative;
+        width: 100%;
+    }
+
+    .input-icon {
+        font-size: 24px;
+        color: #808080;
+        position: absolute;
+        line-height: 60px;
+        right: 20px;
+        top: 0;
+        width: 20px;
+        background: #fff;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .input-icon::before {
+        display: block;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+    @media (max-width: 767px) {
+        .m-b-0 {
+            margin-bottom: 26px;
+        }
+    }
+
+    /* ==========================================================================
+   #SELECT
+   ========================================================================== */
+    .quantity {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        float: right;
+    }
+
+    .quantity>input {
+        -webkit-appearance: none;
+        width: 55px;
+        text-align: center;
+        font-size: 18px;
+        color: #555;
+        font-weight: 700;
+    }
+
+    .minus,
+    .plus {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        line-height: 26px;
+        text-align: center;
+        border: 2px solid #ccc;
+        font-size: 24px;
+        color: #ccc;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+    .minus:hover,
+    .plus:hover {
+        background: #6c7ae0;
+        border-color: #6c7ae0;
+        color: #fff;
+    }
+
+    .list-room {
+        list-style: none;
+        max-height: 324px;
+        overflow-y: auto;
+        padding-right: 20px;
+    }
+
+    .list-room__item {
+        margin-bottom: 20px;
+    }
+
+    .list-room__footer {
+        padding-top: 22px;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .list-room__name {
+        margin-bottom: 10px;
+        display: block;
+        font-weight: 700;
+        color: #999;
+    }
+
+    .list-person {
+        list-style: none;
+    }
+
+    .list-person .list-person__item:last-child {
+        margin-bottom: 0;
+    }
+
+    .list-person__item {
+        margin-bottom: 10px;
+    }
+
+    .list-person__item::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .list-person__item .name {
+        font-size: 18px;
+        color: #555;
+        font-weight: 700;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    #btn-add-room {
+        font-family: inherit;
+        font-size: 16px;
+        color: #6c7ae0;
+        font-weight: 700;
+        -webkit-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+    }
+
+    #btn-add-room:hover {
+        text-decoration: underline;
+    }
+
+    .dropdown-select {
+        display: none;
+        font-family: "Poppins", Arial, sans-serif;
+        position: absolute;
+        min-width: 385px;
+        left: 0;
+        right: 0;
+        top: -webkit-calc(100% + 2px);
+        top: -moz-calc(100% + 2px);
+        top: calc(100% + 2px);
+        background: #fff;
+        z-index: 999;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+        -moz-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+        box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+        padding: 30px 45px;
+        padding-right: 25px;
+    }
+
+    .dropdown-select.show {
+        display: block;
+    }
+
+    .open .input-icon::before {
+        -webkit-transform: rotate(-180deg);
+        -moz-transform: rotate(-180deg);
+        -ms-transform: rotate(-180deg);
+        -o-transform: rotate(-180deg);
+        transform: rotate(-180deg);
+    }
+
+    .open .input-icon.zmdi-plus:before {
+        content: '\f273';
+    }
+
+    /* ==========================================================================
+   #CARD
+   ========================================================================== */
+    /*  */
 </style>
+
 @endpush
 
 @push('script')
 <script src="/js/bootstrap-datepicker.js"></script>
 <script>
-    var nowTemp = new Date();
-    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+    jQuery(document).ready(function ($) {
+    'use strict';
+    
+    try {
+        var body = $('body,html');
+    
+        var selectSpecial = $('#js-select-special');
+        var info = selectSpecial.find('#info');
+        var dropdownSelect = selectSpecial.parent().find('.dropdown-select');
+        var listRoom = dropdownSelect.find('.list-room');
+        var btnAddRoom = $('#btn-add-room');
+        var totalRoom = 1;
+    
+        selectSpecial.on('click', function (e) {
+            e.stopPropagation();
+            $(this).toggleClass("open");
+            dropdownSelect.toggleClass("show");
+        });
+    
+        dropdownSelect.on('click', function (e) {
+            e.stopPropagation();
+        });
+    
+        body.on('click', function () {
+            selectSpecial.removeClass("open");
+            dropdownSelect.removeClass("show");
+        });
+    
+    
+        listRoom.on('click', '.plus', function () {
+            var that = $(this);
+            var qtyContainer = that.parent();
+            var qtyInput = qtyContainer.find('input[type=number]');
+            var oldValue = parseInt(qtyInput.val());
+            var newVal = oldValue + 1;
+            qtyInput.val(newVal);
+    
+            updateRoom();
+        });
+    
+        listRoom.on('click', '.minus', function () {
+            var that = $(this);
+            var qtyContainer = that.parent();
+            var qtyInput = qtyContainer.find('input[type=number]');
+            var min = qtyInput.attr('min');
+    
+            var oldValue = parseInt(qtyInput.val());
+            if (oldValue <= min) {
+                var newVal = oldValue;
+            } else {
+                var newVal = oldValue - 1;
+            }
+            qtyInput.val(newVal);
+    
+            updateRoom();
+        });
+    
+    
+    
+        listRoom.on('change', '.inputQty', function () {
+            var that = $(this);
+            if (isNumber(that.val())) {
+                var qtyVal = parseInt(that.val());
+                if (that.val().length === 0) {
+                    qtyVal = 0;
+                }
+    
+                if (qtyVal < 0) {
+                    qtyVal = 0;
+                }
+                that.val(qtyVal);
+    
+                updateRoom();
+            }
+        });
+    
+        function isNumber(n){
+            return typeof(n) != "boolean" && !isNaN(n);
+        }
+    
+        btnAddRoom.on('click', function (e) {
+            e.preventDefault();
+    
+            totalRoom++;
+    
+            listRoom.append('<li class="list-room__item">' + `<input type="hidden" id="search-adult" name="search[rooms][]" value="${totalRoom}">` +
+                '                                        <span class="list-room__name"> Room '+ totalRoom +'</span>' +
+                '                                        <ul class="list-person">' +
+                '                                            <li class="list-person__item">' +
+                '                                                <span class="name">' +
+                '                                                    Adults' +
+                '                                                </span>' +
+                '                                                <div class="quantity quantity1">' +
+                '                                                    <span class="minus">' +
+                '                                                        -' +
+                '                                                    </span>' +
+                '                                                    <input type="number" name="search[adults][]" min="0" value="1" class="inputQty">' +
+                '                                                    <span class="plus">' +
+                '                                                        +' +
+                '                                                    </span>' +
+                '                                                </div>' +
+                '                                            </li>' +
+                '                                            <li class="list-person__item">' +
+                '                                                <span class="name">' +
+                '                                                    Children' +
+                '                                                </span>' +
+                '                                                <div class="quantity quantity2">' +
+                '                                                    <span class="minus">' +
+                '                                                        -' +
+                '                                                    </span>' +
+                '                                                    <input type="number" name="search[children][]" min="0" value="0" class="inputQty">' +
+                '                                                    <span class="plus">' +
+                '                                                        +' +
+                '                                                    </span>' +
+                '                                                </div>' +
+                '                                            </li>' +
+                '                                        </ul>');
+    
+    
+            updateRoom();
+        });
+    
+    
+        function countAdult() {
+            var listRoomItem = listRoom.find('.list-room__item');
+            var totalAdults = 0;
+    
+            listRoomItem.each(function () {
+                var that = $(this);
+                var numberAdults = parseInt(that.find('.quantity1 > input').val());
+    
+                totalAdults = totalAdults + numberAdults;
+    
+            });
+    
+            return totalAdults;
+        }
+    
+        function countChildren() {
+            var listRoomItem = listRoom.find('.list-room__item');
+            var totalChildren = 0;
+    
+            listRoomItem.each(function () {
+                var that = $(this);
+                var numberChildren = parseInt(that.find('.quantity2 > input').val());
+    
+                totalChildren = totalChildren + numberChildren;
+            });
+    
+            return totalChildren;
+        }
+    
+        function updateRoom() {
+            // if({!! json_encode(Session::get('search')['adults']) !!}.toString().split`,`.map(x=>+x).reduce((a,b)=> a+ b, 0) > 0){
+            //     var totalAd = {!! json_encode(Session::get('search')['adults']) !!}.toString().split`,`.map(x=>+x).reduce((a,b)=> a+ b, 0);
+            //     var totalChi = {!! json_encode(Session::get('search')['children']) !!}.toString().split`,`.map(x=>+x).reduce((a,b)=> a+ b, 0);
+            // }else{
+                var totalAd = parseInt(countAdult());
+                var totalChi = parseInt(countChildren());
+            // }
+            
+            
+            var guests = 'Guest';
+            var rooms = 'Room, ';
+    
+            if (totalAd > 1) {
+                guests = 'Guests';
+            }
+    
+            if (totalRoom > 1) {
+                rooms = 'Rooms, ';
+            }
+    
+            var infoText = totalRoom + ' ' + rooms + (totalAd + totalChi) + ' ' + guests;
+    
+            info.val(infoText);
+        }
+    
+    } catch (e) {
+        console.log(e);
+    }
+    /*[ Select 2 Config ]
+        ===========================================================*/
+    
+    try {
+        var selectSimple = $('.js-select-simple');
+    
+        selectSimple.each(function () {
+            var that = $(this);
+            var selectBox = that.find('select');
+            var selectDropdown = that.find('.select-dropdown');
+            selectBox.select2({
+                dropdownParent: selectDropdown
+            });
+        });
+    
+    } catch (err) {
+        console.log(err);
+    }
+    
+    // try {
+    //     var addSearchValue = $('search-room');
+        
+    //     sel
+    // }
 
+});
+
+var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
     var arrival = $('#arrival').datepicker({
         format: 'yyyy/mm/dd',
         beforeShowDay: function(date) {
@@ -118,5 +632,6 @@
         autoclose: true
         
         }).on('changeDate', function(ev) {});
+             
 </script>
 @endpush
