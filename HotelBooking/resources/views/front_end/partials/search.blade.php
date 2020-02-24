@@ -404,7 +404,7 @@
         var dropdownSelect = selectSpecial.parent().find('.dropdown-select');
         var listRoom = dropdownSelect.find('.list-room');
         var btnAddRoom = $('#btn-add-room');
-        var totalRoom = 1;
+        var totalRoom = {!! json_encode(Session::get('search')['adults']) !!}.length;
     
         selectSpecial.on('click', function (e) {
             e.stopPropagation();

@@ -69,6 +69,7 @@
                     <li><i class="icon-check"></i> Breakfast included</li>
                     <li><i class="icon-check"></i> Price does not yet include VAT &amp; services fee</li>
                 </ul>
+                <input type="hidden" id="rates" value="{{$room->first()->roomType->base_price}}">
                 <button class="btn btn-primary btn-select" id="book" value="{{ $room->first()->id }}">Select</button>
             </div>
         </div>
@@ -81,21 +82,48 @@
     <div class="col-md-4">
         {{-- <div class="col-50"> --}}
         <div class="containerblock">
-            <form action="{{ route('booking') }}" method="POST">
-                @csrf
+            <form action="{{ route('checkout') }}" method="GET">
+            
                 <div class="row">
                     <div class="col-50">
-                        <h3 class="text-center"><strong>Bookings summary</strong></h3>
+                        <h3 class="text-center pb-4"><strong>Bookings summary</strong></h3>
                         <div class="row" id="booking-summary">
                         </div>
                     </div>
                 </div>
                 <hr>
-                <button type="submit" value="Book" class="btn btn-primary btn-book">Book</button>
-            </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                        <div class="row">
+                            <div class="float-left col-md-10">Total rate</div>
+                            <div id="total-rates">$0</div>
+                        </div>
+                        <div class="row">
+                            <div class="float-left col-md-10">Total taxes ({{App\Tax::where('type', 'TAX')->first()->rate}}%)</div>
+                            <input type="hidden" id="tax" value="{{App\Tax::where('type', 'TAX')->first()->rate}}">
+                            <div id="total-taxes">$0</div>
+                        </div>
+                        <div class="row">
+                            <div class="float-left col-md-10">Total fees ({{App\Tax::where('type', 'FEE')->first()->rate}}%)</div>
+                            <input type="hidden" id="fee" value="{{App\Tax::where('type', 'FEE')->first()->rate}}">
+                            <div id="total-fees">$0</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="float-left col-md-10"><strong>Total for stay</strong></div>
+                            <input type="hidden" id="total" name="total-room-charge" value="">
+                            <div class="total">$0</div>
+                        </div>
+                    </div>
+
+                </div>
         </div>
-        {{-- </div> --}}
+        <button type="button" class="btn btn-primary btn-book">Book</button>
+        </form>
     </div>
+    {{-- </div> --}}
+</div>
 
 
 </div>
@@ -105,7 +133,7 @@
 
 @push('style')
 <style>
-       .col-25 {
+    .col-25 {
         -ms-flex: 25%;
         flex: 25%;
     }
@@ -195,24 +223,49 @@
         // let textInfo = `${totalRooms.length} ${room}, ${totalGuests} ${guest}`;
 
         // $('#info').val(textInfo);
+        // var rate = $('-room').val()
 
         $('.btn-select').click(function(e){
             let roomId = e.target.value;
-            if(i < {{ count(Session::get('search')['rooms']) }})
+            let price = e.target.previousElementSibling.value;
+            var sumPrice = 0;
+            
+            if(i < {{ count(Session::get('search')['rooms']) }}){
                 $('#booking-summary').append(
                 `<div class="col-md-12"><hr>
                     <div class="row">
                         <div class="float-left col-md-10">Room ${i + 1}</div>
                         <input type="hidden" name="roomId" value="${roomId}">
-                        <div class="float-right col-md-2">$45</div>
+                        <div><input type="hidden" class="price" name="price[]" value="${price}"> $${price}</div>
                     </div>
                     <div class="row">
                         <div class="float-left col-md-12">`+ `${adults[i]}` + ` Adults, ${children[i]} Children</div>
                     </div>
-                </div>`
-            )
-                return i++             
-        })
+                </div>`)
+                i++
+                $('input.price').each(function(index){
+                sumPrice += parseFloat($(this).val());
+            })
+            $('#total-rates').html(`$${sumPrice}`)
+            let tax = parseFloat($('#tax').val());
+            let fee = parseFloat($('#fee').val());
+            let totalTax = sumPrice * tax / 100;
+            let totalFee = sumPrice * fee / 100;
+            let total = sumPrice + totalTax + totalFee;
+            $('#total-taxes').html(`$${totalTax}`);
+            $('#total-fees').html(`$${totalFee}`);  
+            $('.total').html(`$${total}`);
+            $('#total').val(total);
+            }else {
+                $('.btn-book').removeAttr("type").attr("type", "submit");
+            }
+            })
+            $('.btn-book').on('click', function(){
+                if($('.btn-book').attr("type") == 'button'){
+                alert('Please choose the room first!!!')
+                }
+            })
+            
     })
 </script>
 @endpush

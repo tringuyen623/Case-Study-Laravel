@@ -10,6 +10,7 @@ use App\Customer;
 use App\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -161,27 +162,15 @@ class HomeController extends Controller
 
     public function checkout()
     {
-        $cusDetails = [
-            'first_name' => request('first_name'),
-            'last_name' => request('last_name'),
-            'email' => request('email'),
-            'phone' => request('phone'),
-            'gender' => request('gender')
-        ];
-        $date1 = strtotime(request('arrival'));
-        $date2 = strtotime(request('departure'));
+        
+        $date1 = strtotime(Session::get('search')['arrival']);
+        $date2 = strtotime(Session::get('search')['departure']);
         $timeDiff = abs($date2 - $date1);
         $numberOfNights = $timeDiff / 86400;
-
-        $bookingDetails = [
-            'arrival' => request('arrival'),
-            'departure' => request('departure'),
-            'adults' => request('adults'),
-            'children' => request('children'),
-            'roomType' => RoomType::findOrFail(request('room_type_id'))->name,
-            'night' => $numberOfNights
-        ];
-
-        return view('front_end.checkout', compact('cusDetails', 'bookingDetails'));
+        
+        $roomCharge = request('total-room-charge');
+        // return $numberOfNights;
+        
+        return view('front_end.checkout', compact('numberOfNights', 'roomCharge'));
     }
 }
