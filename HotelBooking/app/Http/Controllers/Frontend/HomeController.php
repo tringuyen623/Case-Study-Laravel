@@ -16,6 +16,10 @@ class HomeController extends Controller
 {
     public function index()
     {
+        if(session()->has(['search','roomId', 'booking']) || session()->has('booking')){
+            session()->forget(['search', 'roomId', 'booking']);
+        }
+
         $search = [
             'arrival' => '',
             'departure' => '',
@@ -50,11 +54,11 @@ class HomeController extends Controller
 
     public function checkAvailable(Request $request)
     {
-        // $search= session()->get('search');
-
         if (request('search')) {
             session()->forget('search');
-            
+
+            $this->validateSearch();
+
             $search_data = collect([
                 'arrival' => request('search.arrival'),
                 'departure' => request('search.departure'),
@@ -123,29 +127,32 @@ class HomeController extends Controller
         // return $cusDetails['first_name'];
         $customer = Customer::create($this->validateCustomerInfo());
 
-        $booking = new Booking();
-        $booking->customer_id = $customer->id;
-        $booking->no_of_guests = array_sum($adults) + array_sum($children);
-        $booking->save();
-
-
-        $roomId = session()->get('roomId');
-        foreach($roomId as $id){
-            $booking->rooms()->attach(
-                $booking->id,
-                [
-                    'room_id' => $id,
-                    'from_date' => $date_in,
-                    'to_date' => $date_out
-                ]
-            );
+        if($customer){
+            $booking = new Booking();
+            $booking->customer_id = $customer->id;
+            $booking->no_of_guests = array_sum($adults) + array_sum($children);
+            $booking->save();
+    
+    
+            $roomId = session()->get('roomId');
+            foreach($roomId as $id){
+                $booking->rooms()->attach(
+                    $booking->id,
+                    [
+                        'room_id' => $id,
+                        'from_date' => $date_in,
+                        'to_date' => $date_out
+                    ]
+                );
+            }
+            session()->forget(['search', 'roomId']);
+            session()->put('booking', $booking);
         }
         
-
-        return [$booking, $customer];
+        return redirect()->route('checkout', $booking);
     }
 
-    public function checkout()
+    public function payment()
     {
         
         $date1 = strtotime(Session::get('search')['arrival']);
@@ -159,7 +166,18 @@ class HomeController extends Controller
         $roomCharge = request('total-room-charge');
         // return $numberOfNights;
         
-        return view('front_end.checkout', compact('numberOfNights', 'roomCharge'));
+        return view('front_end.payment', compact('numberOfNights', 'roomCharge'));
+    }
+
+    public function checkout(){
+        return view('front_end.checkout');
+    }
+
+    public function validateSearch(){
+        return request()->validate([
+            'search.arrival' => 'required',
+            'search.departure' => 'required'
+        ]);
     }
 
     public function validateCustomerInfo(){

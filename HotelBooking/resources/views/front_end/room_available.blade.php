@@ -82,7 +82,7 @@
     <div class="col-md-4">
         {{-- <div class="col-50"> --}}
         <div class="containerblock">
-            <form action="{{ route('checkout') }}" method="GET">
+            <form action="{{ route('payment') }}" method="GET">
 
                 <div class="row">
                     <div class="col-50">

@@ -4,98 +4,13 @@
 
 <section class="room-details-area">
     <div class="col-md-12 text-center pb-60">
-        <h1><strong>CONFIRM & CHECKOUT</strong></h1>
-    </div>
-    <div class="container" style="padding-bottom: 60px">
-        <div class="row">
-            <div class="col-75">
-                <div class="containerblock">
-                <form action="{{ route('booking')}}" method="POST">
-                    @csrf
-                        <div class="row">
-                            <div class="col-50">
-                                <h3>Guest Information</h3>
-                                <div class="row">
-                                    <div class="col-md-4 pb-2">
-                                        <label for="gender"><i class="fa fa-user"></i> Gender</label>
-                                        <select class="form-control" name="gender" id="gender">
-                                            <option value="0">Mr</option>
-                                            <option value="1">Ms</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="fname">First Name</label>
-                                        <input type="text" id="fname" name="first_name" placeholder="M. Doe">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="fname">Last Name</label>
-                                        <input type="text" name="last_name" placeholder="John">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="fname"><i class="fa fa-phone"></i> Phone</label>
-                                        <input type="text" name="phone" placeholder="00-xxxx">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="fname"><i class="fa fa-envelope"></i> Email</label>
-                                        <input type="text" name="email" placeholder="john@example.com">
-                                    </div>
-                                </div>
+        <h1><strong>THANKS FOR CHOOSING STAY WITH US!</strong></h1>
+        <div class="text-center">
+            <i class="far fa-check-circle fa-4x text-success mb-3"></i>
+            <h1 class="modal-title">Your booking was successfully created!</h1>
+            <h1 class="modal-title">Your booking code is: </h1>
+            <h1 class="modal-title">Furthermore information fell free to contact with us via email: {{hotel_information()->email}} or hotline: {{hotel_information()->phone}}</h1>
 
-                            </div>
-
-                            <div class="col-50">
-                                <h3>Payment</h3>
-                                <label for="fname">Accepted Cards</label>
-                                <div class="icon-container">
-                                    <i class="fa fa-cc-visa" style="color:navy;"></i>
-                                    <i class="fa fa-cc-amex" style="color:blue;"></i>
-                                    <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                                    <i class="fa fa-cc-discover" style="color:orange;"></i>
-                                </div>
-                                <label for="cname">Name on Card</label>
-                                <input type="text" id="cname" name="cardname" placeholder="John More Doe">
-                                <label for="ccnum">Credit card number</label>
-                                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-                                <label for="expmonth">Exp Month</label>
-                                <input type="text" id="expmonth" name="expmonth" placeholder="September">
-                                <div class="row">
-                                    <div class="col-50">
-                                        <label for="expyear">Exp Year</label>
-                                        <input type="text" id="expyear" name="expyear" placeholder="2018">
-                                    </div>
-                                    <div class="col-50">
-                                        <label for="cvv">CVV</label>
-                                        <input type="text" id="cvv" name="cvv" placeholder="352">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="submit" value="Continue to checkout" class="btn">
-                    </form>
-                </div>
-            </div>
-            <div class="col-25">
-                <div class="containerblock">
-                    <h2><strong>Booking Details</strong> <span class="price" style="color:black"></span>
-                    </h2>
-                    <p>Arrival <span class="price">{{ Session::get('search')['arrival'] }}</span></p>
-                    <p>Departure <span class="price">{{ Session::get('search')['departure'] }}</span></p>
-                    <p>Total Nights <span
-                            class="price">{{ $numberOfNights }}</span>
-                    </p>
-                    <p>Total Guest <span
-                            class="price">{{ array_sum(Session::get('search')['adults']) + array_sum(Session::get('search')['children']) }}</span>
-                    </p>
-                    <p>Total Rooms <span class="price">{{ count(Session::get('search')['rooms']) }}</span></p>
-                    <hr>
-                    <p><b>Total for stay</b> <span class="price" style="color:black"><b>${{ $roomCharge }}</b></span>
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
 </section>
@@ -103,6 +18,7 @@
 @endsection
 
 @push('style')
+<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
 <style>
     .row {
         display: -ms-flexbox;

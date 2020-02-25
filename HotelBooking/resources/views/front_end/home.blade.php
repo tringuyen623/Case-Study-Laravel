@@ -72,13 +72,9 @@
                             {{-- <span class="rate-star"><i class="icon-star-full full"></i><i
                                     class="icon-star-full full"></i><i class="icon-star-full full"></i><i
                                     class="icon-star-full"></i><i class="icon-star-full"></i></span> --}}
-                            <h3><a href="#">{{ $room->name }}</a></h3>
-                            <p class="price">
-                                {{-- <span class="currency">$</span>
-                                <span class="price-room">99</span>
-                                <span class="per">/ per night</span> --}}
-                            </p>
-                            <p><a class="btn btn-primary btn-book">Book now!</a></p>
+                            <h3>{{ $room->name }}</h3>
+                            
+                            <p><a href="#" class="btn btn-primary btn-book mt-3">View Details!</a></p>
                         </div>
                     </div>
                     @empty

@@ -20,8 +20,9 @@ Route::get('room-details', 'Frontend\HomeController@roomDetails')->name('room-de
 Route::get('room-available', 'Frontend\HomeController@checkAvailable')->name('check-available');
 // Route::get('room-details/{room}', 'Frontend\HomeController@book')->name('room-details-booking');
 // Route::get('room-details/{room}/book', 'Frontend\HomeController@book')->name('book');
-Route::get('checkout', 'Frontend\HomeController@checkout')->name('checkout');
+Route::get('payment', 'Frontend\HomeController@payment')->name('payment');
 Route::post('booking', 'Frontend\HomeController@booking')->name('booking');
+Route::get('checkout', 'Frontend\HomeController@checkout')->name('checkout');
 
 Route::get('about', function () {
     return view('front_end.about');

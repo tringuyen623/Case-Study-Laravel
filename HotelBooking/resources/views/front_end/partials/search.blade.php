@@ -9,7 +9,7 @@
                                 <label for="arrival">Arrival Date</label>
                                 <input id="arrival" type="text" class="form-control clickable input-md"
                                     name="search[arrival]" value="{{ Session::get('search')['arrival'] }}"
-                                    placeholder="  Arrival Date" autocomplete="off">
+                                    placeholder="  Arrival Date" autocomplete="off" required>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -17,7 +17,7 @@
                                 <label for="departure">Departure Date</label>
                                 <input id="departure" type="text" class="form-control clickable input-md"
                                     name="search[departure]" value="{{ Session::get('search')['departure'] }}"
-                                    placeholder="  Dearture Date" autocomplete="off">
+                                    placeholder="  Dearture Date" autocomplete="off" required>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -42,7 +42,7 @@
                                                         <div class="quantity quantity1">
                                                             <span class="minus">-</span>
                                                             <input class="inputQty" type="number"
-                                                        name="search[adults][]" min="0" value="{{Session::get('search')['adults'][$i]}}">
+                                                        name="search[adults][]" min="1" value="{{Session::get('search')['adults'][$i]}}">
                                                             <span class="plus">+</span>
                                                         </div>
                                                     </li>
