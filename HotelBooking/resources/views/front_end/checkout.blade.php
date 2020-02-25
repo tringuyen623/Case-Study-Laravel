@@ -10,8 +10,8 @@
         <div class="row">
             <div class="col-75">
                 <div class="containerblock">
-                    <form action="/action_page.php">
-
+                <form action="{{ route('booking')}}" method="POST">
+                    @csrf
                         <div class="row">
                             <div class="col-50">
                                 <h3>Guest Information</h3>
@@ -92,7 +92,7 @@
                     </p>
                     <p>Total Rooms <span class="price">{{ count(Session::get('search')['rooms']) }}</span></p>
                     <hr>
-                    <p><b>Total room charge</b> <span class="price" style="color:black"><b>${{ $roomCharge }}</b></span>
+                    <p><b>Total for stay</b> <span class="price" style="color:black"><b>${{ $roomCharge }}</b></span>
                     </p>
                 </div>
             </div>

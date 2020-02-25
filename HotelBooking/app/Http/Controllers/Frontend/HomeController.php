@@ -103,61 +103,46 @@ class HomeController extends Controller
     public function booking()
     {
         // return 'chi do';
-        $cusDetails = [
-            'first_name' => request('first_name'),
-            'last_name' => request('last_name'),
-            'email' => request('email'),
-            'phone' => request('phone'),
-            'gender' => request('gender')
-        ];
-        $date_in = strtotime(request('arrival'));
-        $date_out = strtotime(request('departure'));
-        $timeDiff = abs($date_in - $date_out);
-        $numberOfNights = $timeDiff / 86400;
-
-        $roomType = Room::findOrFail(request('room_id'))->roomType;
-
-        $bookingDetails = [
-            'arrival' => request('arrival'),
-            'departure' => request('departure'),
-            'adults' => request('adults'),
-            'children' => request('children'),
-            'roomType' => $roomType->name,
-            'roomRate' => $roomType->base_price,
-            'night' => $numberOfNights
-        ];
+        // $this->validateCustomerInfo();
+        // $this->validatePayment();
+        
+        $date_in = session()->get('search')['arrival'];
+        $date_out = session()->get('search')['departure'];
+        $adults = session()->get('search')['adults'];
+        $children = session()->get('search')['children'];
+        // $bookingDetails = [
+        //     'arrival' => request('arrival'),
+        //     'departure' => request('departure'),
+        //     'adults' => request('adults'),
+        //     'children' => request('children'),
+        //     'roomType' => $roomType->name,
+        //     'roomRate' => $roomType->base_price,
+        //     'night' => $numberOfNights
+        // ];
 
         // return $cusDetails['first_name'];
-
-        $customer = new Customer();
-        $customer->first_name = $cusDetails['first_name'];
-        $customer->last_name = $cusDetails['last_name'];
-        $customer->email = $cusDetails['email'];
-        $customer->phone = $cusDetails['phone'];
-        $customer->gender = $cusDetails['gender'];
-        $customer->save();
+        $customer = Customer::create($this->validateCustomerInfo());
 
         $booking = new Booking();
         $booking->customer_id = $customer->id;
-        $booking->no_of_guests = request('adults') + request('children');
+        $booking->no_of_guests = array_sum($adults) + array_sum($children);
         $booking->save();
 
 
-        $roomId = array(1,2,4,5);
+        $roomId = session()->get('roomId');
         foreach($roomId as $id){
             $booking->rooms()->attach(
                 $booking->id,
                 [
                     'room_id' => $id,
-                    'from_date' => request('arrival'),
-                    'to_date' => request('departure')
+                    'from_date' => $date_in,
+                    'to_date' => $date_out
                 ]
             );
-
         }
         
 
-        return view('front_end.checkout', compact('cusDetails', 'bookingDetails', 'booking'));
+        return [$booking, $customer];
     }
 
     public function checkout()
@@ -167,10 +152,33 @@ class HomeController extends Controller
         $date2 = strtotime(Session::get('search')['departure']);
         $timeDiff = abs($date2 - $date1);
         $numberOfNights = $timeDiff / 86400;
+
+        $roomId = request('roomId');
+        session()->put('roomId', $roomId);
         
         $roomCharge = request('total-room-charge');
         // return $numberOfNights;
         
         return view('front_end.checkout', compact('numberOfNights', 'roomCharge'));
+    }
+
+    public function validateCustomerInfo(){
+        return request()->validate([
+            'gender' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'email' => 'required|email'
+        ]);
+    }
+
+    public function validatePayment(){
+        return request()->validate([
+            'cardname' => 'required',
+            'cardnumber' => 'required',
+            'expmonth' => 'date_format:"m"',
+            'expyear' => 'date_format:"Y"',
+            'cvv' => 'required|min:3|max:3'
+        ]);
     }
 }

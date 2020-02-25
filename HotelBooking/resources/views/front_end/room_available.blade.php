@@ -83,7 +83,7 @@
         {{-- <div class="col-50"> --}}
         <div class="containerblock">
             <form action="{{ route('checkout') }}" method="GET">
-            
+
                 <div class="row">
                     <div class="col-50">
                         <h3 class="text-center pb-4"><strong>Bookings summary</strong></h3>
@@ -100,12 +100,14 @@
                             <div id="total-rates">$0</div>
                         </div>
                         <div class="row">
-                            <div class="float-left col-md-10">Total taxes ({{App\Tax::where('type', 'TAX')->first()->rate}}%)</div>
+                            <div class="float-left col-md-10">Total taxes
+                                ({{App\Tax::where('type', 'TAX')->first()->rate}}%)</div>
                             <input type="hidden" id="tax" value="{{App\Tax::where('type', 'TAX')->first()->rate}}">
                             <div id="total-taxes">$0</div>
                         </div>
                         <div class="row">
-                            <div class="float-left col-md-10">Total fees ({{App\Tax::where('type', 'FEE')->first()->rate}}%)</div>
+                            <div class="float-left col-md-10">Total fees
+                                ({{App\Tax::where('type', 'FEE')->first()->rate}}%)</div>
                             <input type="hidden" id="fee" value="{{App\Tax::where('type', 'FEE')->first()->rate}}">
                             <div id="total-fees">$0</div>
                         </div>
@@ -235,7 +237,7 @@
                 `<div class="col-md-12"><hr>
                     <div class="row">
                         <div class="float-left col-md-10">Room ${i + 1}</div>
-                        <input type="hidden" name="roomId" value="${roomId}">
+                        <input type="hidden" name="roomId[]" value="${roomId}">
                         <div><input type="hidden" class="price" name="price[]" value="${price}"> $${price}</div>
                     </div>
                     <div class="row">
@@ -243,6 +245,7 @@
                     </div>
                 </div>`)
                 i++
+                console.log(i)
                 $('input.price').each(function(index){
                 sumPrice += parseFloat($(this).val());
             })
@@ -256,7 +259,8 @@
             $('#total-fees').html(`$${totalFee}`);  
             $('.total').html(`$${total}`);
             $('#total').val(total);
-            }else {
+            }
+            if(i == {{ count(Session::get('search')['rooms']) }}) {
                 $('.btn-book').removeAttr("type").attr("type", "submit");
             }
             })
