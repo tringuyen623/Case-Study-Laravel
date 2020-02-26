@@ -35,4 +35,4 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 
-@yield('myscript')
+@stack('myscript')

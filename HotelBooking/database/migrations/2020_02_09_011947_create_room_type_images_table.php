@@ -19,7 +19,7 @@ class CreateRoomTypeImagesTable extends Migration
             $table->unsignedBigInteger('room_type_id');
             $table->boolean('featured')->default(0);
             $table->timestamps();
-
+            $table->softDeletes();
             $table->foreign('room_type_id')->references('id')->on('room_types')->onDelete('cascade');
         });
     }

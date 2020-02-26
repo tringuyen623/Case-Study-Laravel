@@ -22,4 +22,10 @@ class Booking extends Model
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
+
+    public function getFullName(){
+        $fullName = $this->customer->first_name . ' ' .$this->customer->last_name;
+
+        return $fullName;
+    }
 }

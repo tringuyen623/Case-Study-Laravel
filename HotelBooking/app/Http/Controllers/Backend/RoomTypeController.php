@@ -39,9 +39,8 @@ class RoomTypeController extends Controller
 
                     return '
                     <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-outline-primary view-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
-                    class="fa fa-eye"></i></button>' .
-                        '<button type="button" class="btn btn-outline-primary edit-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
+                    <a href="' . route('admin.room-types.show', $roomType->id) . '" class="btn btn-outline-primary"><i class="fa fa-eye"></i> </a>
+                    <button type="button" class="btn btn-outline-primary edit-room-type" data-toggle="modal" data-target="#add_room_type" data-id ="' . $roomType->id . '"><i
                     class="fa fa-edit"></i></button>
                     ' .
                         '<button type="button" class="btn btn-outline-primary delete-room-type" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $roomType->id . '"><i
@@ -108,7 +107,9 @@ class RoomTypeController extends Controller
      */
     public function show($id)
     {
-        //
+        $roomType = RoomType::findOrFail($id);
+
+        return view('back_end.room_types.view', compact('roomType'));
     }
 
     /**
@@ -131,14 +132,10 @@ class RoomTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         $roomType = RoomType::findOrFail($id);
         $roomType->update($this->validateAttribute());
-        // $image = request('image');
-        // $image = base64_encode(file_get_contents($image));
-        // $image = 'data:image/png;base64,' . $image;
-        // $roomType->images()->save(new RoomTypeImage(['image' => $image]));
 
         return redirect(route('admin.room-types.index'));
     }
@@ -151,37 +148,65 @@ class RoomTypeController extends Controller
      */
     public function destroy($id)
     {
-        if(request('delete-action') === 'SoftDelete'){
+        if (request('delete-action') === 'SoftDelete') {
             RoomType::destroy($id);
-        }else{
-            RoomType::onlyTrashed()->where('id',$id)->forceDelete();
+        } else {
+            RoomType::onlyTrashed()->where('id', $id)->forceDelete();
         }
 
         return redirect()->route('admin.room-types.index');
     }
 
-    public function restore($id){
-        RoomType::onlyTrashed()->where('id','=',$id)->restore();
+    public function restore($id)
+    {
+        RoomType::onlyTrashed()->where('id', '=', $id)->restore();
 
         return redirect()->route('admin.room-types.index');
     }
 
     public function uploadImage()
     {
-        $image = new RoomTypeImage();
 
         $imgUpload = request('image');
         $imgUpload = base64_encode(file_get_contents($imgUpload));
         $imgUpload = 'data:image/png;base64,' . $imgUpload;
 
-        $featured = request('featured') ? 1 : 0;
+        $featured = RoomTypeImage::where('featured', 1)->where('room_type_id', request('room_type'))->first();
 
-        $image->image = $imgUpload;
-        $image->room_type_id = request('room_type');
-        $image->featured = $featured;
-        $image->save();
+        if ($featured && request('featured')) {
+            $featured->featured = 0;
+            $featured->save();
+        }
 
-        return redirect(route('admin.room-types.index'));
+        $roomTypeImage = new RoomTypeImage();
+
+        $roomTypeImage->image = $imgUpload;
+        $roomTypeImage->room_type_id = request('room_type');
+        $roomTypeImage->featured = request('featured') ? 1 : 0;
+        $roomTypeImage->save();
+
+        return redirect()->back()->with('success', 'Upload successful');
+    }
+
+    public function setFeatureImage($roomTypeId, $imageId)
+    {
+        if ($featuredImage = RoomTypeImage::where('featured', 1)->where('room_type_id', $roomTypeId)->first()) {
+            $featuredImage->featured = 0;
+            $featuredImage->save();
+        }
+
+        $roomTypeImage = RoomTypeImage::findOrFail($imageId);
+        $roomTypeImage->featured = 1;
+        $roomTypeImage->save();
+
+        return redirect()->back()->with('success', 'Upload successful');
+    }
+
+    public function deleteImage()
+    {
+        RoomTypeImage::destroy(request('id'));
+
+        return redirect()->back()->with('success', 'Delete successful');
     }
 
     public function validateAttribute()

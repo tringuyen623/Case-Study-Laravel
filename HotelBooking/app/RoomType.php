@@ -28,4 +28,8 @@ class RoomType extends Model
     public function featuredImage(){
         return $this->images->where('featured', 1)->first();
     }
+
+    public function amenities(){
+        return $this->belongsToMany(Amenity::class,'room_type_pivot_amenity','room_type_id','amenity_id');
+    }
 }

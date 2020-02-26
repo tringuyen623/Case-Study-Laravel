@@ -34,7 +34,7 @@ Route::get('about', function () {
 
 
 // Route::get('bookings/check', 'BookingController@check')->name('check');
-Route::get('bookings/search/{id}', 'BookingController@search');
+// Route::get('bookings/search/{id}', 'BookingController@search');
 
 Auth::routes();
 
@@ -56,6 +56,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('rooms/list', 'Backend\RoomController@getData')->name('rooms.list');
     Route::resource('rooms', 'Backend\RoomController');
 
+    Route::delete('room-types/delete-image', 'Backend\RoomTypeController@deleteImage')->name('room-types.deleteImage');
+    Route::get('room-types/{room_type_id}/{image_id}/set-as-featured', 'Backend\RoomTypeController@setFeatureImage')->name('room-types.setFeatureImage');
     Route::get('room-types/list', 'Backend\RoomTypeController@getData')->name('room-types.list');
     Route::get('room-types/listDeleted', 'Backend\RoomTypeController@getDeletedData')->name('room-types.listDeleted');
     Route::get('room-types/{id}/restore', 'Backend\RoomTypeController@restore')->name('room-types.restore');
@@ -68,15 +70,15 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('galleries/{id}/restore', 'Backend\HotelGalleryController@restore')->name('galleries.restore');
     Route::resource('galleries', 'Backend\HotelGalleryController');
 
-    Route::get('taxes/listDeleted', 'Backend\TaxController@getDeletedData')->name('taxes.listDeleted');
+    Route::get('taxes/list-deleted', 'Backend\TaxController@getDeletedData')->name('taxes.listDeleted');
     Route::get('taxes/{id}/restore', 'Backend\TaxController@restore')->name('taxes.restore');
     Route::resource('taxes', 'Backend\TaxController');
 
-    Route::get('gallery-categories/listDeleted', 'Backend\GalleryCategoryController@getDeletedData')->name('gallery-categories.listDeleted');
+    Route::get('gallery-categories/list-deleted', 'Backend\GalleryCategoryController@getDeletedData')->name('gallery-categories.listDeleted');
     Route::get('gallery-categories/{id}/restore', 'Backend\GalleryCategoryController@restore')->name('gallery-categories.restore');
     Route::resource('gallery-categories', 'Backend\GalleryCategoryController');
     
-    Route::get('bookings/listDeleted', 'Backend\BookingController@getDeletedData')->name('bookings.listDeleted');
+    Route::get('bookings/list-deleted', 'Backend\BookingController@getDeletedData')->name('bookings.listDeleted');
     Route::resource('bookings', 'Backend\BookingController');
 });
 
@@ -88,4 +90,4 @@ Route::name('admin.')->prefix('admin')->group(function () {
 // // Route::resource('rooms/types', 'RoomTypeController');
 
 
-Route::resource('bookings', 'BookingController');
+// Route::resource('bookings', 'BookingController');

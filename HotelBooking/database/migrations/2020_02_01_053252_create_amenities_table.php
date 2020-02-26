@@ -19,9 +19,8 @@ class CreateAmenitiesTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->text('image')->nullable();
+            $table->softDeletes();
             $table->timestamps();
-
-            $table->foreign('room_type_id')->references('id')->on('room_type')->onDelete('cascade');
         });
     }
 
