@@ -11,10 +11,10 @@
 <div class="content-header">
     <div class="container-fluid">
         <h2>Room
-            <div class=" float-right">
+            {{-- <div class=" float-right">
                 <button type="button" id="create_room" class="btn btn-primary" data-toggle="modal"
                     data-target="#add_room"><i class="fa fa-plus"></i> Add Room</button>
-            </div>
+            </div> --}}
 
         </h2>
     </div>
@@ -34,20 +34,20 @@
                             aria-selected="true">Active</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#deleted" role="tab" data-toggle="tab">Deleted</a>
+                        <a class="nav-link" href="#canceled" role="tab" data-toggle="tab">Cancel</a>
                     </li>
                 </ul>
                 <div class="tab-content">
 
                     <div role="tabpanel" class="tab-pane active" id="active">
                         <div class="card-body">
-                            <table id="rooms" class="table table-bordered table-striped" style="width:100%">
+                            <table id="bookings" class="table table-bordered table-striped" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>NO</th>
-                                        <th>Room Type</th>
-                                        <th>View</th>
-                                        <th>Size</th>
+                                        <th>Booking Code</th>
+                                        <th>Customer Name</th>
+                                        <th>Number Of Guest</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -56,8 +56,35 @@
                         </div>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" id="deleted">
-
+                    <div role="tabpanel" class="tab-pane" id="canceled">
+                        <div class="card-body">
+                            <table id="canceledBooking" class="table table-bordered table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Booking Code</th>
+                                        <th>Customer Name</th>
+                                        <th>Number Of Guest</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        {{-- <div class="card-body">
+                            <table id="canceledBooking" class="table table-bordered table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Booking Code</th>
+                                        <th>Customer Name</th>
+                                        <th>Base Price</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div> --}}
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -69,7 +96,7 @@
     <!-- /.row -->
 
     <!-- Modal Add -->
-    <div class="modal fade" id="add_room" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    {{-- <div class="modal fade" id="add_room" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -132,7 +159,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
+
+    @include('back_end.partials.modal-form')
 
 </section>
 
@@ -147,10 +176,10 @@
 <script>
     $(document).ready(function(){
         let no = 0;
-    $("#rooms").DataTable({
+    $("#bookings").DataTable({
           processing: true,
           serverSide: true,
-          ajax: '{{ route("admin.rooms.list") }}',
+          ajax: '{{ route("admin.bookings.index") }}',
           columns: [
               {
                   data: 'id',
@@ -159,16 +188,16 @@
     }
               },
               {
-                  data: 'room_type_id'
+                  data: 'id'
               },
               {
-                  data: 'view'
+                  data: 'customer_id', name: 'customer_id'
               },
               {
-                  data: 'size'
+                  data: 'no_of_guests'
               },
               {
-                  data: 'is_active'
+                  data: 'base_price'
               },
               {
                   data: 'action', name: 'action', orderable: false, searchable: false
@@ -182,74 +211,84 @@
         }
     });
 
-    $('#create_room').click(function(){
-       $('.modal-title').text('Add New Room');
-       $('#action_button').html('Save'),
-       $('#action').val('Add');
-    });
+    $(document).on('click', '.cancel-booking', function(){
+        let id = $(this).data('id');
+        $('#delete-id').val(id);
 
-    $('#form_room').on('submit', function(e){
+    })
+
+    $('#form-delete').on('submit', function(e){
         e.preventDefault();
-        var formData = new FormData(this);
-
-        let action_url = '';
-        let type = '';
-        let room_type_id = jQuery('#room_type_id').val()
-        let view = jQuery('#view').val()
-        let size = jQuery('#size').val()
-        let is_active = jQuery('#is_active').prop('checked') ? 1 : 0;
-        let id = $('#room_id').val();
-
-        if($('#action').val() === 'Add'){
-            action_url = "rooms";
-            type = 'POST';
-        }
-
-        if($('#action').val() === 'Edit'){
-            action_url = `rooms/${id}`;
-            type = 'PATCH';
-        }        
-
+        let id = $('#delete-id').val();
         $.ajax({
-            url: action_url,
-            method: 'POST',
+            url: `bookings/${id}`,
+            method: 'post',
             data: {
-                room_type_id: room_type_id,
-                view: view,
-                size: size,
-                is_active: is_active,
-                '_method': type
+                '_method': 'DELETE'
             },
+            // beforeSend:function(){
+            //     $('#ok-button').text('Deleting...');
+            // },
             success: function(){
-                $('#add_room').modal('hide');
-                $("#rooms").DataTable().ajax.reload();
-                $('#form_room')[0].reset();
+                $('#confirm-modal').modal('hide');
+                $('#bookings').DataTable().ajax.reload();
+                $('#success_content').html('Booking has been canceled');
+                $('#success').modal('show');
             },
             error: function(err){
                 console.log(err);
             }
-        });
-    });
+        })
+    })
 
-    $(document).on('click', '.edit-room', function(){
-        let id = $(this).data('id');
-        $.ajax({
-            url: `rooms/${id}/edit`,
-            success: function(data){
-                $('#room_id').val(data.id),
-                $('#room_type_id').val(data.room_type_id),
-                $('#view').val(data.view),
-                $('#size').val(data.size),
-                data.is_active === 1 ? $('#status').prop('checked', true).change() : $('#status').prop('checked', false).change(),  
-                $('.modal-title').text('Update Room');
-                $('#action_button').html('Update'),
-                $('#action').val('Edit')
-            },
-            error: function(error){
-                console.log(error)
-            }
-        });
-    });
+    // RoomType Deleted
+    $("#canceledBooking").DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: '{{ route("admin.bookings.listDeleted") }}',
+          columns: [
+              {
+                  data: 'id',
+                  render: function (data, type, row, meta) {
+                      return meta.row + meta.settings._iDisplayStart + 1;
+                      }
+              },
+              {
+                  data: 'id'
+              },
+              {
+                  data: 'customer_id', name: 'customer_id'
+              },
+              {
+                  data: 'no_of_guests'
+              },
+              {
+                  data: 'created_at'
+              },
+              {
+                  data: 'action', name: 'action', orderable: false, searchable: false
+              }
+          ],
+          order: [[0, 'asc']]
+      });
+
+      $(document).on('click', '.restore-room-type', function(){
+          let id = $(this).data('id');
+          if(confirm('Are you sure to restore?')){
+            $.ajax({
+              url: `room-types/${id}/restore`,
+              success: function(){
+                $('#booking').DataTable().ajax.reload();
+                $('#canceledBooking').DataTable().ajax.reload();
+                $('#success_content').html('Your record has been restore');
+                $('#success').modal('show');
+              },
+              error: function(err){
+                  console.log(err);
+              }
+          });
+        }
+      })
 });
 
 </script>

@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Booking;
 use App\Customer;
 use App\Room;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class BookingController extends Controller
 {
@@ -21,6 +23,32 @@ class BookingController extends Controller
      */
     public function index()
     {
+        $bookings = Booking::all();
+
+        if (request()->ajax()) {
+            return DataTables::of($bookings)
+                ->addColumn('action', function ($bookings) {
+                    return '
+                    <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-outline-danger cancel-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $bookings->id . '"><i
+                    class="fa fa-window-close"></i></button>';
+                })
+                ->editColumn('customer_id', function($canceled){
+                    return $canceled->customer->first_name;
+                })
+                ->editColumn('base_price', function($canceled){
+                    $base_price = [];
+                    foreach($canceled->rooms as $room){
+                        $base_price[] = $room->roomType->base_price;
+                    }
+                    return $base_price;
+
+                    
+                })
+                ->make(true);
+        }
+
+        return view('back_end.bookings.index', compact('bookings'));
     }
 
     /**
@@ -112,7 +140,9 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        //
+        Booking::destroy($booking->id);
+
+        return redirect()->route('admin.bookings.index');
     }
 
     public function check()
@@ -134,8 +164,29 @@ class BookingController extends Controller
         // print_r($ava);
         // }
     }
+
     public function search($id)
     {
         return Booking::findOrFail($id)->rooms;
+    }
+
+    public function getDeletedData()
+    {
+        $canceled = Booking::onlyTrashed();
+
+        if (request()->ajax()) {
+            return DataTables::of($canceled)
+                ->addColumn('action', function ($canceled) {
+                    return '
+            <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-primary delete-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $canceled->id . '">
+            <i class="fa fa-trash"></i></button>
+            </div>';
+                })
+                ->editColumn('customer_id', function($canceled){
+                    return $canceled->customer->first_name;
+                })
+                ->make(true);
+        }
     }
 }

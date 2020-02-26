@@ -37,6 +37,7 @@
                         detials.</p>
                 </div>
                 <div class="modal-footer">
+                    <input type="hidden" id="delete-action" name="delete-action">
                     <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
                 </div>
             </div>

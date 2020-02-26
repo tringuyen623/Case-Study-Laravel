@@ -378,24 +378,29 @@
     $(document).on('click', '.delete-room-type', function(){
         let id = $(this).data('id');
         $('#delete-id').val(id);
+        $('#delete-action').val('SoftDelete');
+    })
 
+    $(document).on('click', '.force-delete', function(){
+        let id = $(this).data('id');
+        $('#delete-id').val(id);
+        $('#delete-action').val('ForceDelete');
     })
 
     $('#form-delete').on('submit', function(e){
         e.preventDefault();
         let id = $('#delete-id').val();
+
         $.ajax({
             url: `room-types/${id}`,
             method: 'post',
             data: {
                 '_method': 'DELETE'
             },
-            beforeSend:function(){
-                $('#ok-button').text('Deleting...');
-            },
             success: function(){
                 $('#confirm-modal').modal('hide');
                 $('#roomType').DataTable().ajax.reload();
+                $('#roomTypeDeleted').DataTable().ajax.reload();
                 $('#success_content').html('Your record has been deleted');
                 $('#success').modal('show');
             },

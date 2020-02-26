@@ -66,7 +66,7 @@ class RoomTypeController extends Controller
             <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-outline-primary restore-room-type" data-id ="' . $deletedRoomType->id . '"><i
             class="fa fa-undo"></i></button>' .
-                        '<button type="button" class="btn btn-outline-primary delete-room-type" data-toggle="modal" data-target="#confirmModal" data-id ="' . $deletedRoomType->id . '"><i
+                        '<button type="button" class="btn btn-outline-primary force-delete" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $deletedRoomType->id . '"><i
             class="fa fa-trash"></i></button>
             </div>';
                 })
@@ -151,7 +151,11 @@ class RoomTypeController extends Controller
      */
     public function destroy($id)
     {
-        RoomType::destroy($id);
+        if(request('delete-action') === 'SoftDelete'){
+            RoomType::destroy($id);
+        }else{
+            RoomType::onlyTrashed()->where('id',$id)->forceDelete();
+        }
 
         return redirect()->route('admin.room-types.index');
     }

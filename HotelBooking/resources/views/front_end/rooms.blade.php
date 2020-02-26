@@ -1,10 +1,11 @@
 @extends('front_end.layouts.app')
+@section('title', 'Room List')
 
 @section('content')
 <aside id="colorlib-hero">
     <div class="flexslider">
         <ul class="slides">
-            <li style="background-image: url(images/img_bg_5.jpg);">
+            <li style="background-image: url({{App\GalleryCategory::where('name','Room')->get()->first()->hotelGalleries->random()->image}});">
                 <div class="overlay"></div>
                 <div class="container-fluid">
                     <div class="row">
@@ -26,48 +27,20 @@
 <div id="colorlib-rooms" class="colorlib-light-grey">
     <div class="container">
         <div class="row">
-
-            {{-- <div class="col-md-4 room-wrap animate-box">
-                <a href="images/room-2.jpg" class="room image-popup-link"
-                    style="background-image: url(images/room-2.jpg);"></a>
-                <div class="desc text-center">
-                    <span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                            class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                            class="icon-star-full"></i></span>
-                    <h3><a href="rooms-suites.html">Double Room</a></h3>
-                    <p class="price">
-                        <span class="currency">$</span>
-                        <span class="price-room">199</span>
-                        <span class="per">/ per night</span>
-                    </p>
-                    <ul>
-                        <li><i class="icon-check"></i> Perfect for traveling couples</li>
-                        <li><i class="icon-check"></i> Breakfast included</li>
-                        <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
-                    </ul>
-                    <p><a class="btn btn-primary btn-book" href="{{route('rooms')}}">Book now!</a></p>
-                </div>
-            </div> --}}
-
             @foreach ($rooms as $room)
             <div class="col-md-4 room-wrap animate-box">
                 <a href="{{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }}" class="room image-popup-link"
                     style="background-image: url({{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }});"></a>
                 <div class="desc">
-                    {{-- <span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                            class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                            class="icon-star-full"></i></span> --}}
                     <h3><a href="#">{{ $room->name }}</a></h3>
                     <p class="price">
                         <span class="currency">{{ $room->description }}</span>
-                        <span class="currency">{{ $room->rooms->count() }}</span>
-                        {{-- <span class="">{{ $room->size }}$</span> --}}
-                        <span class="price-room">199</span>
+                    </p>
+                    <p class="price">
+                        <span class="price-room">{{hotel_information()->currency_symbol . $room->base_price}}</span>
                         <span class="per">/ per night</span>
                     </p>
-                    <p>Chi do</p>
                     <ul>
-                        <li><i class="icon-check"></i> Perfect for traveling couples</li>
                         <li><i class="icon-check"></i> Breakfast included</li>
                         <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
                     </ul>

@@ -3,12 +3,12 @@
 @section('content')
 
 <section class="room-details-area">
-    <div class="col-md-12 text-center pb-60">
+    <div class="col-md-12 text-center pb-60 pb-5">
         <h1><strong>THANKS FOR CHOOSING STAY WITH US!</strong></h1>
         <div class="text-center">
             <i class="far fa-check-circle fa-4x text-success mb-3"></i>
             <h1 class="modal-title">Your booking was successfully created!</h1>
-            <h1 class="modal-title">Your booking code is: </h1>
+        <h1 class="modal-title">Your booking code is: {{ Session::get('booking')->id}}</h1>
             <h1 class="modal-title">Furthermore information fell free to contact with us via email: {{hotel_information()->email}} or hotline: {{hotel_information()->phone}}</h1>
 
         </div>

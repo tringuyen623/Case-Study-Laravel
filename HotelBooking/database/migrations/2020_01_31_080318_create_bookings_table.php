@@ -33,9 +33,8 @@ class CreateBookingsTable extends Migration
             $table->date('from_date');
             $table->date('to_date');
             $table->timestamps();
-
-            $table->unique(['room_id', 'booking_id']);
-
+            $table->softDeletes();
+            
             $table->foreign('room_id')
                 ->references('id')
                 ->on('rooms')

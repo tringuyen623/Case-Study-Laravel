@@ -75,6 +75,9 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('gallery-categories/listDeleted', 'Backend\GalleryCategoryController@getDeletedData')->name('gallery-categories.listDeleted');
     Route::get('gallery-categories/{id}/restore', 'Backend\GalleryCategoryController@restore')->name('gallery-categories.restore');
     Route::resource('gallery-categories', 'Backend\GalleryCategoryController');
+    
+    Route::get('bookings/listDeleted', 'Backend\BookingController@getDeletedData')->name('bookings.listDeleted');
+    Route::resource('bookings', 'Backend\BookingController');
 });
 
 // // Route::get('/home', 'Backend\HomeController@index')->name('admin');
