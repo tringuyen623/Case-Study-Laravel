@@ -25,8 +25,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $hotel = Hotel::first();
-
-        View::share('hotel', $hotel);
     }
 }
