@@ -16,7 +16,6 @@ class CreateBedsTable extends Migration
         Schema::create('beds', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('bed_type', ['DBL', 'TWN', 'SGL', 'KING']);
-            $table->boolean('extra_bed')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

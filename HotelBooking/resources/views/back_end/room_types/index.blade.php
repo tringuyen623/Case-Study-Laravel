@@ -1,4 +1,5 @@
 @extends('back_end.layouts.app')
+@section('title', 'Room Type Config')
 
 @push('style')
 <link rel="stylesheet" href="/plugins/bootstrap-toggle/css/bootstrap2-toggle.min.css">

@@ -14,12 +14,10 @@ class HotelController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->hotel = Hotel::all();
     }
 
     public function index(){
-        $hotel = $this->hotel;
+        $hotel = Hotel::all();
 
         if(request()->ajax()){
             return DataTables::of($hotel)

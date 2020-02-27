@@ -1,11 +1,11 @@
 @extends('back_end.layouts.app')
 
-@section('style')
+@push('style')
 <link rel="stylesheet" href="/plugins/bootstrap-toggle/css/bootstrap2-toggle.min.css">
 <link rel="stylesheet" href="/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css">
 
 
-@endsection
+@endpush
 @section('content_header')
 
 <div class="content-header">
@@ -125,7 +125,7 @@
 
 @endsection
 
-@section('myscript')
+@push('myscript')
 <script src="/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script src="/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
@@ -292,4 +292,4 @@
       
 });
 </script>
-@endsection
+@endpush

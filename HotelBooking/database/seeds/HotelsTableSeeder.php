@@ -12,6 +12,8 @@ class HotelsTableSeeder extends Seeder
      */
     public function run()
     {
+        factory(App\User::class)->create();
+
         DB::table('hotels')->insert([
             'name' => 'Dream Hotel',
             'address' => '28 Nguyen Tri Phuong, Tp.Hue, Viet Nam',
@@ -20,7 +22,9 @@ class HotelsTableSeeder extends Seeder
             'check_in_time' => '14:00',
             'check_out_time' => '12:00',
             'currency' => 'USD',
-            'currency_symbol' => '$'
+            'currency_symbol' => '$',
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
 }

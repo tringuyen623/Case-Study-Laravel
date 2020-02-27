@@ -28,19 +28,12 @@ class HomeController extends Controller
             'children' => [0],
         ];
 
-        $hotel = Hotel::first();
-
         $rooms = RoomType::whereHas('rooms', function ($query) {
             $query->where('is_active', 1);
         })->where('status', 1)->get();
 
         session()->put('search', $search);
-        return view('front_end.home', compact('rooms', 'search', 'hotel'));
-    }
-
-    public function hotel()
-    {
-        return $hotel = Hotel::first();
+        return view('front_end.home', compact('rooms', 'search'));
     }
 
     public function roomList()

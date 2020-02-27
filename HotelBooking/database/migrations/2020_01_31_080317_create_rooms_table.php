@@ -16,10 +16,11 @@ class CreateRoomsTable extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('room_type_id');
-            $table->string('view');
-            $table->string('size');
+            $table->string('room_number');
+            $table->boolean('extra_bed')->default(0);
             $table->boolean('is_active')->default(1);
             $table->unsignedBigInteger('bed_id');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('room_type_id')->references('id')->on('room_types')->onDelete('cascade');

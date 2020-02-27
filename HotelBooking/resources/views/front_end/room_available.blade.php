@@ -1,4 +1,5 @@
 @extends('front_end.layouts.app')
+@section('title', 'Room Available')
 
 @section('content')
 <aside id="colorlib-hero">

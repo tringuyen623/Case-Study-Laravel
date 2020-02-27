@@ -1,4 +1,5 @@
 @extends('back_end.layouts.app')
+@section('title', 'Dash Board')
 
 @section('content_header')
 <div class="content-header">

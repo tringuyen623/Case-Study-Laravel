@@ -15,10 +15,7 @@ class CreateAmenitiesTable extends Migration
     {
         Schema::create('amenities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('room_type_id');
             $table->string('name');
-            $table->string('description');
-            $table->text('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

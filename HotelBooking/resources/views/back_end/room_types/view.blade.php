@@ -1,5 +1,5 @@
 @extends('back_end.layouts.app')
-@section('title',"Room Type")
+@section('title',"Room Type Detail")
 @push('style')
 <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
 <style>

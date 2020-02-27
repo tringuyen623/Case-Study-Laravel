@@ -16,7 +16,7 @@ class CreateTaxesTable extends Migration
         Schema::create('taxes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 45);
-            $table->enum('type',['VAT', 'FEE']);
+            $table->enum('type',['TAX', 'FEE']);
             $table->integer('rate');
             $table->boolean('status')->default(1);
             $table->softDeletes();

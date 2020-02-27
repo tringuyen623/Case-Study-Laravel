@@ -31,7 +31,7 @@
 <div id="colorlib-services">
     <div class="container">
         <div class="row">
-            @forelse ($hotel->services as $service)
+            @forelse (App\Service::all() as $service)
             <div class="col-md-3 animate-box text-center">
                 <div class="services">
                     <span class="icon">
@@ -74,7 +74,7 @@
                                     class="icon-star-full"></i><i class="icon-star-full"></i></span> --}}
                             <h3>{{ $room->name }}</h3>
                             
-                            <p><a href="#" class="btn btn-primary btn-book mt-3">View Details!</a></p>
+                            <p><a href="{{ route('room-details', $room->id)}}" class="btn btn-primary btn-book mt-3">View Details!</a></p>
                         </div>
                     </div>
                     @empty

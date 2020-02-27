@@ -18,8 +18,6 @@ Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('room-list', 'Frontend\HomeController@roomList')->name('room-list');
 Route::get('room-details/{id}', 'Frontend\HomeController@roomDetails')->name('room-details');
 Route::get('room-available', 'Frontend\HomeController@checkAvailable')->name('check-available');
-// Route::get('room-details/{room}', 'Frontend\HomeController@book')->name('room-details-booking');
-// Route::get('room-details/{room}/book', 'Frontend\HomeController@book')->name('book');
 Route::get('payment', 'Frontend\HomeController@payment')->name('payment');
 Route::post('booking', 'Frontend\HomeController@booking')->name('booking');
 Route::get('checkout', 'Frontend\HomeController@checkout')->name('checkout');
@@ -28,13 +26,6 @@ Route::get('about', function () {
     return view('front_end.about');
 })->name('about');
 
-// Route::get('rooms', 'Frontend\RoomController@index')->name('rooms');
-// Route::get('rooms/check-available', 'Frontend\RoomController@checkAvailable')->name('check');
-
-
-
-// Route::get('bookings/check', 'BookingController@check')->name('check');
-// Route::get('bookings/search/{id}', 'BookingController@search');
 
 Auth::routes();
 
@@ -81,13 +72,3 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('bookings/list-deleted', 'Backend\BookingController@getDeletedData')->name('bookings.listDeleted');
     Route::resource('bookings', 'Backend\BookingController');
 });
-
-// // Route::get('/home', 'Backend\HomeController@index')->name('admin');
-
-
-
-// // Route::resource('rooms', 'RoomController');
-// // Route::resource('rooms/types', 'RoomTypeController');
-
-
-// Route::resource('bookings', 'BookingController');

@@ -15,7 +15,7 @@
       <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
       <li class="nav-item has-treeview">
-      <a href="{{route('admin.dashboard')}}" class="nav-link {{ Request::segment(2) === 'admin/dashboard' ? 'active' : null }}">
+      <a href="{{route('admin.dashboard')}}" class="nav-link {{ Request::segment(2) === 'dashboard' ? 'active' : null }}">
           <i class="nav-icon fas fa-tachometer-alt"></i>
           <p>
             Dashboard
@@ -23,7 +23,7 @@
         </a>
       </li>
       <li class="nav-item">
-      <a href="{{ route('admin.bookings.index') }}" class="nav-link {{ Request::segment(2) === 'admin/bookings' ? 'active' : null }}">
+      <a href="{{ route('admin.bookings.index') }}" class="nav-link {{ Request::segment(2) === 'bookings' ? 'active' : null }}">
           <i class="nav-icon fas fa-th"></i>
           <p>
             Bookings
@@ -31,15 +31,7 @@
           </p>
         </a>
       </li>
-      <li class="nav-item has-treeview">
-        <a href="#" class="nav-link {{ Request::segment(2) === 'admin/guests' ? 'active' : null }}">
-          <i class="nav-icon fas fa-users"></i>
-          <p>
-            Guests
-          </p>
-        </a>
-      </li>
-      <li class="nav-item has-treeview {{ Request::segment(2) === 'hotel' || Request::segment(2) === 'room-types' || Request::path() === 'admin/rooms' ? 'menu-open' : null }}">
+      <li class="nav-item has-treeview {{ Request::segment(2) === 'hotel' || Request::segment(2) === 'room-types' || Request::segment(2) === 'rooms' ? 'menu-open' : null }}">
         <a href="#" class="nav-link">
           <i class="nav-icon fa fa-fw fa-cubes"></i>
           <p>
@@ -69,42 +61,7 @@
         </ul>
       </li>
 
-      {{-- <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-edit"></i>
-          <p>
-            Forms
-            <i class="fas fa-angle-left right"></i>
-          </p>
-        </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="pages/forms/general.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>General Elements</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/forms/advanced.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Advanced Elements</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/forms/editors.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Editors</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/forms/validation.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Validation</p>
-            </a>
-          </li>
-        </ul>
-      </li> --}}
-      <li class="nav-item has-treeview {{ Request::segment(2) === 'admin/gallery-categories' || Request::segment(2) === 'galleries' ? 'menu-open' : null }}">
+      <li class="nav-item has-treeview {{ Request::segment(2) === 'gallery-categories' || Request::segment(2) === 'galleries' ? 'menu-open' : null }}">
         <a href="pages/gallery.html" class="nav-link">
           <i class="nav-icon far fa-image"></i>
           <p>
@@ -115,125 +72,19 @@
 
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.gallery-categories.index') }}" class="nav-link {{Request::segment(2) === 'admin/gallery-categories' ? 'active' : null }}">
+            <a href="{{ route('admin.gallery-categories.index') }}" class="nav-link {{Request::segment(2) === 'gallery-categories' ? 'active' : null }}">
               <i class="far fa-circle nav-icon"></i>
               <p>Categories</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.galleries.index') }}" class="nav-link {{ Request::segment(2) === 'admin/galleries' ? 'active' : null }}">
+            <a href="{{ route('admin.galleries.index') }}" class="nav-link {{ Request::segment(2) === 'galleries' ? 'active' : null }}">
               <i class="far fa-circle nav-icon"></i>
               <p>Gallery</p>
             </a>
           </li>
         </ul>
       </li>
-      {{-- <li class="nav-header">EXAMPLES</li>
-      <li class="nav-item">
-        <a href="pages/calendar.html" class="nav-link">
-          <i class="nav-icon far fa-calendar-alt"></i>
-          <p>
-            Calendar
-            <span class="badge badge-info right">2</span>
-          </p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="pages/gallery.html" class="nav-link">
-          <i class="nav-icon far fa-image"></i>
-          <p>
-            Gallery
-          </p>
-        </a>
-      </li>
-      <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-          <i class="nav-icon far fa-envelope"></i>
-          <p>
-            Mailbox
-            <i class="fas fa-angle-left right"></i>
-          </p>
-        </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="pages/mailbox/mailbox.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Inbox</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/mailbox/compose.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Compose</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/mailbox/read-mail.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Read</p>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-book"></i>
-          <p>
-            Pages
-            <i class="fas fa-angle-left right"></i>
-          </p>
-        </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="pages/examples/invoice.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Invoice</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/examples/profile.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Profile</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/examples/e_commerce.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>E-commerce</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/examples/projects.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Projects</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/examples/project_add.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Project Add</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/examples/project_edit.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Project Edit</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/examples/project_detail.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Project Detail</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/examples/contacts.html" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Contacts</p>
-            </a>
-          </li>
-        </ul>
-      </li> --}}
     </ul>
   </nav>
   <!-- /.sidebar-menu -->

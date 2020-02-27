@@ -1,4 +1,5 @@
 @extends('back_end.layouts.app')
+@section('title', 'Rooms Config')
 
 @push('style')
 <link rel="stylesheet" href="/plugins/bootstrap-toggle/css/bootstrap2-toggle.min.css">
@@ -44,9 +45,8 @@
                                 <thead>
                                     <tr>
                                         <th>NO</th>
+                                        <th>Room Number</th>
                                         <th>Room Type</th>
-                                        <th>View</th>
-                                        <th>Size</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -158,13 +158,10 @@
     }
               },
               {
+                  data: 'room_number'
+              },
+              {
                   data: 'room_type_id'
-              },
-              {
-                  data: 'view'
-              },
-              {
-                  data: 'size'
               },
               {
                   data: 'is_active'

@@ -17,6 +17,8 @@ class CreateBookingsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('customer_id');
             $table->smallInteger('no_of_guests');
+            $table->boolean('status');
+            $table->softDeletes();
 
             $table->timestamps();
 
