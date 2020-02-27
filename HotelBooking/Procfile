@@ -1,1 +1,1 @@
-web: vendor/bin/heroku-php-apache2 /HotelBooking
+web: vendor/bin/heroku-php-apache2 /HotelBooking/public
