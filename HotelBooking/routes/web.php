@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'Frontend\HomeController@index')->name('home');
 Route::get('room-list', 'Frontend\HomeController@roomList')->name('room-list');
-Route::get('room-details', 'Frontend\HomeController@roomDetails')->name('room-details');
+Route::get('room-details/{id}', 'Frontend\HomeController@roomDetails')->name('room-details');
 Route::get('room-available', 'Frontend\HomeController@checkAvailable')->name('check-available');
 // Route::get('room-details/{room}', 'Frontend\HomeController@book')->name('room-details-booking');
 // Route::get('room-details/{room}/book', 'Frontend\HomeController@book')->name('book');

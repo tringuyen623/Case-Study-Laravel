@@ -52,6 +52,12 @@ class HomeController extends Controller
         return view('front_end.rooms', compact('rooms', 'search'));
     }
 
+    public function roomDetails($id){
+        $roomType = RoomType::findOrFail($id);
+
+        return view('front_end.room_details', compact('roomType'));
+    }
+
     public function checkAvailable(Request $request)
     {
         if (request('search')) {
