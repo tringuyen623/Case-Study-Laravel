@@ -1,5 +1,6 @@
 {
     "require": {
-        "symfony/dotenv": "^5.0"
+        "symfony/dotenv": "^5.0",
+        "fzaninotto/faker": "^1.4"
     }
 }
