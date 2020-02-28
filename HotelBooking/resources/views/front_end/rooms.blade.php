@@ -34,9 +34,6 @@
                 <div class="desc">
                     <h3><a href="#">{{ $room->name }}</a></h3>
                     <p class="price">
-                        <span class="currency">{{ $room->description }}</span>
-                    </p>
-                    <p class="price">
                         <span class="price-room">{{hotel_information()->currency_symbol . $room->base_price}}</span>
                         <span class="per">/ per night</span>
                     </p>
