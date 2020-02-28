@@ -158,7 +158,7 @@
               {
                   data: 'image',
                   render: function(data, type, row, meta){
-                      return `<img src="${data}" alt="" style="height: 100px;">`
+                      return `<img src="${data}" alt="" style="height: 100px; width: 150px">`
                   }
               },
               {

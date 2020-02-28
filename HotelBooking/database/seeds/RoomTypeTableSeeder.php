@@ -16,7 +16,7 @@ class RoomTypeTableSeeder extends Seeder
         DB::table('room_types')->insert([
             'name' => 'Superior',
             'short_code' => 'SUP',
-            'description' => Str::random(100),
+            'description' => 'This is Superior room',
             'size' => '35m2',
             'view' => 'Garden',
             'higher_capacity' => 2,
@@ -30,7 +30,7 @@ class RoomTypeTableSeeder extends Seeder
         DB::table('room_types')->insert([
             'name' => 'Deluxe',
             'short_code' => 'DLX',
-            'description' => Str::random(100),
+            'description' => 'This is Deluxe room',
             'size' => '35m2',
             'view' => 'Candle lake or Valley poll',
             'higher_capacity' => 3,
@@ -44,7 +44,7 @@ class RoomTypeTableSeeder extends Seeder
         DB::table('room_types')->insert([
             'name' => 'Premium Deluxe',
             'short_code' => 'PDLX',
-            'description' => Str::random(100),
+            'description' => 'This is Premium Deluxe room',
             'size' => '40m2',
             'view' => 'City view or Perfum river',
             'higher_capacity' => 3,
@@ -58,7 +58,7 @@ class RoomTypeTableSeeder extends Seeder
         DB::table('room_types')->insert([
             'name' => 'Family Deluxe',
             'short_code' => 'BGL',
-            'description' => Str::random(100),
+            'description' => 'This is Family Deluxe room',
             'size' => '45m2',
             'view' => 'Candle lake or Valley poll',
             'higher_capacity' => 4,
@@ -72,7 +72,7 @@ class RoomTypeTableSeeder extends Seeder
         DB::table('room_types')->insert([
             'name' => 'Honeymoon Pool Villa',
             'short_code' => 'HPV',
-            'description' => Str::random(100),
+            'description' => 'This is Pool Villa room',
             'size' => '45m2',
             'view' => 'Candle lake or Valley poll',
             'higher_capacity' => 3,
@@ -86,7 +86,7 @@ class RoomTypeTableSeeder extends Seeder
         DB::table('room_types')->insert([
             'name' => 'King Suite',
             'short_code' => 'KS',
-            'description' => Str::random(100),
+            'description' => 'This is King Suite room',
             'size' => '45m2',
             'view' => 'Candle lake or Valley poll',
             'higher_capacity' => 5,

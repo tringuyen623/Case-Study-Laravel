@@ -41,8 +41,7 @@
                         <li><i class="icon-check"></i> Breakfast included</li>
                         <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
                     </ul>
-                    <p><a class="btn btn-primary btn-book" href="{{route('room-list')}}">Book now!</a></p>
-                </div>
+                    <p><a href="{{ route('room-details', $room->id)}}" class="btn btn-primary btn-book mt-3">View Details!</a></p>                </div>
             </div>
             @endforeach
 

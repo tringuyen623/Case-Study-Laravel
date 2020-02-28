@@ -99,10 +99,6 @@
                             <dt class="col-md-6">Base Price :</dt>
                             <dd class="col-md-6"><strong>{{number_format($roomType->base_price,2)}}</strong>
                                 {{hotel_information()->currency}}</dd>
-                            <dt class="col-md-6">Status :</dt>
-                            <dd class="col-md-6"><span
-                                    class="badge {{$roomType->status?'badge-success':'badge-danger'}}">{{$roomType->status?'Active':'Inactive'}}</span>
-                            </dd>
                         </dl>
                     </div>
                 </div>

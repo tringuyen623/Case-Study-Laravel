@@ -63,7 +63,7 @@
 
                     <div role="tabpanel" class="tab-pane" id="deleted">
                         <div class="card-body">
-                            <table id="roomTypeDeleted" class="table table-bordered table-striped" style="width:100%">
+                            <table id="roomTypeDeleted" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>NO</th>

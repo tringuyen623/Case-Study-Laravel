@@ -5,7 +5,7 @@
 <aside id="colorlib-hero">
     <div class="flexslider">
         <ul class="slides">
-           <li style="background-image: url(images/img_bg_5.jpg);">
+           <li style="background-image: url({{App\GalleryCategory::where('name','Hotel')->get()->first()->hotelGalleries->random()->image}});">
                <div class="overlay"></div>
                <div class="container-fluid">
                    <div class="row">
@@ -32,53 +32,9 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <img class="img-responsive" src="images/img_bg_5.jpg" alt="Free HTML5 Bootstrap Template by colorlib.com">
+            <img class="img-responsive" src="{{App\GalleryCategory::where('name','Hotel')->get()->first()->hotelGalleries->random()->image}}" alt="Free HTML5 Bootstrap Template by colorlib.com">
             </div>
         </div>
-    </div>
-</div>
-
-<div id="colorlib-testimony" class="colorlib-light-grey">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
-                <span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
-                <h2>Our Satisfied Guests says</h2>
-                <p>We love to tell our successful far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-            </div>
-        </div>
-        <div class="row">
-        <div class="col-md-4 animate-box">
-            <div class="testimony text-center">
-                <span class="img-user" style="background-image: url(images/person2.jpg);"></span>
-                <span class="user">Brian Doe</span>
-                <small>Satisfied Customer</small>
-                <blockquote>
-                    <p></i> Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-                </blockquote>
-            </div>
-        </div>
-        <div class="col-md-4 animate-box">
-            <div class="testimony text-center">
-                <span class="img-user" style="background-image: url(images/person1.jpg);"></span>
-                <span class="user">Nathalie Miller</span>
-                <small>Satisfied Customer</small>
-                <blockquote>
-                    <p></i> Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-                </blockquote>
-            </div>
-        </div>
-        <div class="col-md-4 animate-box">
-            <div class="testimony text-center">
-                <span class="img-user" style="background-image: url(images/person3.jpg);"></span>
-                <span class="user">Shara Jones</span>
-                <small>Satisfied Customer</small>
-                <blockquote>
-                    <p></i> Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-                </blockquote>
-            </div>
-        </div>
-    </div>
     </div>
 </div>
 @endsection
