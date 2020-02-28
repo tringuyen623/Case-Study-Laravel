@@ -21,7 +21,6 @@
                         <li><a href="{{ route('room-list') }}">Accomodation</a></li>
                         <li><a href="#">Dining &amp; Bar</a></li>
                         <li><a href="#">Restaurants</a></li>
-                        <li><a href="#">Beach &amp; Resorts</a></li>
                     </ul>
                 </p>
             </div>
@@ -29,9 +28,9 @@
             <div class="col-md-4 col-md-push-1">
                 <h4>Contact Information</h4>
                 <ul class="colorlib-footer-links">
-                    <li>{{hotel_information()->address}}</li>
-                    <li><a href="tel://1234567920">{{hotel_information()->phone}}</a></li>
-                    <li><a href="mailto:info@yoursite.com">{{hotel_information()->email}}</a></li>
+                    <li class="fa fa-map-marker"> {{hotel_information()->address}}</li>
+                    <li class="fa fa-phone"> <a href="tel://1234567920">{{hotel_information()->phone}}</a></li>
+                    <li class="fa fa-envelope-o"> <a href="mailto:info@yoursite.com">{{hotel_information()->email}}</a></li>
                 </ul>
             </div>
         </div>

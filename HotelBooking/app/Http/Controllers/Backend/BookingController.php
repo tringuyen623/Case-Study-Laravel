@@ -33,12 +33,12 @@ class BookingController extends Controller
                     <button type="button" class="btn btn-outline-danger cancel-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $bookings->id . '"><i
                     class="fa fa-window-close"></i></button>';
                 })
-                ->editColumn('customer_id', function($canceled){
-                    return $canceled->customer->first_name;
+                ->editColumn('customer_id', function($bookings){
+                    return $bookings->customer->getFullName();
                 })
-                ->editColumn('base_price', function($canceled){
+                ->editColumn('base_price', function($bookings){
                     $base_price = [];
-                    foreach($canceled->rooms as $room){
+                    foreach($bookings->rooms as $room){
                         $base_price[] = $room->roomType->base_price;
                     }
                     return $base_price;
@@ -184,7 +184,7 @@ class BookingController extends Controller
             </div>';
                 })
                 ->editColumn('customer_id', function($canceled){
-                    return $canceled->customer->first_name;
+                    return $canceled->customer->getFullName();
                 })
                 ->make(true);
         }

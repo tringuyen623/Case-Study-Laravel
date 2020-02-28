@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-            <img class="img-responsive" src="{{App\GalleryCategory::where('name','Hotel')->get()->first()->hotelGalleries->random()->image}}" alt="Free HTML5 Bootstrap Template by colorlib.com">
+            <img class="img-responsive" src="{{App\GalleryCategory::where('name','Hotel')->get()->first()->hotelGalleries->random()->image}}" alt="Dream Hotel">
             </div>
         </div>
     </div>

@@ -32,7 +32,7 @@
                 <a href="{{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }}" class="room image-popup-link"
                     style="background-image: url({{ null !== ($room->featuredImage()) ? $room->featuredImage()->image : '' }});"></a>
                 <div class="desc">
-                    <h3><a href="#">{{ $room->name }}</a></h3>
+                    <h3><a href="#"><strong>{{ $room->name }}</strong></a></h3>
                     <p class="price">
                         <span class="price-room">{{hotel_information()->currency_symbol . $room->base_price}}</span>
                         <span class="per">/ per night</span>

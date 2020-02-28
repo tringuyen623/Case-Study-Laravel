@@ -27,22 +27,25 @@
                                     <div class="input-group-icon" id="js-select-special">
 
                                         <input class="form-control" type="text" name="passengers" value=""
-                                            placeholder="{{ count(Session::get('search')['rooms'])}} Room, {{ array_sum(Session::get('search')['adults']) + array_sum(Session::get('search')['children'])}} Guest" disabled="disabled" style="disabled:pointer;"
-                                            id="info">
+                                            placeholder="{{ count(Session::get('search')['rooms'])}} Room, {{ array_sum(Session::get('search')['adults']) + array_sum(Session::get('search')['children'])}} Guest"
+                                            disabled="disabled" style="disabled:pointer;" id="info">
                                     </div>
                                     <div class="dropdown-select">
                                         <ul class="list-room">
-                                            @for ($i = 0; $i < count(Session::get('search')['rooms']); $i++)
-                                            <li class="list-room__item">
-                                                <input type="hidden" name="search[rooms][]" value="{{Session::get('search')['rooms'][$i]}}">
-                                            <span class="list-room__name">Room {{Session::get('search')['rooms'][$i]}}</span>
+                                            @for ($i = 0; $i < count(Session::get('search')['rooms']); $i++) <li
+                                                class="list-room__item">
+                                                <input type="hidden" name="search[rooms][]"
+                                                    value="{{Session::get('search')['rooms'][$i]}}">
+                                                <span class="list-room__name">Room
+                                                    {{Session::get('search')['rooms'][$i]}}</span>
                                                 <ul class="list-person">
                                                     <li class="list-person__item">
                                                         <span class="name">Adults</span>
                                                         <div class="quantity quantity1">
                                                             <span class="minus">-</span>
                                                             <input class="inputQty" type="number"
-                                                        name="search[adults][]" min="1" value="{{Session::get('search')['adults'][$i]}}">
+                                                                name="search[adults][]" min="1"
+                                                                value="{{Session::get('search')['adults'][$i]}}">
                                                             <span class="plus">+</span>
                                                         </div>
                                                     </li>
@@ -51,68 +54,34 @@
                                                         <div class="quantity quantity2">
                                                             <span class="minus">-</span>
                                                             <input class="inputQty" type="number"
-                                                                name="search[children][]" min="0" value="{{Session::get('search')['children'][$i]}}">
+                                                                name="search[children][]" min="0"
+                                                                value="{{Session::get('search')['children'][$i]}}">
                                                             <span class="plus">+</span>
                                                         </div>
                                                     </li>
                                                 </ul>
-                                            </li>
-                                            @endfor
-                                            
+                                                </li>
+                                                @endfor
+
                                         </ul>
                                         <div class="list-room__footer">
                                             <a href="#" id="btn-add-room">Add room</a>
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="col-2">
-                                    <div class="input-group m-b-0">
-                                        <label class="label">Depart</label>
-                                        <input class="input--style-1" type="text" name="depart" placeholder="mm/dd/yyyy"
-                                            id="input-start">
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
 
-                        {{-- <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="adults">Adults</label>
-                                <div class="form-field">
-                                    <i class="icon icon-arrow-down3"></i>
-                                    <select name="search[adults]" id="people" class="form-control">
-                                        @for ($i = 1; $i <= 4 ; $i++) <option
-                                            {{ Session::get('search')['adults'] == $i ? 'selected' : null }}
-                        value="{{ $i }}">{{ $i }}
-                        </option>
-                        @endfor
-                        </select>
+
+                        <div class="col-md-3">
+                            <input type="submit" name="submit" id="submit" value="Check Available"
+                                class="btn btn-primary btn-block">
+                        </div>
                     </div>
+                </form>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label for="children">Children</label>
-                <div class="form-field">
-                    <i class="icon icon-arrow-down3"></i>
-                    <select name="search[children]" id="people" class="form-control">
-                        @for ($i = 0; $i <= 2 ; $i++) <option
-                            {{ Session::get('search')['children'] == $i ? 'selected' : null }} value="{{ $i }}">
-                            {{ $i }}
-                            </option>
-                            @endfor
-                    </select>
-                </div>
-            </div>
-        </div> --}}
-        <div class="col-md-3">
-            <input type="submit" name="submit" id="submit" value="Check Available" class="btn btn-primary btn-block">
         </div>
     </div>
-    </form>
-</div>
-</div>
-</div>
 </div>
 
 
@@ -391,7 +360,6 @@
 @endpush
 
 @push('script')
-<script src="/js/bootstrap-datepicker.js"></script>
 <script>
     jQuery(document).ready(function ($) {
     'use strict';

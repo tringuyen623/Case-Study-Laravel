@@ -29,7 +29,8 @@
           <div class="icon">
             <i class="ion ion-calendar"></i>
           </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="{{ route('admin.bookings.index') }}" class="small-box-footer">More info <i
+              class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
@@ -39,7 +40,7 @@
           <div class="inner">
             <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-            <p>Bounce Rate</p>
+            <p>Update later</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
@@ -52,7 +53,7 @@
         <!-- small box -->
         <div class="small-box bg-warning">
           <div class="inner">
-          <h3>{{ $bookings->sum('no_of_guests')}}</h3>
+            <h3>{{ $bookings->sum('no_of_guests')}}</h3>
 
             <p>Guests</p>
           </div>
@@ -67,7 +68,7 @@
         <!-- small box -->
         <div class="small-box bg-danger">
           <div class="inner">
-          <h3>{{ count($rooms) }}</h3>
+            <h3>{{ count($rooms) }}</h3>
 
             <p>Rooms</p>
           </div>
@@ -101,8 +102,7 @@
             <div class="form-row mb-2">
 
               <div class="col-md">
-                <a class="btn btn-primary " href="#"><i
-                    class="fa fa-plus"></i> Add Reservation</a>
+                <a class="btn btn-primary " href="#"><i class="fa fa-plus"></i> Add Reservation</a>
 
               </div>
               <div class="col-md">
@@ -110,7 +110,7 @@
                   <div class="form-group">
                     <div class="input-group">
                       <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
-                        <input name="date" type="text" id="date" value="2020-02-08" class="form-control"
+                        <input name="date" type="text" id="date" value="{{$data['date']}}" class="form-control"
                           data-type="datepicker" data-guid="59d1d10b-cba9-55a2-38de-45e1cf831591" data-datepicker="true"
                           role="input" day="2020-1-8"><span class="input-group-append" role="right-icon"><button
                             class="btn btn-outline-secondary border-left-0" type="button"><i
@@ -140,7 +140,7 @@
                 <table class="table table-bordered mb-0">
                   <thead class="bg-tsk text-white">
                     <tr>
-                      <th style="width: 150px">Floor</th>
+                      <th style="width: 150px">{{ $data['current_booking']}}</th>
                       <th>Room</th>
                     </tr>
                   </thead>
@@ -148,7 +148,8 @@
                     <tr>
                       <td class="align-content-center font-weight-bold">First Floor</td>
                       <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">100</a>
+                        <a href="#"
+                          class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">101</a>
                       </td>
                     </tr>
                     <tr>
@@ -239,10 +240,67 @@
           </div>
         </div>
       </div>
+    </div>
 
-
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card mb-4">
+          <div class="card-header font-weight-bold bg-white">
+            <i class="fa fa-line-chart"></i>
+            MONTHLY RESERVATION
+          </div>
+          <div class="card-body p-0" id="reservation" style="height: 350px;">
+    
+          </div>
+        </div>
+      </div>
     </div>
     <!-- /.row (main row) -->
   </div><!-- /.container-fluid -->
+
+  
 </section>
+
 @endsection
+
+@push('style')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gl-morris-js@0.5.3/morris.css">
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+@endpush
+
+@push('myscript')
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"
+  integrity="sha256-TabprKdeNXbSesCWLMrcbWSDzUhpAdcNPe5Q53rn9Yg=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
+  integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+            $('#date').datepicker({
+                uiLibrary: 'bootstrap4',
+                format: 'yyyy/mm/dd',
+
+            });
+            var months = @php echo json_encode(array_values(month_arr())) ; @endphp;
+
+            new Morris.Line({
+                element: 'reservation',
+                data: @php echo $totalChart ; @endphp,
+                xkey: 'month',
+                ykeys: ['booking'],
+                labels: ['BOOKING'],
+                xLabelFormat: function(x) { // <--- x.getMonth() returns valid index
+                    var month = months[x.getMonth()];
+                    return month;
+                },
+                dateFormat: function(x) {
+                    var month = months[new Date(x).getMonth()];
+                    return month;
+                },
+            });
+        });
+</script>
+@endpush
