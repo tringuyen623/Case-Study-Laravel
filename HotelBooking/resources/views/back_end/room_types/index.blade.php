@@ -4,7 +4,12 @@
 @push('style')
 <link rel="stylesheet" href="/plugins/bootstrap-toggle/css/bootstrap2-toggle.min.css">
 <link rel="stylesheet" href="/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css">
-
+<style>
+    .is-danger.input,
+    .is-danger.textarea {
+        border-color: #f14668;
+    }
+</style>
 
 @endpush
 @section('content_header')
@@ -106,10 +111,12 @@
                                         <label><strong>Name</strong> <small class="text-danger">*</small></label>
                                         <input type="hidden" name="room_type_id" id="room_type_id" value="">
                                         <input type="text" id="name" name="name" class="form-control">
+                                        <p class="text-danger name-error"></p>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label><strong>Short Name</strong> <small class="text-danger">*</small></label>
-                                        <input type="text" id="short_name" name="short_name" class="form-control">
+                                        <label><strong>Short Code</strong> <small class="text-danger">*</small></label>
+                                        <input type="text" id="short-code" name="short_code" class="form-control">
+                                        <p class="text-danger short-code-error"></p>
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
@@ -118,27 +125,33 @@
                                                 class="text-danger">*</small></label>
                                         <input type="text" id="higher_capacity" name="higher_capacity"
                                             class="form-control">
+                                        <p class="text-danger higher-error"></p>
+
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label><strong>Kids Capacity</strong> <small
                                                 class="text-danger">*</small></label>
                                         <input type="text" id="kids_capacity" name="kids_capacity" class="form-control">
+                                        <p class="text-danger kid-error"></p>
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
                                     <div class="form-group col-md-6">
                                         <label><strong>Base Price</strong> <small class="text-danger">*</small></label>
                                         <input type="text" id="base_price" name="base_price" class="form-control">
+                                        <p class="text-danger base-price-error"></p>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label><strong>Size</strong> <small class="text-danger">*</small></label>
                                         <input type="text" id="size" name="size" class="form-control">
+                                        <p class="text-danger size-error"></p>
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
                                     <div class="form-group col-md-12">
                                         <label><strong>Description</strong> <small class="text-danger">*</small></label>
                                         <input type="text" id="description" name="description" class="form-control">
+                                        <p class="text-danger description-error"></p>
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
@@ -280,6 +293,8 @@
     $('#create_room_type').click(function(){
        $('.modal-title').text('Add Room Type');
        $('#action').val('Add');
+       $('#form_room_type')[0].reset();
+       clearError();
     });
 
     $('#form_room_type').on('submit', function(e){
@@ -288,7 +303,7 @@
         let action_url = '';
         let type = '';
         let name = $('#name').val()
-        let short_code = $('#short_name').val()
+        let short_code = $('#short-code').val()
         let higher_capacity = $('#higher_capacity').val()
         let kids_capacity = $('#kids_capacity').val()
         let base_price = $('#base_price').val()
@@ -329,9 +344,10 @@
                 $('#form_room_type')[0].reset();
                 $('#success_content').html('Your record has been added');
                 $('#success').modal('show');
+                clearError()
             },
             error: function(err){
-                console.log(err);
+               showError(err)
             }
         });
     });
@@ -367,7 +383,7 @@
             success: function(data){
                 $('#room_type_id').val(id),
                 $('#name').val(data.name),
-                $('#short_name').val(data.short_code),
+                $('#short-code').val(data.short_code),
                 $('#higher_capacity').val(data.higher_capacity),
                 $('#kids_capacity').val(data.kids_capacity),
                 $('#base_price').val(data.base_price),
@@ -375,7 +391,8 @@
                 $('#description').val(data.description),
                 $('#action_button').html('Update'),
                 $('#action').val('Edit'),
-                data.status === 1 ? $('#status').prop('checked', true).change() : $('#status').prop('checked', false).change()  
+                data.status === 1 ? $('#status').prop('checked', true).change() : $('#status').prop('checked', false).change(),
+                clearError()
             },
             error: function(error){
                 console.log(error)
@@ -468,7 +485,26 @@
           });
         }
       })
+
+      function showError(err){
+        err.responseJSON.errors.name ? ($('.name-error').html(err.responseJSON.errors.name), $('#name').addClass('input is-danger')) : ($('.name-error').empty(), $('#name').removeClass('input is-danger')),
+                err.responseJSON.errors.higher_capacity ? ($('.higher-error').html(err.responseJSON.errors.higher_capacity), $('#higher_capacity').addClass('input is-danger')) : ($('.higher-error').empty(), $('#higher_capacity').removeClass('input is-danger')),
+                err.responseJSON.errors.short_code ? ($('.short-code-error').html(err.responseJSON.errors.short_code), $('#short-code').addClass('input is-danger')) : ($('.short-code-error').empty(), $('#short-code').removeClass('input is-danger')),
+                err.responseJSON.errors.kids_capacity ? ($('.kid-error').html(err.responseJSON.errors.kids_capacity), $('#kids_capacity').addClass('input is-danger')) : ($('.kid-error').empty(), $('#kids_capacity').removeClass('input is-danger')),
+                err.responseJSON.errors.base_price ? ($('.base-price-error').html(err.responseJSON.errors.base_price), $('#base_price').addClass('input is-danger')) : ($('.base-price-error').empty(), $('#base_price').removeClass('input is-danger')),
+                err.responseJSON.errors.size ? ($('.size-error').html(err.responseJSON.errors.size), $('#size').addClass('input is-danger')) : ($('.size-error').empty(), $('#size').removeClass('input is-danger')),
+                err.responseJSON.errors.description ? ($('.description-error').html(err.responseJSON.errors.description), $('#description').addClass('input is-danger')) : ($('.description-error').empty(), $('#description').removeClass('input is-danger'))
+      }
       
+      function clearError(){
+        $('.name-error').empty(), $('#name').removeClass('input is-danger')
+                $('.higher-error').empty(), $('#higher_capacity').removeClass('input is-danger')
+                $('.short-code-error').empty(), $('#short-code').removeClass('input is-danger')
+                $('.kid-error').empty(), $('#kids_capacity').removeClass('input is-danger')
+                $('.base-price-error').empty(), $('#base_price').removeClass('input is-danger')
+                $('.size-error').empty(), $('#size').removeClass('input is-danger')
+                $('.description-error').empty(), $('#description').removeClass('input is-danger')
+      }
 });
 </script>
 @endpush
