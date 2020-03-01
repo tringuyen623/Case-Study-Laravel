@@ -25,7 +25,7 @@ class AmenityController extends Controller
                 <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-outline-primary edit-amenity" data-toggle="modal" data-target="#add_amenity" data-id ="' . $amenities->id . '"><i
                 class="fa fa-edit"></i></button>' .
-                '<button type="button" class="btn btn-outline-primary delete-amenity" data-toggle="modal" data-target="#add_amenity" data-id ="' . $amenities->id . '"><i
+                '<button type="button" class="btn btn-outline-danger delete-amenity" data-toggle="modal" data-target="#add_amenity" data-id ="' . $amenities->id . '"><i
                 class="fa fa-trash"></i></button>
                 </div>';
             })

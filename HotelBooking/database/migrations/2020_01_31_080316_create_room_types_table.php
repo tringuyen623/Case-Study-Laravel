@@ -19,8 +19,7 @@ class CreateRoomTypesTable extends Migration
             $table->string('short_code')->unique();
             $table->text('description')->nullable();
             $table->string('size', 10);
-            $table->string('view', 50);
-            $table->integer('higher_capacity')->default(0);
+            $table->integer('higher_capacity')->default(2);
             $table->integer('kids_capacity')->default(0);
             $table->float('base_price',8,2)->default(0);
             $table->boolean('status')->default(1);

@@ -16,6 +16,7 @@
                     <!--Footer-->
                     <div class="modal-footer justify-content-center">
                         <input type="hidden" id="delete-id" value="">
+                        <input type="hidden" id="delete-action" name="delete-action">
                         <button type="submit" id="ok-button" class="btn btn-danger">Remove</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
@@ -37,7 +38,6 @@
                         detials.</p>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" id="delete-action" name="delete-action">
                     <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
                 </div>
             </div>

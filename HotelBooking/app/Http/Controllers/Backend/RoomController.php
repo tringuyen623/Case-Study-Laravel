@@ -25,7 +25,7 @@ class RoomController extends Controller
 
     public function index()
     {
-        return view('back_end.rooms.index', ['types' => RoomType::all()]);
+        return view('back_end.rooms.index');
     }
 
     public function getData()
@@ -38,19 +38,21 @@ class RoomController extends Controller
 
                     return '
                     <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-outline-primary edit-room" data-toggle="modal" data-target="#add_room" data-id ="' . $rooms->id . '"><i
+                    <button type="button" class="btn btn-outline-primary edit-room" data-toggle="modal" data-target="#add-room" data-id ="' . $rooms->id . '"><i
                     class="fa fa-edit"></i></button>'
                 ;
                 })
                 ->editColumn('room_type_id', function($rooms){
                     return $rooms->roomType->name;
                 })
+                ->editColumn('bed_id', function($bed){
+                    return $bed->bed->bed_type;
+                })
+                ->editColumn('extra_bed', function($bed){
+                    return $bed->extra_bed === 1 ? 'Yes' : 'No';
+                })
                 ->editColumn('is_active', function($rooms){
-                    if ($rooms->is_active === 1){
-                        return 'Active';
-                    }else {
-                        return 'Inactive';
-                    }
+                        return $rooms->is_active === 1 ? 'Active' : 'Inactive';
                 })
                 ->make(true);
         }
@@ -63,7 +65,7 @@ class RoomController extends Controller
      */
     public function create()
     {
-        return view('rooms.create', ['types' => RoomType::all(), 'hotel' => Hotel::all(), 'beds' => Bed::all()]);
+        //
     }
 
     /**
@@ -72,22 +74,11 @@ class RoomController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        $this->validateAttribute();
+        Room::create($this->validateAttribute());
 
-        $room = new Room();
-        $room->room_type_id = request('room_type_id');
-        $room->bed_id = 1;
-        $room->view = request('view');
-        $room->size = request('size');
-        $room->is_active = request('is_active');
-
-        if($room->save()){
-            return $room;
-        }
-
-        return redirect(route('rooms.index'));
+        return redirect(route('admin.rooms.index'));
     }
 
     /**
@@ -108,9 +99,7 @@ class RoomController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Room $room)
-    {
-        $types = RoomType::all();
-        $beds = Bed::all();
+    {        
         return response()->json($room);
     }
 
@@ -123,13 +112,7 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        // return request('my-checkbox');
-        $room->room_type_id = request('room_type_id');
-        $room->bed_id = 1;
-        $room->view = request('view');
-        $room->size = request('size');
-        $room->is_active = request('is_active');
-        $room->update();
+       $room->update($this->validateAttribute());
 
         return redirect(route('admin.rooms.index'));
     }
@@ -147,10 +130,12 @@ class RoomController extends Controller
 
     public function validateAttribute(){
         return request()->validate([
+            'room_number' => 'required',
             'view' => 'required',
-            'size' => 'required',
             'room_type_id' => 'required',
-            // 'bed_id' => 'required'
+            'bed_id' => 'required',
+            'extra_bed' => 'required',
+            'is_active' => 'required'
         ]);
     }
 }

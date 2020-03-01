@@ -36,8 +36,9 @@
                                                 class="list-room__item">
                                                 <input type="hidden" name="search[rooms][]"
                                                     value="{{Session::get('search')['rooms'][$i]}}">
-                                                <span class="list-room__name">Room
-                                                    {{Session::get('search')['rooms'][$i]}}</span>
+                                                <span class="list-room__name"><span style="display: none;"
+                                                        class="minus reduce-room">-</span> Room
+                                                    <span id="number-of-room"></span></span>
                                                 <ul class="list-person">
                                                     <li class="list-person__item">
                                                         <span class="name">Adults</span>
@@ -89,6 +90,16 @@
 @push('style')
 
 <style>
+    body {
+        counter-reset: section;
+    }
+
+    #number-of-room:before {
+        font-family: "Poppins", Arial, sans-serif;
+        counter-increment: section;
+        content: counter(section);
+    }
+
     .row-space {
         -webkit-box-pack: justify;
         -webkit-justify-content: space-between;
@@ -372,7 +383,15 @@
         var dropdownSelect = selectSpecial.parent().find('.dropdown-select');
         var listRoom = dropdownSelect.find('.list-room');
         var btnAddRoom = $('#btn-add-room');
-        var totalRoom = {!! json_encode(Session::get('search')['adults']) !!}.length;
+        var totalRoom = {!! json_encode(Session::get('search')['rooms']) !!}.length;
+
+        listRoom.on('click', '.reduce-room', function(e){
+            e.preventDefault();
+            totalRoom--;
+            $(this).parents('li.list-room__item').remove()
+            updateRoom();
+            console.log(totalRoom);
+        })
     
         selectSpecial.on('click', function (e) {
             e.stopPropagation();
@@ -396,7 +415,9 @@
             var qtyInput = qtyContainer.find('input[type=number]');
             var oldValue = parseInt(qtyInput.val());
             var newVal = oldValue + 1;
-            qtyInput.val(newVal);
+            if(newVal <= 4){
+                qtyInput.val(newVal);
+            }
     
             updateRoom();
         });
@@ -445,9 +466,10 @@
             e.preventDefault();
     
             totalRoom++;
+
     
             listRoom.append('<li class="list-room__item">' + `<input type="hidden" id="search-adult" name="search[rooms][]" value="${totalRoom}">` +
-                '                                        <span class="list-room__name"> Room '+ totalRoom +'</span>' +
+                '                                        <span class="list-room__name"><span class="minus reduce-room" style="display: none;">-</span> Room <span id="number-of-room"></span></span>' +
                 '                                        <ul class="list-person">' +
                 '                                            <li class="list-person__item">' +
                 '                                                <span class="name">' +
@@ -478,10 +500,11 @@
                 '                                                </div>' +
                 '                                            </li>' +
                 '                                        </ul>');
-    
-    
+
             updateRoom();
         });
+
+            
     
     
         function countAdult() {
@@ -537,7 +560,14 @@
             var infoText = totalRoom + ' ' + rooms + (totalAd + totalChi) + ' ' + guests;
     
             info.val(infoText);
+
+            if(totalRoom > 1){
+                $('.reduce-room').show();
+            }else {
+                $('.reduce-room').hide();
+            }
         }
+        
     
     } catch (e) {
         console.log(e);
@@ -560,6 +590,8 @@
     } catch (err) {
         console.log(err);
     }
+
+    
     
     // try {
     //     var addSearchValue = $('search-room');

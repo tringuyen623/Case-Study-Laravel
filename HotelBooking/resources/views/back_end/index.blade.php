@@ -111,10 +111,7 @@
                     <div class="input-group">
                       <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
                         <input name="date" type="text" id="date" value="{{$data['date']}}" class="form-control"
-                          data-type="datepicker" data-guid="59d1d10b-cba9-55a2-38de-45e1cf831591" data-datepicker="true"
-                          role="input" day="2020-1-8"><span class="input-group-append" role="right-icon"><button
-                            class="btn btn-outline-secondary border-left-0" type="button"><i
-                              class="gj-icon">event</i></button></span></div>
+                          ></div>
                     </div>
                   </div>
                   <div class="form-group pl-2">
@@ -271,7 +268,7 @@
 
 @push('myscript')
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"
   integrity="sha256-TabprKdeNXbSesCWLMrcbWSDzUhpAdcNPe5Q53rn9Yg=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"

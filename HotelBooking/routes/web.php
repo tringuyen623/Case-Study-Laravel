@@ -70,5 +70,6 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::resource('gallery-categories', 'Backend\GalleryCategoryController');
     
     Route::get('bookings/list-deleted', 'Backend\BookingController@getDeletedData')->name('bookings.listDeleted');
+    Route::get('bookings/cancel/{id}', 'Backend\BookingController@cancelBooking')->name('bookings.cancelBooking');
     Route::resource('bookings', 'Backend\BookingController');
 });

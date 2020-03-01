@@ -5,7 +5,7 @@
 
 <section class="room-details-area">
     <div class="col-md-12 text-center pb-60">
-        <h1><strong>CONFIRM & CHECKOUT</strong></h1>
+        <h1 class="check-out-head"><strong>CONFIRM & CHECKOUT</strong></h1>
     </div>
     <div class="container" style="padding-bottom: 60px">
         <div class="row">
@@ -182,6 +182,14 @@
         padding: 20px 20px 15px 20px;
         border: 1px solid lightgrey;
         border-radius: 3px;
+    }
+
+    .pb-60 {
+        padding-bottom: 60px;
+    }
+
+    .check-out-head {
+        font-size: 30pt;
     }
 
     input[type=text] {

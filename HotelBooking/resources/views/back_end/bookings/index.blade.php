@@ -1,5 +1,5 @@
 @extends('back_end.layouts.app')
-@section('title',  'Booking Manage')
+@section('title', 'Booking Manage')
 
 @push('style')
 <link rel="stylesheet" href="/plugins/bootstrap-toggle/css/bootstrap2-toggle.min.css">
@@ -45,6 +45,7 @@
                                         <th>Customer Name</th>
                                         <th>Number Of Guest</th>
                                         <th>Base Price</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -62,6 +63,7 @@
                                         <th>Customer Name</th>
                                         <th>Number Of Guest</th>
                                         <th>Base Price</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -116,6 +118,12 @@
                   data: 'base_price'
               },
               {
+                  data: 'status',
+                  render: function(data){
+                      return data == 1 ? 'Booked' : 'Canceled'
+                }
+              },
+              {
                   data: 'action', name: 'action', orderable: false, searchable: false
               }
           ]
@@ -127,19 +135,27 @@
         }
     });
 
-    $(document).on('click', '.cancel-booking', function(){
+    $(document).on('click', '.delete-booking', function(){
         let id = $(this).data('id');
         $('#delete-id').val(id);
+        $('#delete-action').val('SoftDelete')
+    })
 
+    $(document).on('click', '.force-delete-booking', function(){
+        let id = $(this).data('id');
+        $('#delete-id').val(id);
+        $('#delete-action').val('ForceDelete');
     })
 
     $('#form-delete').on('submit', function(e){
         e.preventDefault();
         let id = $('#delete-id').val();
+        let action = $('#delete-action').val();
         $.ajax({
             url: `bookings/${id}`,
             method: 'post',
             data: {
+                'delete-action': action,
                 '_method': 'DELETE'
             },
             // beforeSend:function(){
@@ -149,7 +165,7 @@
                 $('#confirm-modal').modal('hide');
                 $('#bookings').DataTable().ajax.reload();
                 $('#canceledBooking').DataTable().ajax.reload();
-                $('#success_content').html('Booking has been canceled');
+                $('#success_content').html('This booking has been canceled');
                 $('#success').modal('show');
             },
             error: function(err){
@@ -181,6 +197,12 @@
               },
               {
                   data: 'base_price'
+              },
+              {
+                  data: 'status',
+                  render: function(data){
+                      return data == 1 ? 'Booked' : 'Canceled'
+                }
               },
               {
                   data: 'action', name: 'action', orderable: false, searchable: false

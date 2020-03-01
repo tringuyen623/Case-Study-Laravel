@@ -30,20 +30,20 @@ class BookingController extends Controller
                 ->addColumn('action', function ($bookings) {
                     return '
                     <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-outline-danger cancel-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $bookings->id . '"><i
-                    class="fa fa-window-close"></i></button>';
+                    <a href="' . route('admin.bookings.cancelBooking', $bookings->id) . '" class="btn btn-outline-danger cancel-booking"><i
+                    class="fa fa-window-close"></i></a>'
+                        . '<button type="button" class="btn btn-outline-danger delete-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $bookings->id . '"><i
+                    class="fa fa-trash"></i></button></div>';
                 })
-                ->editColumn('customer_id', function($bookings){
+                ->editColumn('customer_id', function ($bookings) {
                     return $bookings->customer->getFullName();
                 })
-                ->editColumn('base_price', function($bookings){
+                ->editColumn('base_price', function ($bookings) {
                     $base_price = [];
-                    foreach($bookings->rooms as $room){
+                    foreach ($bookings->rooms as $room) {
                         $base_price[] = $room->roomType->base_price;
                     }
                     return $base_price;
-
-                    
                 })
                 ->make(true);
         }
@@ -138,9 +138,13 @@ class BookingController extends Controller
      * @param  \App\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Booking $booking)
+    public function destroy($id)
     {
-        Booking::destroy($booking->id);
+        if (request('delete-action') === 'SoftDelete') {
+            Booking::destroy($id);
+        } else {
+            Booking::onlyTrashed()->where('id', $id)->forceDelete();
+        }
 
         return redirect()->route('admin.bookings.index');
     }
@@ -170,6 +174,16 @@ class BookingController extends Controller
         return Booking::findOrFail($id)->rooms;
     }
 
+    public function cancelBooking($id)
+    {
+        $booking = Booking::find($id);
+        $booking->status == 0;
+        $booking->save();
+        // $this->destroy($booking);
+
+        return redirect()->route('admin.bookings.index');
+    }
+
     public function getDeletedData()
     {
         $canceled = Booking::onlyTrashed();
@@ -179,12 +193,19 @@ class BookingController extends Controller
                 ->addColumn('action', function ($canceled) {
                     return '
             <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-outline-primary delete-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $canceled->id . '">
+            <button type="button" class="btn btn-outline-danger force-delete-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $canceled->id . '">
             <i class="fa fa-trash"></i></button>
             </div>';
                 })
-                ->editColumn('customer_id', function($canceled){
+                ->editColumn('customer_id', function ($canceled) {
                     return $canceled->customer->getFullName();
+                })
+                ->editColumn('base_price', function ($bookings) {
+                    $base_price = [];
+                    foreach ($bookings->rooms as $room) {
+                        $base_price[] = $room->roomType->base_price;
+                    }
+                    return $base_price;
                 })
                 ->make(true);
         }

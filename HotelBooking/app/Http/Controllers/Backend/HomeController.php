@@ -37,6 +37,10 @@ class HomeController extends Controller
         $data['current_booking'] = Booking::whereHas('rooms', function($detail){
             $detail->where('from_date', '<=', Carbon::now()->format('Y-m-d'))->where('to_date', '>', Carbon::now()->format('Y-m-d'));
         })->whereNull('deleted_at')->get();
+
+        $data['upcoming_booking'] = Booking::whereHas('rooms', function($detail){
+            $detail->where('from_date', '<=', Carbon::now()->format('Y-m-d'))->where('to_date', '>', Carbon::now()->format('Y-m-d'));
+        })->where('status', 1)->get();
         
         $totalChart = $this->chartData();
 

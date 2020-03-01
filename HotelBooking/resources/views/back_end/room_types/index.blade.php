@@ -63,7 +63,7 @@
 
                     <div role="tabpanel" class="tab-pane" id="deleted">
                         <div class="card-body">
-                            <table id="roomTypeDeleted" class="table table-bordered table-striped">
+                            <table id="roomTypeDeleted" class="table table-bordered table-striped" style="width: 100%">
                                 <thead>
                                     <tr>
                                         <th>NO</th>
@@ -126,9 +126,13 @@
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-6">
                                         <label><strong>Base Price</strong> <small class="text-danger">*</small></label>
                                         <input type="text" id="base_price" name="base_price" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label><strong>Size</strong> <small class="text-danger">*</small></label>
+                                        <input type="text" id="size" name="size" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
@@ -283,13 +287,14 @@
 
         let action_url = '';
         let type = '';
-        let name = jQuery('#name').val()
-        let short_code = jQuery('#short_name').val()
-        let higher_capacity = jQuery('#higher_capacity').val()
-        let kids_capacity = jQuery('#kids_capacity').val()
-        let base_price = jQuery('#base_price').val()
-        let description = jQuery('#description').val()
-        let status = jQuery('#status').prop('checked')
+        let name = $('#name').val()
+        let short_code = $('#short_name').val()
+        let higher_capacity = $('#higher_capacity').val()
+        let kids_capacity = $('#kids_capacity').val()
+        let base_price = $('#base_price').val()
+        let size = $('#size').val()
+        let description = $('#description').val()
+        let status = $('#status').prop('checked')
         let id = $('#room_type_id').val();
 
         status ? status = 1 : status = 0;
@@ -313,6 +318,7 @@
                 higher_capacity: higher_capacity,
                 kids_capacity: kids_capacity,
                 base_price: base_price,
+                size: size,
                 description: description,
                 status: status,
                 '_method': type
@@ -365,6 +371,7 @@
                 $('#higher_capacity').val(data.higher_capacity),
                 $('#kids_capacity').val(data.kids_capacity),
                 $('#base_price').val(data.base_price),
+                $('#size').val(data.size),
                 $('#description').val(data.description),
                 $('#action_button').html('Update'),
                 $('#action').val('Edit'),
@@ -391,11 +398,13 @@
     $('#form-delete').on('submit', function(e){
         e.preventDefault();
         let id = $('#delete-id').val();
+        let deleteAction = $('#delete-action').val();
 
         $.ajax({
             url: `room-types/${id}`,
             method: 'post',
             data: {
+                'delete-action': deleteAction,
                 '_method': 'DELETE'
             },
             success: function(){

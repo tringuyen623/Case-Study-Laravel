@@ -13,7 +13,7 @@
         <h2>Room
             <div class=" float-right">
                 <button type="button" id="create_room" class="btn btn-primary" data-toggle="modal"
-                    data-target="#add_room"><i class="fa fa-plus"></i> Add Room</button>
+                    data-target="#add-room"><i class="fa fa-plus"></i> Add Room</button>
             </div>
 
         </h2>
@@ -47,6 +47,8 @@
                                         <th>NO</th>
                                         <th>Room Number</th>
                                         <th>Room Type</th>
+                                        <th>Bed Type</th>
+                                        <th>Extra Bed</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -68,7 +70,7 @@
     <!-- /.row -->
 
     <!-- Modal Add -->
-    <div class="modal fade" id="add_room" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="add-room" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -81,18 +83,12 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <form id="form_room" method="post" enctype="multipart/form-data">
+                            <form id="form-room" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row justify-content-center">
                                     <div class="form-group col-md-6">
-                                        <label><strong>Select Room type</strong> <small
-                                                class="text-danger">*</small></label>
-                                        <select class="form-control" id="room_type_id" name="room_type_id">
-                                            <option value="">Select</option>
-                                            @foreach($types as $type)
-                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label><strong>Room Number</strong> <small class="text-danger">*</small></label>
+                                        <input type="text" id="room-number" name="room_number" class="form-control">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label><strong>View</strong> <small class="text-danger">*</small></label>
@@ -100,15 +96,36 @@
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
-                                    <div class="form-group col-md-12">
-                                        <label><strong>Size</strong> <small class="text-danger">*</small></label>
-                                        <input type="text" id="size" name="size" class="form-control">
+                                    <div class="form-group col-md-6">
+                                        <label><strong>Select Room type</strong> <small
+                                                class="text-danger">*</small></label>
+                                        <select class="form-control" id="room-type-id" name="room_type_id">
+                                            <option value="">Select</option>
+                                            @foreach(App\RoomType::all() as $type)
+                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label><strong>Select Bed type</strong> <small
+                                                class="text-danger">*</small></label>
+                                        <select class="form-control" id="bed-id" name="bed_id">
+                                            <option value="">Select</option>
+                                            @foreach(App\Bed::all() as $bed)
+                                            <option value="{{ $bed->id }}">{{ $bed->bed_type }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-6">
+                                        <label><strong>Extra-bed</strong> <small class="text-danger">*</small></label>
+                                        <input type="checkbox" id="extra-bed" name="extra_bed" checked
+                                            data-toggle="toggle" data-off-color="danger" data-on="YES" data-off="NO">
+                                    </div>
+                                    <div class="form-group col-md-6">
                                         <label><strong>Status</strong> <small class="text-danger">*</small></label>
-                                        <input type="checkbox" id="is_active" name="my-checkbox" checked
+                                        <input type="checkbox" id="is-active" name="my-checkbox" checked
                                             data-toggle="toggle" data-off-color="danger">
                                     </div>
                                 </div>
@@ -119,7 +136,7 @@
                                                 class="fa fa-refresh"></i>
                                             Reset</button>
                                         <input type="hidden" name="action" id="action" value="Add">
-                                        <input type="hidden" id="room_id">
+                                        <input type="hidden" id="room-id">
                                         <button type="submit" class="btn btn-primary btn-submit" name="action_button"
                                             id="action_button"><i class="fa fa-save"></i>
                                             Save</button>
@@ -134,6 +151,8 @@
     </div>
 
 </section>
+
+@include('back_end.partials.modal-form')
 
 
 @endsection
@@ -164,6 +183,12 @@
                   data: 'room_type_id'
               },
               {
+                  data: 'bed_id'
+              },
+              {
+                  data: 'extra_bed'
+              },
+              {
                   data: 'is_active'
               },
               {
@@ -184,17 +209,19 @@
        $('#action').val('Add');
     });
 
-    $('#form_room').on('submit', function(e){
+    $('#form-room').on('submit', function(e){
         e.preventDefault();
         var formData = new FormData(this);
 
         let action_url = '';
         let type = '';
-        let room_type_id = jQuery('#room_type_id').val()
-        let view = jQuery('#view').val()
-        let size = jQuery('#size').val()
-        let is_active = jQuery('#is_active').prop('checked') ? 1 : 0;
-        let id = $('#room_id').val();
+        let room_number = $('#room-number').val();
+        let room_type_id = $('#room-type-id').val();
+        let bed_id = $('#bed-id').val()
+        let view = $('#view').val();
+        let extra_bed = $('#extra-bed').prop('checked') ? 1 : 0;
+        let is_active = $('#is-active').prop('checked') ? 1 : 0;
+        let id = $('#room-id').val();
 
         if($('#action').val() === 'Add'){
             action_url = "rooms";
@@ -210,16 +237,20 @@
             url: action_url,
             method: 'POST',
             data: {
+                room_number: room_number,
                 room_type_id: room_type_id,
+                bed_id: bed_id,
                 view: view,
-                size: size,
+                extra_bed: extra_bed,
                 is_active: is_active,
                 '_method': type
             },
             success: function(){
-                $('#add_room').modal('hide');
+                $('#add-room').modal('hide');
                 $("#rooms").DataTable().ajax.reload();
-                $('#form_room')[0].reset();
+                $('#form-room')[0].reset();
+                $('#success_content').html('Your record has been updated');
+                $('#success').modal('show');
             },
             error: function(err){
                 console.log(err);
@@ -232,10 +263,12 @@
         $.ajax({
             url: `rooms/${id}/edit`,
             success: function(data){
-                $('#room_id').val(data.id),
-                $('#room_type_id').val(data.room_type_id),
+                $('#room-id').val(data.id),
+                $('#room-number').val(data.room_number),
+                $('#room-type-id').val(data.room_type_id),
+                $('#bed-id').val(data.bed_id),
                 $('#view').val(data.view),
-                $('#size').val(data.size),
+                data.extra_bed === 1 ? $('#extra-bed').prop('checked', true).change() : $('#extra-bed').prop('checked', false).change(),  
                 data.is_active === 1 ? $('#status').prop('checked', true).change() : $('#status').prop('checked', false).change(),  
                 $('.modal-title').text('Update Room');
                 $('#action_button').html('Update'),

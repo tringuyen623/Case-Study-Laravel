@@ -18,7 +18,6 @@ class RoomTypeTableSeeder extends Seeder
             'short_code' => 'SUP',
             'description' => 'This is Superior room',
             'size' => '35m2',
-            'view' => 'Garden',
             'higher_capacity' => 2,
             'kids_capacity' => 2,
             'base_price' => 100.00,
@@ -32,7 +31,6 @@ class RoomTypeTableSeeder extends Seeder
             'short_code' => 'DLX',
             'description' => 'This is Deluxe room',
             'size' => '35m2',
-            'view' => 'Candle lake or Valley poll',
             'higher_capacity' => 3,
             'kids_capacity' => 2,
             'base_price' => 120.00,
@@ -46,7 +44,6 @@ class RoomTypeTableSeeder extends Seeder
             'short_code' => 'PDLX',
             'description' => 'This is Premium Deluxe room',
             'size' => '40m2',
-            'view' => 'City view or Perfum river',
             'higher_capacity' => 3,
             'kids_capacity' => 2,
             'base_price' => 150.00,
@@ -60,7 +57,6 @@ class RoomTypeTableSeeder extends Seeder
             'short_code' => 'BGL',
             'description' => 'This is Family Deluxe room',
             'size' => '45m2',
-            'view' => 'Candle lake or Valley poll',
             'higher_capacity' => 4,
             'kids_capacity' => 2,
             'base_price' => 200.00,
@@ -74,7 +70,6 @@ class RoomTypeTableSeeder extends Seeder
             'short_code' => 'HPV',
             'description' => 'This is Pool Villa room',
             'size' => '45m2',
-            'view' => 'Candle lake or Valley poll',
             'higher_capacity' => 3,
             'kids_capacity' => 2,
             'base_price' => 200.00,
@@ -88,7 +83,6 @@ class RoomTypeTableSeeder extends Seeder
             'short_code' => 'KS',
             'description' => 'This is King Suite room',
             'size' => '45m2',
-            'view' => 'Candle lake or Valley poll',
             'higher_capacity' => 5,
             'kids_capacity' => 2,
             'base_price' => 250.00,
@@ -96,6 +90,5 @@ class RoomTypeTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
-
     }
 }

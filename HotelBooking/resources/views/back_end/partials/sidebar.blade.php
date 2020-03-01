@@ -53,7 +53,7 @@
       </li>
 
       <li class="nav-item has-treeview {{ Request::segment(2) === 'gallery-categories' || Request::segment(2) === 'galleries' ? 'menu-open' : null }}">
-        <a href="pages/gallery.html" class="nav-link">
+        <a href="#" class="nav-link">
           <i class="nav-icon far fa-image"></i>
           <p>
             Gallery
