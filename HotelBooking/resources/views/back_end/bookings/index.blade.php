@@ -44,7 +44,8 @@
                                         <th>Booking Code</th>
                                         <th>Customer Name</th>
                                         <th>Number Of Guest</th>
-                                        <th>Base Price</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -62,7 +63,8 @@
                                         <th>Booking Code</th>
                                         <th>Customer Name</th>
                                         <th>Number Of Guest</th>
-                                        <th>Base Price</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -115,7 +117,10 @@
                   data: 'no_of_guests'
               },
               {
-                  data: 'base_price'
+                  data: 'check_in',
+              },
+              {
+                  data: 'check_out',
               },
               {
                   data: 'status',
@@ -196,7 +201,10 @@
                   data: 'no_of_guests'
               },
               {
-                  data: 'base_price'
+                  data: 'check-in'
+              },
+              {
+                  data: 'check_in',
               },
               {
                   data: 'status',

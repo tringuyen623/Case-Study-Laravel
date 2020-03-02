@@ -8,6 +8,7 @@ use App\Room;
 use App\RoomType;
 use App\Customer;
 use App\Booking;
+use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Session;
@@ -77,7 +78,6 @@ class HomeController extends Controller
                     ->where('booking_room.from_date', '<=', $departure)
                     ->where('booking_room.to_date', '>=', $arrival)
                     ->where('booking_room.to_date', '<=', $departure);
-                // ->orWhereBetween('booking_room.to_date', [$arrival, $departure]);
             })->where('is_active', 1)->get();
 
             $numberOfRooms = $roomAvailable->count();
@@ -90,42 +90,18 @@ class HomeController extends Controller
             $roomAvailable = $roomAvailable->groupBy('room_type_id');            
         }
 
-        // return request('search.arrival') ;
-        // return $roomAvailable;
-
         return view('front_end.room_available', ['rooms' => $roomAvailable]);
     }
 
-    public function book($id)
-    {
-        $room = Room::where('is_active', 1)->findOrFail($id);
-        // $roomType = RoomType::where('status', 1)->findOrFail($room->room)
-        $search = session()->get('search');
-        // return $room->rooms;
-        return view('front_end.booking_form', compact('room', 'search'));
-    }
-
     public function booking()
-    {
-        // return 'chi do';
-        // $this->validateCustomerInfo();
-        // $this->validatePayment();
-        
+    {        
+        $this->validatePayment();
+
         $date_in = session()->get('search')['arrival'];
         $date_out = session()->get('search')['departure'];
         $adults = session()->get('search')['adults'];
         $children = session()->get('search')['children'];
-        // $bookingDetails = [
-        //     'arrival' => request('arrival'),
-        //     'departure' => request('departure'),
-        //     'adults' => request('adults'),
-        //     'children' => request('children'),
-        //     'roomType' => $roomType->name,
-        //     'roomRate' => $roomType->base_price,
-        //     'night' => $numberOfNights
-        // ];
-
-        // return $cusDetails['first_name'];
+       
         $customer = Customer::create($this->validateCustomerInfo());
 
         if($customer){
@@ -146,8 +122,14 @@ class HomeController extends Controller
                     ]
                 );
             }
+
+            if($booking){
+                $booking->paid()->create(['booking_id' => $booking->id, 'payment_status_id' => 1, 'payment_type_id' => 1, 'amount' => $booking->getTotalRate(), 'date' => now()->format('Y-m-d')]);
+            }
+            
             session()->forget(['search', 'roomId']);
             session()->put('booking', $booking);
+
         }
         
         return redirect()->route('checkout', $booking);
@@ -194,10 +176,10 @@ class HomeController extends Controller
     public function validatePayment(){
         return request()->validate([
             'cardname' => 'required',
-            'cardnumber' => 'required',
-            'expmonth' => 'date_format:"m"',
-            'expyear' => 'date_format:"Y"',
-            'cvv' => 'required|min:3|max:3'
+            'cardnumber' => 'required|numeric',
+            'expmonth' => 'date_format:m|size:2',
+            'expyear' => 'date_format:Y|size:4',
+            'cvv' => 'required|regex:/[0-9]$/|size:3'
         ]);
     }
 }

@@ -20,6 +20,10 @@ class Room extends Model
         return $this->belongsTo(RoomType::class, 'room_type_id');
     }
 
+    public function roomRate(){
+        return $this->roomType->base_price;
+    }
+
     public function bed(){
         return $this->belongsTo(Bed::class);
     }

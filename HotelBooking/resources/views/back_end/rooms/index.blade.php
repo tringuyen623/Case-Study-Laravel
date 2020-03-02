@@ -4,7 +4,12 @@
 @push('style')
 <link rel="stylesheet" href="/plugins/bootstrap-toggle/css/bootstrap2-toggle.min.css">
 <link rel="stylesheet" href="/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css">
-
+<style>
+    .is-danger.input,
+    .is-danger.textarea {
+        border-color: #f14668;
+    }
+</style>
 @endpush
 @section('content_header')
 
@@ -89,10 +94,12 @@
                                     <div class="form-group col-md-6">
                                         <label><strong>Room Number</strong> <small class="text-danger">*</small></label>
                                         <input type="text" id="room-number" name="room_number" class="form-control">
+                                        <p class="text-danger room-number-error"></p>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label><strong>View</strong> <small class="text-danger">*</small></label>
                                         <input type="text" id="view" name="view" class="form-control">
+                                        <p class="text-danger view-error"></p>
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
@@ -105,6 +112,8 @@
                                             <option value="{{ $type->id }}">{{ $type->name }}</option>
                                             @endforeach
                                         </select>
+                                        <p class="text-danger room-type-error"></p>
+
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label><strong>Select Bed type</strong> <small
@@ -115,6 +124,8 @@
                                             <option value="{{ $bed->id }}">{{ $bed->bed_type }}</option>
                                             @endforeach
                                         </select>
+                                        <p class="text-danger bed-type-error"></p>
+
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
@@ -207,6 +218,7 @@
        $('.modal-title').text('Add New Room');
        $('#action_button').html('Save'),
        $('#action').val('Add');
+       clearError();
     });
 
     $('#form-room').on('submit', function(e){
@@ -251,8 +263,10 @@
                 $('#form-room')[0].reset();
                 $('#success_content').html('Your record has been updated');
                 $('#success').modal('show');
+                clearError()
             },
             error: function(err){
+                showError(err);
                 console.log(err);
             }
         });
@@ -279,6 +293,22 @@
             }
         });
     });
+
+    function showError(err){
+        err.responseJSON.errors.room_number ? ($('.room-number-error').html(err.responseJSON.errors.room_number), $('#room-number').addClass('input is-danger')) : ($('.room-number-error').empty(), $('#room-number').removeClass('input is-danger')),
+        err.responseJSON.errors.view ? ($('.view-error').html(err.responseJSON.errors.view), $('#view').addClass('input is-danger')) : ($('.view-error').empty(), $('#view').removeClass('input is-danger')),
+        err.responseJSON.errors.room_type_id ? ($('.room-type-error').html(err.responseJSON.errors.room_type_id), $('#room-type-id').addClass('input is-danger')) : ($('.room-type-error').empty(), $('#room-type-id').removeClass('input is-danger')),
+        err.responseJSON.errors.bed_id ? ($('.bed-type-error').html(err.responseJSON.errors.bed_id), $('#bed-id').addClass('input is-danger')) : ($('.bed-type-error').empty(), $('#bed-id').removeClass('input is-danger'))
+
+    }
+
+    function clearError(){
+        $('.room-number-error').empty(), $('#room-number').removeClass('input is-danger');
+        $('.view-error').empty(), $('#view').removeClass('input is-danger');
+        $('.room-type-error').empty(), $('#room-type-id').removeClass('input is-danger');
+        $('.bed-type-error').empty(), $('#bed-id').removeClass('input is-danger');
+
+    }
 });
 
 </script>

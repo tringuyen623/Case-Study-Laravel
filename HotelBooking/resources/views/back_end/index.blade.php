@@ -34,20 +34,7 @@
         </div>
       </div>
       <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-success">
-          <div class="inner">
-            <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-            <p>Update later</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-stats-bars"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
       <!-- ./col -->
       <div class="col-lg-3 col-6">
         <!-- small box -->
@@ -66,7 +53,7 @@
       <!-- ./col -->
       <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-danger">
+        <div class="small-box bg-success">
           <div class="inner">
             <h3>{{ count($rooms) }}</h3>
 
@@ -77,6 +64,22 @@
           </div>
           <a href="{{ route('admin.rooms.index') }}" class="small-box-footer">More info <i
               class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-secondary">
+          <div class="inner">
+            <h3>{{ App\Payment::all()->sum('amount') }}<sup
+                style="font-size: 20px">{{ hotel_information()->currency_symbol }}</sup></h3>
+
+            <p>Total Avenue</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
+          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
       <!-- ./col -->
@@ -121,66 +124,8 @@
               </div>
             </div>
             <hr>
-            {{-- <ul class="nav nav-tabs d-print-none mb-2" role="tablist">
-              <li class="nav-item ">
-                <a class="nav-link  active " href="#floor_view" role="tab" data-toggle="tab" aria-selected="true">Floor
-                  view</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#room_type" role="tab" data-toggle="tab">Type View</a>
-              </li>
-            </ul> --}}
 
             <div class="tab-content">
-              {{-- <div role="tabpanel" class="tab-pane active" id="floor_view">
-                <table class="table table-bordered mb-0">
-                  <thead class="bg-primary text-white">
-                    <tr>
-                      <th style="width: 150px">Room Type</th>
-                      <th>Room</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">First Floor</td>
-                      <td>
-                        <a href="#"
-                          class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">101</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Second Floor</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">201</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Third Floor</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">301</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Forth floor</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">401</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Fifth Floor</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">501</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Sixth Floor</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">601</a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div> --}}
               <div role="tabpanel" class="tab-pane active" id="room_type">
                 <table class="table table-bordered mb-0">
                   <thead class="bg-primary text-white">

@@ -3,7 +3,12 @@
 @push('style')
 <link rel="stylesheet" href="/plugins/bootstrap-toggle/css/bootstrap2-toggle.min.css">
 <link rel="stylesheet" href="/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css">
-
+<style>
+    .is-danger.input,
+    .is-danger.textarea {
+        border-color: #f14668;
+    }
+</style>
 
 @endpush
 @section('content_header')
@@ -96,6 +101,7 @@
                                         <label><strong>Name</strong> <small class="text-danger">*</small></label>
                                         <input type="hidden" name="gallery_category_id" id="gallery_category_id" value="">
                                         <input type="text" id="name" name="name" class="form-control">
+                                        <p class="text-danger name-error"></p>
                                     </div>
                                 </div>
                                 <div class="form-row justify-content-center">
@@ -162,7 +168,8 @@
     $('#create_category').click(function(){
        $('.modal-title').text('Add Category');
        $('#action').val('Add');
-       $('#action_button').html('Save')
+       $('#action_button').html('Save');
+       clearError();
     });
 
     $('#form_category').on('submit', function(e){
@@ -193,11 +200,13 @@
                 $('#form_category')[0].reset();
                 $('#success_content').html('Your record has been added');
                 $('#success').modal('show');
+                clearError();
             },
             cache: false,
             contentType: false,
             processData: false,
             error: function(err){
+                showError(err)
                 console.log(err);
             }
         });
@@ -289,6 +298,14 @@
           });
         }
       })
+
+      function showError(err){
+        err.responseJSON.errors.name ? ($('.name-error').html(err.responseJSON.errors.name), $('#name').addClass('input is-danger')) : ($('.name-error').empty(), $('#name').removeClass('input is-danger')),
+      }
+
+      function clearError(){
+        $('.name-error').empty(), $('#name').removeClass('input is-danger')
+      }
       
 });
 </script>

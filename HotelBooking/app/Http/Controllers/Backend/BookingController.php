@@ -38,12 +38,11 @@ class BookingController extends Controller
                 ->editColumn('customer_id', function ($bookings) {
                     return $bookings->customer->getFullName();
                 })
-                ->editColumn('base_price', function ($bookings) {
-                    $base_price = [];
-                    foreach ($bookings->rooms as $room) {
-                        $base_price[] = $room->roomType->base_price;
-                    }
-                    return $base_price;
+                ->addColumn('check_in', function ($bookings) {
+                    return $bookings->getCheckInDay();
+                })
+                ->addColumn('check_out', function ($bookings) {
+                    return $bookings->getCheckOutDay();
                 })
                 ->make(true);
         }
@@ -200,12 +199,11 @@ class BookingController extends Controller
                 ->editColumn('customer_id', function ($canceled) {
                     return $canceled->customer->getFullName();
                 })
-                ->editColumn('base_price', function ($bookings) {
-                    $base_price = [];
-                    foreach ($bookings->rooms as $room) {
-                        $base_price[] = $room->roomType->base_price;
-                    }
-                    return $base_price;
+                ->addColumn('check_in', function ($bookings) {
+                    return $bookings->getCheckInDay();
+                })
+                ->addColumn('check_out', function ($bookings) {
+                    return $bookings->getCheckOutDay();
                 })
                 ->make(true);
         }

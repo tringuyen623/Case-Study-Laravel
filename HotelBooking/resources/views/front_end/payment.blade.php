@@ -88,7 +88,7 @@
                                 <p class="help is-danger">{{ $errors->first('cardnumber') }}</p>
                                 @enderror
                                 <label for="expmonth">Exp Month</label>
-                                <input type="text" id="expmonth" name="expmonth" class="input @error('expmonth') is-danger @enderror" value="{{ old('expmonth')}}" placeholder="September">
+                                <input type="text" id="expmonth" name="expmonth" class="input @error('expmonth') is-danger @enderror" value="{{ old('expmonth')}}" placeholder="01">
                                 @error('expmonth')
                                 <p class="help is-danger">{{ $errors->first('expmonth') }}</p>
                                 @enderror

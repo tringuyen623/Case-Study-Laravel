@@ -28,4 +28,24 @@ class Booking extends Model
 
         return $fullName;
     }
+
+    public function getTotalRate(){
+        $total = [];
+        foreach($this->rooms as $room){
+            $total[] = $room->roomRate();
+        }
+        return array_sum($total);
+    }
+
+    public function paid(){
+        return $this->hasMany(Payment::class);
+    }
+
+    public function getCheckInDay(){
+        return $this->rooms()->withPivot('from_date')->first()->pivot->from_date;
+    }
+
+    public function getCheckOutDay(){
+        return $this->rooms()->withPivot('to_date')->first()->pivot->to_date;
+    }
 }

@@ -25,7 +25,7 @@ class HotelController extends Controller
                 return '
                     <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-outline-primary edit-hotel" data-toggle="modal" data-target="#edit_hotel" data-id ="' . $hotel->id . '"><i
-                    class="fa fa-eye"></i></button>';
+                    class="fa fa-edit"></i></button>';
             })
             ->make(true);
         }
