@@ -21,7 +21,7 @@ class ServiceTableSeeder extends Seeder
         ]);
 
         DB::table('services')->insert([
-            'title' => 'Spa Suites',
+            'title' => 'Spa',
             'icon' => 'flaticon-herbs',
             'description' => 'Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies',
             'created_at' => now(),
@@ -29,7 +29,7 @@ class ServiceTableSeeder extends Seeder
         ]);
         
         DB::table('services')->insert([
-            'title' => 'Spa',
+            'title' => 'Transfer',
             'icon' => 'flaticon-car',
             'description' => 'Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies',
             'created_at' => now(),

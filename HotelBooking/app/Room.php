@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,5 +22,9 @@ class Room extends Model
 
     public function bed(){
         return $this->belongsTo(Bed::class);
+    }
+
+    public function available($date){
+        return $this->bookings()->wherePivot('from_date','<=', $date)->wherePivot('to_date','>', $date)->where('status',1)->first();
     }
 }

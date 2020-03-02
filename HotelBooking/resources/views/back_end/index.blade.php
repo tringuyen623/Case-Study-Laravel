@@ -101,17 +101,16 @@
           <div class="card-body  table-responsive">
             <div class="form-row mb-2">
 
-              <div class="col-md">
+              {{-- <div class="col-md">
                 <a class="btn btn-primary " href="#"><i class="fa fa-plus"></i> Add Reservation</a>
 
-              </div>
+              </div> --}}
               <div class="col-md">
                 <form class="form-inline float-right">
                   <div class="form-group">
                     <div class="input-group">
                       <div role="wrapper" class="gj-datepicker gj-datepicker-bootstrap gj-unselectable input-group">
-                        <input name="date" type="text" id="date" value="{{$data['date']}}" class="form-control"
-                          ></div>
+                        <input name="date" type="text" id="date" value="{{$data['date']}}" class="form-control"></div>
                     </div>
                   </div>
                   <div class="form-group pl-2">
@@ -122,7 +121,7 @@
               </div>
             </div>
             <hr>
-            <ul class="nav nav-tabs d-print-none mb-2" role="tablist">
+            {{-- <ul class="nav nav-tabs d-print-none mb-2" role="tablist">
               <li class="nav-item ">
                 <a class="nav-link  active " href="#floor_view" role="tab" data-toggle="tab" aria-selected="true">Floor
                   view</a>
@@ -130,14 +129,14 @@
               <li class="nav-item">
                 <a class="nav-link" href="#room_type" role="tab" data-toggle="tab">Type View</a>
               </li>
-            </ul>
+            </ul> --}}
 
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="floor_view">
+              {{-- <div role="tabpanel" class="tab-pane active" id="floor_view">
                 <table class="table table-bordered mb-0">
-                  <thead class="bg-tsk text-white">
+                  <thead class="bg-primary text-white">
                     <tr>
-                      <th style="width: 150px">{{ $data['current_booking']}}</th>
+                      <th style="width: 150px">Room Type</th>
                       <th>Room</th>
                     </tr>
                   </thead>
@@ -181,54 +180,32 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="room_type">
+              </div> --}}
+              <div role="tabpanel" class="tab-pane active" id="room_type">
                 <table class="table table-bordered mb-0">
-                  <thead class="bg-tsk text-white">
+                  <thead class="bg-primary text-white">
                     <tr>
                       <th>Room Type</th>
                       <th>Room</th>
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach (App\RoomType::all() as $roomType)
                     <tr>
-                      <td class="align-content-center font-weight-bold">Superior Queen Room</td>
+                      <td class="align-content-center font-weight-bold">{{ $roomType->name }}</td>
                       <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">100</a>
+                        @foreach ($roomType->rooms as $room)
+                        @if ($room->available($data['date']))
+                        <a href="#"
+                          class="btn btn-lg btn-square btn-room btn-danger mr-1 mt-1">{{ $room->room_number }}</a>
+                        @else
+                        <a href="#"
+                          class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">{{ $room->room_number }}</a>
+                        @endif
+                        @endforeach
                       </td>
                     </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Superior King Room</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">102</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Premium King Room</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">206</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Superior Extra Queen Room</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">205</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Superior Queen Room 2</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">207</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="align-content-center font-weight-bold">Superior King Room 2</td>
-                      <td>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">204</a>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">208</a>
-                        <a href="#" class="btn btn-lg btn-square btn-room btn-success mr-1 mt-1">606</a>
-                      </td>
-                    </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -247,7 +224,7 @@
             MONTHLY RESERVATION
           </div>
           <div class="card-body p-0" id="reservation" style="height: 350px;">
-    
+
           </div>
         </div>
       </div>
@@ -255,7 +232,7 @@
     <!-- /.row (main row) -->
   </div><!-- /.container-fluid -->
 
-  
+
 </section>
 
 @endsection
