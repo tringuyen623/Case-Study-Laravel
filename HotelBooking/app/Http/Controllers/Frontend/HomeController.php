@@ -132,7 +132,7 @@ class HomeController extends Controller
 
         }
         
-        return redirect()->route('checkout', $booking);
+        return redirect()->route('checkout');
     }
 
     public function payment()
