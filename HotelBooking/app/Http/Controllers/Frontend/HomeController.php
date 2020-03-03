@@ -127,7 +127,7 @@ class HomeController extends Controller
                 $booking->paid()->create(['booking_id' => $booking->id, 'payment_status_id' => 1, 'payment_type_id' => 1, 'amount' => $booking->getTotalRate(), 'date' => now()->format('Y-m-d')]);
             }
             
-            session()->forget(['search', 'roomId']);
+            // session()->forget(['search', 'roomId']);
             session()->put('booking', $booking);
 
         }
@@ -144,7 +144,7 @@ class HomeController extends Controller
         $numberOfNights = $timeDiff / 86400;
 
         $roomId = request('roomId');
-        session()->put('roomId', $roomId);
+        session()->put(['roomId' => $roomId, 'totalNight' => $numberOfNights]);
         
         $roomCharge = request('total-room-charge');
         // return $numberOfNights;
@@ -153,7 +153,7 @@ class HomeController extends Controller
     }
 
     public function checkout(){
-        return view('front_end.checkout');
+        return view('front_end.confirm');
     }
 
     public function validateSearch(){

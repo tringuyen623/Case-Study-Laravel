@@ -38,7 +38,7 @@ class Booking extends Model
     }
 
     public function paid(){
-        return $this->hasMany(Payment::class);
+        return $this->hasOne(Payment::class);
     }
 
     public function getCheckInDay(){

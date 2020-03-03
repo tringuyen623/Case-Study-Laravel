@@ -93,7 +93,7 @@
                             <dt class="col-md-6">Amenities :</dt>
                             <dd class="col-md-6">
                                 @foreach($roomType->amenities as $amenity)
-                                <span class="badge bg-primary text-white">{{$amenity->name}}</span>
+                                <span class="badge bg-tsk text-white">{{$amenity->name}}</span>
                                 @endforeach
                             </dd>
                             <dt class="col-md-6">Base Price :</dt>
