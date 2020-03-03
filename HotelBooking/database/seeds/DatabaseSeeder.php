@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TaxTableSeeder::class);
         $this->call(RoomTypeImageTableSeeder::class);
         $this->call(HotelGalleryTableSeeder::class);
+        $this->call(PaymentTypeTableSeeder::class);
+        $this->call(PaymentStatusTableSeeder::class);
     }
 }
