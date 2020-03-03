@@ -35,7 +35,7 @@
                                 </tr>
                                 <tr>
                                     <th>Departure Date</th>
-                                    <td>{{Session::get('booking')->getCheckInday()}}</td>
+                                    <td>{{Session::get('booking')->getCheckOutday()}}</td>
                                 </tr>
                                 <tr>
                                     <th>Nights</th>
