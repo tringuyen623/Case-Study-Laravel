@@ -176,7 +176,7 @@ class BookingController extends Controller
     public function cancelBooking($id)
     {
         $booking = Booking::find($id);
-        $booking->status == 0;
+        $booking->status = 0;
         $booking->save();
         // $this->destroy($booking);
 
