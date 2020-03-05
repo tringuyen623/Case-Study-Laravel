@@ -12,13 +12,28 @@ class BedTableSeeder extends Seeder
      */
     public function run()
     {
-        for( $i = 1; $i < 5; $i++){
             DB::table('beds')->insert([
-                'bed_type' => $i,
+                'bed_type' => 'DBL',
                 'created_at' => now(),
                 'updated_at' => now()
-            ]);
-        }
-        
+            ]);     
+            
+            DB::table('beds')->insert([
+                'bed_type' => 'KING',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);     
+
+            DB::table('beds')->insert([
+                'bed_type' => 'TWN',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);     
+
+            DB::table('beds')->insert([
+                'bed_type' => 'SGL',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);     
     }
 }

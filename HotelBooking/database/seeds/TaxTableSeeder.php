@@ -14,13 +14,13 @@ class TaxTableSeeder extends Seeder
     {
         $tax = new Tax();
         $tax->name = 'VAT';
-        $tax->type = 1;
+        $tax->type = 'TAX';
         $tax->rate = 10;
         $tax->save();
 
         $tax = new Tax();
         $tax->name = 'Service Charge';
-        $tax->type = 2;
+        $tax->type = 'FEE';
         $tax->rate = 10;
         $tax->save();
     }
