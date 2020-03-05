@@ -201,10 +201,10 @@
                   data: 'no_of_guests'
               },
               {
-                  data: 'check-in'
+                  data: 'check_in',
               },
               {
-                  data: 'check_in',
+                  data: 'check_out',
               },
               {
                   data: 'status',
