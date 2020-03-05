@@ -18,7 +18,7 @@ class CreateTaxesTable extends Migration
             $table->string('name', 45);
             $table->enum('type',['TAX', 'FEE']);
             $table->integer('rate');
-            $table->boolean('status')->default(1);
+            $table->tinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

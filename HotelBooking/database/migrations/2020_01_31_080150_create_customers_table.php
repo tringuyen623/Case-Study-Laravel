@@ -19,7 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('last_name');
             $table->string('email');
             $table->string('phone');
-            $table->boolean('gender');
+            $table->tinyInteger('gender');
             $table->timestamps();
         });
     }

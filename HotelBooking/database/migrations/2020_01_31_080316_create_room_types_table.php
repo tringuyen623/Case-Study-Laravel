@@ -22,7 +22,7 @@ class CreateRoomTypesTable extends Migration
             $table->integer('higher_capacity')->default(2);
             $table->integer('kids_capacity')->default(0);
             $table->float('base_price',8,2)->default(0);
-            $table->boolean('status')->default(1);
+            $table->tinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });
