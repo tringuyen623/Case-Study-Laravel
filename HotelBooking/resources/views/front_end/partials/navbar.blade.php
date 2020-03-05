@@ -21,7 +21,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <div id="colorlib-logo"><a href="#">{{ hotel_information()->name }}</a></div>
+                <div id="colorlib-logo"><a href="{{ route('home') }}">{{ hotel_information()->name }}</a></div>
                 </div>
                 <div class="col-md-8 text-right menu-1">
                     <ul>

@@ -75,9 +75,9 @@ class HomeController extends Controller
                 $arrival = date('Y-m-d', strtotime(request('search.arrival')));
                 $departure =  date('Y-m-d', strtotime(request('search.departure')));
                 $query->where('booking_room.from_date', '>=', $arrival)
-                    ->where('booking_room.from_date', '<=', $departure)
+                    ->orWhere('booking_room.from_date', '<=', $departure)
                     ->where('booking_room.to_date', '>=', $arrival)
-                    ->where('booking_room.to_date', '<=', $departure);
+                    ->orWhere('booking_room.to_date', '<=', $departure);
             })->where('is_active', 1)->get();
 
             $numberOfRooms = $roomAvailable->count();

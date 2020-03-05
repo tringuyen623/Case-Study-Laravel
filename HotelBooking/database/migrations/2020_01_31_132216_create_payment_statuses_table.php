@@ -15,7 +15,7 @@ class CreatePaymentStatusesTable extends Migration
     {
         Schema::create('payment_statuses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }
