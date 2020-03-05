@@ -12,7 +12,7 @@ class RoomTypeImageTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i < 7; $i++){
+        for($i = 1; $i < 6; $i++){
             $roomTypeImage = new RoomTypeImage();
             $roomTypeImage->image = 'image' . $i;
             $roomTypeImage->room_type_id = $i;

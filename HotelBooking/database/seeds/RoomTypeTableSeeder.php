@@ -65,18 +65,18 @@ class RoomTypeTableSeeder extends Seeder
             'updated_at' => now()
         ]);
 
-        // DB::table('room_types')->insert([
-        //     'name' => 'Honeymoon Pool Villa',
-        //     'short_code' => 'HPV',
-        //     'description' => 'This is Pool Villa room',
-        //     'size' => '45m2',
-        //     'higher_capacity' => 3,
-        //     'kids_capacity' => 2,
-        //     'base_price' => 200.00,
-        //     'status' => 1,
-        //     'created_at' => now(),
-        //     'updated_at' => now()
-        // ]);
+        DB::table('room_types')->insert([
+            'name' => 'Honeymoon Pool Villa',
+            'short_code' => 'HPV',
+            'description' => 'This is Pool Villa room',
+            'size' => '45m2',
+            'higher_capacity' => 3,
+            'kids_capacity' => 2,
+            'base_price' => 200.00,
+            'status' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         DB::table('room_types')->insert([
             'name' => 'King Suite',
