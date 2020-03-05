@@ -283,7 +283,7 @@
                 $('#bed-id').val(data.bed_id),
                 $('#view').val(data.view),
                 data.extra_bed === 1 ? $('#extra-bed').prop('checked', true).change() : $('#extra-bed').prop('checked', false).change(),  
-                data.is_active === 1 ? $('#status').prop('checked', true).change() : $('#status').prop('checked', false).change(),  
+                data.is_active === 1 ? $('#is-active').prop('checked', true).change() : $('#is-active').prop('checked', false).change(),  
                 $('.modal-title').text('Update Room');
                 $('#action_button').html('Update'),
                 $('#action').val('Edit')
