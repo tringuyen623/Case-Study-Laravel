@@ -48,7 +48,7 @@ class HomeController extends Controller
     }
 
     public function chartData(){
-        $subscribe = Booking::whereYear('created_at', '=', date('Y'))->get()->groupBy(function($year){
+        $subscribe = Booking::whereYear('created_at', '=', date('Y'))->where('status', 1)->get()->groupBy(function($year){
             return $year->created_at->format('F');
         });
 
