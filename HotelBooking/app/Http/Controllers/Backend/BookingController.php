@@ -30,10 +30,8 @@ class BookingController extends Controller
                 ->addColumn('action', function ($bookings) {
                     return '
                     <div class="btn-group btn-group-sm">
-                    <a href="' . route('admin.bookings.cancelBooking', $bookings->id) . '" class="btn btn-outline-danger cancel-booking"><i
-                    class="fa fa-window-close"></i></a>'
-                        . '<button type="button" class="btn btn-outline-danger delete-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $bookings->id . '"><i
-                    class="fa fa-trash"></i></button></div>';
+                    <button type="button" class="btn btn-outline-danger delete-booking" data-toggle="modal" data-target="#confirm-modal" data-id ="' . $bookings->id . '"><i
+                    class="fa fa-times"></i></button></div>';
                 })
                 ->editColumn('customer_id', function ($bookings) {
                     return $bookings->customer->getFullName();
@@ -140,47 +138,20 @@ class BookingController extends Controller
     public function destroy($id)
     {
         if (request('delete-action') === 'SoftDelete') {
+            Booking::find($id)->update(['status' => 0]);
             Booking::destroy($id);
         } else {
             Booking::onlyTrashed()->where('id', $id)->forceDelete();
         }
 
+        // Booking::destroy($id);
+
         return redirect()->route('admin.bookings.index');
-    }
-
-    public function check()
-    {
-        // $booking  = Booking::all();
-
-        // return $booking;
-        // $booking->rooms;
-        // foreach($booking as $book){
-
-
-        $ava = Room::whereDoesntHave('bookings', function (Builder $query) {
-            $date_in =  date('Y-m-d', strtotime(request('date_in')));
-            $date_out =  date('Y-m-d', strtotime(request('date_out')));
-            $query->whereBetween('booking_room.from_date', [$date_in, $date_out])
-                ->orWhereBetween('booking_room.to_date', [$date_in, $date_out]);
-        })->get();
-        return $ava;
-        // print_r($ava);
-        // }
     }
 
     public function search($id)
     {
         return Booking::findOrFail($id)->rooms;
-    }
-
-    public function cancelBooking($id)
-    {
-        $booking = Booking::find($id);
-        $booking->status = 0;
-        $booking->save();
-        // $this->destroy($booking);
-
-        return redirect()->route('admin.bookings.index');
     }
 
     public function getDeletedData()
