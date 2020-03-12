@@ -127,7 +127,6 @@ class HomeController extends Controller
                 $booking->paid()->create(['booking_id' => $booking->id, 'payment_status_id' => 1, 'payment_type_id' => 1, 'amount' => $booking->getTotalRate(), 'date' => now()->format('Y-m-d')]);
             }
             
-            // session()->forget(['search', 'roomId']);
             session()->put('booking', $booking);
 
         }
@@ -147,7 +146,6 @@ class HomeController extends Controller
         session()->put(['roomId' => $roomId, 'totalNight' => $numberOfNights]);
         
         $roomCharge = request('total-room-charge');
-        // return $numberOfNights;
         
         return view('front_end.payment', compact('numberOfNights', 'roomCharge'));
     }
