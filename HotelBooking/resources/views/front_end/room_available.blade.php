@@ -27,109 +27,85 @@
 <div id="colorlib-rooms" class="colorlib-light-grey">
     <div class="container">
         <div class="row">
+            <div class="col-md-8">
+                @forelse ($rooms as $room)
+                <div class="col-md-6 room-wrap animate-box">
+                    <a href="{{ null !== ($room->first()->roomType->featuredImage()) ? $room->first()->roomType->featuredImage()->image : '' }}"
+                        class="room image-popup-link"
+                        style="background-image: url({{ null !== ($room->first()->roomType->featuredImage()) ? $room->first()->roomType->featuredImage()->image : '' }});"></a>
+                    <div class="desc">
+                        <h3><a href="#">{{ $room->first()->roomType->name }}</a></h3>
+                        <input type="hidden" id="roomId" name="id" value="{{ $room->first()->id }}">
+                        <p class="price">
+                            <span
+                                class="price-room">{{ hotel_information()->currency_symbol . $room->first()->roomType->base_price }}</span>
+                            <span class="per">/ per night</span>
+                        </p>
+                        <ul>
+                            <li><i class="icon-check"></i> Breakfast included</li>
+                            <li><i class="icon-check"></i> Price does not yet include VAT &amp; services fee</li>
+                        </ul>
+                        <input type="hidden" id="rates" value="{{$room->first()->roomType->base_price}}">
+                        <button class="btn btn-primary btn-select" id="book"
+                            value="{{ $room->first()->id }}">Select</button>
+                    </div>
+                </div>
+                @empty
+                <div class="col-md-12 animate-box text-center">
+                    <h1 class="text-warning text-center">No Room Available on these day!</h1>
+                </div>
+                @endforelse
+            </div>
+            <div class="col-md-4">
+                <div class="containerblock">
+                    <form action="{{ route('payment') }}" method="GET">
 
-            {{-- <div class="col-md-4 room-wrap animate-box">
-                <a href="images/room-2.jpg" class="room image-popup-link"
-                    style="background-image: url(images/room-2.jpg);"></a>
-                <div class="desc text-center">
-                    <span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                            class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                            class="icon-star-full"></i></span>
-                    <h3><a href="rooms-suites.html">Double Room</a></h3>
-                    <p class="price">
-                        <span class="currency">$</span>
-                        <span class="price-room">199</span>
-                        <span class="per">/ per night</span>
-                    </p>
-                    <ul>
-                        <li><i class="icon-check"></i> Perfect for traveling couples</li>
-                        <li><i class="icon-check"></i> Breakfast included</li>
-                        <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
-                    </ul>
-                    <p><a class="btn btn-primary btn-book" href="{{route('rooms')}}">Book now!</a></p>
-        </div>
-    </div> --}}
-    <div class="col-md-8">
-        @forelse ($rooms as $room)
-        <div class="col-md-6 room-wrap animate-box">
-            <a href="{{ null !== ($room->first()->roomType->featuredImage()) ? $room->first()->roomType->featuredImage()->image : '' }}"
-                class="room image-popup-link"
-                style="background-image: url({{ null !== ($room->first()->roomType->featuredImage()) ? $room->first()->roomType->featuredImage()->image : '' }});"></a>
-            <div class="desc">
-                {{-- <span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                        class="icon-star-full full"></i><i class="icon-star-full full"></i><i
-                        class="icon-star-full"></i></span> --}}
-                <h3><a href="#">{{ $room->first()->roomType->name }}</a></h3>
-                <input type="hidden" id="roomId" name="id" value="{{ $room->first()->id }}">
-                <p class="price">
-                    <span
-                        class="price-room">{{ hotel_information()->currency_symbol . $room->first()->roomType->base_price }}</span>
-                    <span class="per">/ per night</span>
-                </p>
-                <ul>
-                    <li><i class="icon-check"></i> Breakfast included</li>
-                    <li><i class="icon-check"></i> Price does not yet include VAT &amp; services fee</li>
-                </ul>
-                <input type="hidden" id="rates" value="{{$room->first()->roomType->base_price}}">
-                <button class="btn btn-primary btn-select" id="book" value="{{ $room->first()->id }}">Select</button>
+                        <div class="row">
+                            <div class="col-50">
+                                <h3 class="text-center pb-4"><strong>Bookings summary</strong></h3>
+                                <div class="row" id="booking-summary">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr>
+                                <div class="row">
+                                    <div class="float-left col-md-10">Total rate</div>
+                                    <div id="total-rates">$0</div>
+                                </div>
+                                <div class="row">
+                                    <div class="float-left col-md-10">Total taxes
+                                        ({{App\Tax::where('type', 'TAX')->first()->rate}}%)</div>
+                                    <input type="hidden" id="tax"
+                                        value="{{App\Tax::where('type', 'TAX')->first()->rate}}">
+                                    <div id="total-taxes">$0</div>
+                                </div>
+                                <div class="row">
+                                    <div class="float-left col-md-10">Total fees
+                                        ({{App\Tax::where('type', 'FEE')->first()->rate}}%)</div>
+                                    <input type="hidden" id="fee"
+                                        value="{{App\Tax::where('type', 'FEE')->first()->rate}}">
+                                    <div id="total-fees">$0</div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="float-left col-md-10"><strong>Total for stay</strong></div>
+                                    <input type="hidden" id="total" name="total-room-charge" value="">
+                                    <div class="total">$0</div>
+                                </div>
+                            </div>
+
+                        </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-book">Book</button>
+                </form>
             </div>
         </div>
-        @empty
-        <div class="col-md-12 animate-box text-center">
-            <h1 class="text-warning text-center">No Room Available on these day!</h1>
-        </div>
-        @endforelse
+
+
     </div>
-    <div class="col-md-4">
-        {{-- <div class="col-50"> --}}
-        <div class="containerblock">
-            <form action="{{ route('payment') }}" method="GET">
-
-                <div class="row">
-                    <div class="col-50">
-                        <h3 class="text-center pb-4"><strong>Bookings summary</strong></h3>
-                        <div class="row" id="booking-summary">
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-12">
-                        <hr>
-                        <div class="row">
-                            <div class="float-left col-md-10">Total rate</div>
-                            <div id="total-rates">$0</div>
-                        </div>
-                        <div class="row">
-                            <div class="float-left col-md-10">Total taxes
-                                ({{App\Tax::where('type', 'TAX')->first()->rate}}%)</div>
-                            <input type="hidden" id="tax" value="{{App\Tax::where('type', 'TAX')->first()->rate}}">
-                            <div id="total-taxes">$0</div>
-                        </div>
-                        <div class="row">
-                            <div class="float-left col-md-10">Total fees
-                                ({{App\Tax::where('type', 'FEE')->first()->rate}}%)</div>
-                            <input type="hidden" id="fee" value="{{App\Tax::where('type', 'FEE')->first()->rate}}">
-                            <div id="total-fees">$0</div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="float-left col-md-10"><strong>Total for stay</strong></div>
-                            <input type="hidden" id="total" name="total-room-charge" value="">
-                            <div class="total">$0</div>
-                        </div>
-                    </div>
-
-                </div>
-        </div>
-        <button type="button" class="btn btn-primary btn-book">Book</button>
-        </form>
-    </div>
-    {{-- </div> --}}
-</div>
-
-
-</div>
 </div>
 </div>
 @endsection
@@ -165,25 +141,6 @@
         border: 1px solid lightgrey;
         border-radius: 3px;
     }
-
-    /* input[type=text] {
-        width: 100%;
-        margin-bottom: 20px;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-    } */
-
-    /* label {
-        margin-bottom: 10px;
-        display: block;
-    } */
-
-    /* .icon-container {
-        margin-bottom: 20px;
-        padding: 7px 0;
-        font-size: 24px;
-    } */
 
     .btn {
         /* background-color: #4CAF50;
@@ -246,7 +203,6 @@
                     </div>
                 </div>`)
                 i++
-                console.log(i)
                 $('input.price').each(function(index){
                 sumPrice += parseFloat($(this).val());
             })
